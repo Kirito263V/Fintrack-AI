@@ -1,1505 +1,994 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FinTrack AI — Turn Goals Into Reality</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg-base:        #07060f;
-      --bg-surface:     #0d0b1a;
-      --bg-card:        #110f22;
-      --bg-card-hover:  #16132b;
-      --border:         rgba(138, 100, 255, 0.13);
-      --border-hover:   rgba(138, 100, 255, 0.35);
-
-      --purple-core:    #7c3aed;
-      --purple-bright:  #9b5de5;
-      --purple-soft:    #c084fc;
-      --purple-pale:    #e9d5ff;
-      --violet-accent:  #a855f7;
-      --indigo-glow:    #6366f1;
-
-      --grad-primary:   linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #6366f1 100%);
-      --grad-hero:      radial-gradient(ellipse 80% 60% at 60% 30%, rgba(124,58,237,0.22) 0%, transparent 70%),
-                        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(99,102,241,0.14) 0%, transparent 60%);
-      --grad-mesh:      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(168,85,247,0.12) 0%, transparent 60%);
-
-      --text-primary:   #f3f0ff;
-      --text-secondary: #b8aad4;
-      --text-muted:     #7a6d95;
-
-      --radius-sm:      8px;
-      --radius-md:      14px;
-      --radius-lg:      22px;
-      --radius-xl:      32px;
-
-      --shadow-card:    0 4px 40px rgba(124,58,237,0.10), 0 1px 0 rgba(255,255,255,0.04) inset;
-      --shadow-glow:    0 0 60px rgba(124,58,237,0.25), 0 0 120px rgba(99,102,241,0.12);
-      --shadow-btn:     0 8px 32px rgba(124,58,237,0.40);
-
-      --transition:     all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-      --font-display:   'Syne', sans-serif;
-      --font-body:      'DM Sans', sans-serif;
+      --bg:        #04030f;
+      --bg2:       #070518;
+      --bg-card:   #0a0820;
+      --bg-card-h: #0f0c2a;
+      --b:         rgba(120,80,255,0.11);
+      --bh:        rgba(150,110,255,0.38);
+      --purple:    #6d28d9;
+      --violet:    #7c3aed;
+      --indigo:    #4f46e5;
+      --bright:    #a78bfa;
+      --pale:      #c4b5fd;
+      --neon:      #8b5cf6;
+      --g:         linear-gradient(135deg,#6d28d9 0%,#7c3aed 50%,#4f46e5 100%);
+      --g2:        linear-gradient(135deg,#c4b5fd 0%,#a78bfa 50%,#818cf8 100%);
+      --glow:      rgba(124,58,237,0.55);
+      --t1:        #ede8ff;
+      --t2:        #9d8ec4;
+      --t3:        #5c5080;
+      --r:         all 0.35s cubic-bezier(.4,0,.2,1);
+      --ff-d:      'Instrument Serif', serif;
+      --ff-b:      'DM Sans', sans-serif;
+      --ff-m:      'DM Mono', monospace;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--bg-base);
-      color: var(--text-primary);
-      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--t1);
+      font-family: var(--ff-b);
       font-size: 16px;
-      line-height: 1.6;
+      line-height: 1.65;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ─── NOISE OVERLAY ─── */
+    /* grain overlay */
     body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.5;
+      content:'';
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
+      background-size:180px;
     }
 
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+    /* global ambient glow */
+    body::after {
+      content:'';
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(109,40,217,.12) 0%, transparent 60%);
+    }
 
-    /* ─── SCROLLBAR ─── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-base); }
-    ::-webkit-scrollbar-thumb { background: var(--purple-core); border-radius: 99px; }
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:var(--bg); }
+    ::-webkit-scrollbar-thumb { background:linear-gradient(to bottom,var(--violet),var(--indigo)); border-radius:99px; }
+    a { color:inherit; text-decoration:none; }
 
-    /* ════════════════════════════════════════════
-       NAVBAR
-    ════════════════════════════════════════════ */
+    /* ─── CURSOR DOT ─── */
+    #cursor {
+      position:fixed; top:0; left:0; width:18px; height:18px;
+      border-radius:50%; border:1.5px solid rgba(167,139,250,.6);
+      pointer-events:none; z-index:9999;
+      transform:translate(-50%,-50%);
+      transition:transform 0.12s ease, opacity 0.3s;
+    }
+    #cursor-dot {
+      position:fixed; top:0; left:0; width:4px; height:4px;
+      border-radius:50%; background:var(--bright);
+      pointer-events:none; z-index:9999;
+      transform:translate(-50%,-50%);
+      box-shadow:0 0 8px var(--bright);
+    }
+
+    /* ─── NAV ─── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px;
-      height: 68px;
-      background: rgba(7,6,15,0.75);
-      backdrop-filter: blur(20px) saturate(160%);
-      -webkit-backdrop-filter: blur(20px) saturate(160%);
-      border-bottom: 1px solid var(--border);
-      transition: var(--transition);
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 56px; height:68px;
+      background:rgba(4,3,15,0.65);
+      backdrop-filter:blur(32px) saturate(200%);
+      border-bottom:1px solid var(--b);
+      transition: box-shadow 0.4s ease;
     }
+    nav.scrolled { box-shadow: 0 8px 48px rgba(0,0,0,.5); }
     nav::after {
-      content: '';
-      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 60%; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(124,58,237,0.5), transparent);
+      content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+      width:40%; height:1px;
+      background:linear-gradient(90deg,transparent,rgba(167,139,250,.5),transparent);
     }
 
     .nav-logo {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 1.3rem;
-      letter-spacing: -0.5px;
-      background: var(--grad-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-family:var(--ff-d); font-weight:400; font-size:1.4rem; letter-spacing:-0.3px;
+      background:var(--g2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      position:relative;
     }
-    .nav-logo span {
-      -webkit-text-fill-color: transparent;
+    .nav-logo::after {
+      content:'';
+      position:absolute; bottom:-3px; left:0; right:0; height:1px;
+      background:var(--g2); transform:scaleX(0); transform-origin:left; transition:var(--r);
     }
+    .nav-logo:hover::after { transform:scaleX(1); }
 
-    .nav-links {
-      display: flex; align-items: center; gap: 6px;
-      list-style: none;
+    .nav-links { display:flex; align-items:center; gap:2px; list-style:none; }
+    .nav-links a {
+      font-family:var(--ff-b); font-size:.82rem; font-weight:400; color:var(--t2);
+      padding:7px 14px; border-radius:9px; transition:var(--r); letter-spacing:.01em;
+      position:relative;
     }
-    .nav-links li a {
-      font-family: var(--font-body);
-      font-size: 0.875rem;
-      font-weight: 400;
-      color: var(--text-secondary);
-      padding: 7px 13px;
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
+    .nav-links a::before {
+      content:''; position:absolute; bottom:4px; left:50%; transform:translateX(-50%);
+      width:3px; height:3px; border-radius:50%; background:var(--bright);
+      opacity:0; transition:var(--r);
     }
-    .nav-links li a:hover {
-      color: var(--text-primary);
-      background: rgba(124,58,237,0.12);
+    .nav-links a:hover { color:var(--t1); background:rgba(124,58,237,.09); }
+    .nav-links a:hover::before { opacity:1; }
+    .nl-login {
+      color:var(--t1)!important; font-weight:500!important;
+      border:1px solid var(--b)!important;
     }
+    .nl-login:hover { border-color:var(--bh)!important; background:rgba(124,58,237,.08)!important; }
+    .nl-signup {
+      background:var(--g)!important; color:#fff!important; font-weight:600!important;
+      padding:8px 22px!important; border-radius:10px!important;
+      box-shadow:0 4px 24px rgba(109,40,217,.45)!important;
+      transition:var(--r)!important;
+    }
+    .nl-signup:hover {
+      transform:translateY(-2px) scale(1.03)!important;
+      box-shadow:0 10px 40px rgba(109,40,217,.7)!important;
+    }
+    .nav-ham { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+    .nav-ham span { width:24px; height:2px; background:var(--t2); border-radius:2px; transition:var(--r); }
 
-    .nav-login {
-      font-size: 0.875rem !important;
-      font-weight: 500 !important;
-      color: var(--text-primary) !important;
-      border: 1px solid var(--border) !important;
-      padding: 7px 18px !important;
-      border-radius: var(--radius-sm) !important;
-    }
-    .nav-login:hover {
-      border-color: var(--border-hover) !important;
-      background: rgba(124,58,237,0.1) !important;
-    }
-
-    .nav-signup {
-      font-size: 0.875rem !important;
-      font-weight: 600 !important;
-      color: #fff !important;
-      background: var(--grad-primary) !important;
-      padding: 8px 20px !important;
-      border-radius: var(--radius-sm) !important;
-      box-shadow: var(--shadow-btn) !important;
-      transition: var(--transition) !important;
-    }
-    .nav-signup:hover {
-      transform: translateY(-1px) !important;
-      box-shadow: 0 12px 40px rgba(124,58,237,0.55) !important;
-    }
-
-    /* hamburger */
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-    }
-    .nav-toggle span {
-      width: 24px; height: 2px;
-      background: var(--text-secondary);
-      border-radius: 2px;
-      transition: var(--transition);
-    }
-
-    /* ════════════════════════════════════════════
-       HERO
-    ════════════════════════════════════════════ */
+    /* ─── HERO ─── */
     .hero {
-      position: relative;
-      min-height: 100vh;
-      padding: 140px 48px 100px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-      background: var(--grad-hero);
-      overflow: hidden;
+      position:relative; min-height:100vh;
+      display:grid; grid-template-columns:1fr 1fr;
+      align-items:center; overflow:hidden;
     }
-    .hero::before {
-      content: '';
-      position: absolute; top: -200px; right: -200px;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
+    .hero-bg {
+      position:absolute; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 65% 55% at 78% 38%, rgba(109,40,217,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 35% 45% at 8% 72%, rgba(79,70,229,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(109,40,217,.07) 0%, transparent 60%);
     }
-    .hero::after {
-      content: '';
-      position: absolute; bottom: -100px; left: -100px;
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
+    #hero3d { position:absolute; top:0; right:0; width:55%; height:100%; z-index:1; pointer-events:none; display:block; }
+
+    .hero-left { position:relative; z-index:2; padding:120px 0 80px 56px; }
 
     .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 16px;
-      border: 1px solid rgba(168,85,247,0.3);
-      border-radius: 99px;
-      background: rgba(124,58,237,0.1);
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--purple-soft);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-bottom: 28px;
+      display:inline-flex; align-items:center; gap:9px;
+      padding:7px 18px; border-radius:99px;
+      background:rgba(109,40,217,.1); border:1px solid rgba(167,139,250,.22);
+      font-family:var(--ff-m); font-size:.7rem; font-weight:500;
+      color:var(--bright); letter-spacing:.08em; text-transform:uppercase;
+      margin-bottom:32px; backdrop-filter:blur(8px);
     }
-    .hero-badge::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--purple-soft);
-      box-shadow: 0 0 8px var(--purple-soft);
-      animation: pulse 2s ease-in-out infinite;
+    .hb-dot {
+      width:6px; height:6px; border-radius:50%;
+      background:var(--bright); box-shadow:0 0 10px var(--bright), 0 0 22px var(--bright);
+      animation:blink 2.4s ease-in-out infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.6)} }
 
-    .hero-headline {
-      font-family: var(--font-display);
-      font-size: clamp(2.6rem, 5vw, 4.2rem);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      margin-bottom: 24px;
+    .hero-h1 {
+      font-family:var(--ff-d); font-size:clamp(3rem,5.5vw,4.8rem);
+      font-weight:400; letter-spacing:-.02em; line-height:1.08; margin-bottom:24px;
     }
-    .hero-headline .grad-text {
-      background: linear-gradient(135deg, #c084fc 0%, #9b5de5 40%, #6366f1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .hero-h1 em { font-style:italic; }
+    .ht { background:var(--g2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 
     .hero-sub {
-      font-size: 1.1rem;
-      font-weight: 300;
-      color: var(--text-secondary);
-      line-height: 1.75;
-      max-width: 480px;
-      margin-bottom: 32px;
+      font-size:1.05rem; font-weight:300; color:var(--t2);
+      max-width:460px; margin-bottom:36px; line-height:1.8;
+      font-style:italic;
     }
-
-    .hero-pills {
-      display: flex; flex-wrap: wrap; gap: 10px;
-      margin-bottom: 44px;
-    }
+    .hero-pills { display:flex; flex-wrap:wrap; gap:9px; margin-bottom:46px; }
     .pill {
-      display: flex; align-items: center; gap: 8px;
-      padding: 8px 16px;
-      background: rgba(124,58,237,0.08);
-      border: 1px solid rgba(124,58,237,0.2);
-      border-radius: 99px;
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      font-weight: 400;
+      display:flex; align-items:center; gap:7px;
+      padding:7px 16px; border-radius:99px;
+      background:rgba(79,70,229,.07); border:1px solid rgba(79,70,229,.2);
+      font-size:.78rem; color:var(--t2); font-weight:400; letter-spacing:.02em;
+      transition:var(--r); cursor:default;
     }
-    .pill-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--purple-soft);
-    }
+    .pill:hover { background:rgba(124,58,237,.14); border-color:rgba(167,139,250,.35); color:var(--t1); transform:translateY(-2px); }
+    .pdot { width:5px; height:5px; border-radius:50%; background:var(--bright); }
 
-    .hero-ctas {
-      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    .hero-ctas { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+    .btn-p {
+      display:inline-flex; align-items:center; gap:10px;
+      padding:14px 32px; background:var(--g); color:#fff;
+      font-family:var(--ff-b); font-size:.94rem; font-weight:600;
+      border-radius:12px; border:none; cursor:pointer;
+      box-shadow:0 6px 30px rgba(109,40,217,.5); transition:var(--r);
+      letter-spacing:.01em; position:relative; overflow:hidden;
     }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 32px;
-      background: var(--grad-primary);
-      color: #fff;
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: var(--radius-md);
-      border: none;
-      cursor: pointer;
-      box-shadow: var(--shadow-btn);
-      transition: var(--transition);
-      letter-spacing: 0.01em;
+    .btn-p::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg, rgba(255,255,255,.15) 0%, transparent 60%);
+      opacity:0; transition:var(--r);
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 48px rgba(124,58,237,0.5);
-    }
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 32px;
-      background: transparent;
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      font-weight: 500;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-hover);
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .btn-secondary:hover {
-      background: rgba(124,58,237,0.1);
-      border-color: rgba(138,100,255,0.5);
-      transform: translateY(-1px);
-    }
+    .btn-p:hover { transform:translateY(-3px) scale(1.02); box-shadow:0 16px 48px rgba(109,40,217,.7); }
+    .btn-p:hover::before { opacity:1; }
+    .btn-p:active { transform:translateY(-1px) scale(0.99); }
 
-    /* ─── DASHBOARD MOCK ─── */
-    .hero-visual {
-      position: relative;
-      display: flex; flex-direction: column; gap: 14px;
-      z-index: 2;
+    .btn-s {
+      display:inline-flex; align-items:center; gap:9px;
+      padding:14px 32px; background:transparent; color:var(--t1);
+      font-family:var(--ff-b); font-size:.94rem; font-weight:500;
+      border-radius:12px; border:1px solid rgba(124,58,237,.3); cursor:pointer;
+      transition:var(--r); letter-spacing:.01em; position:relative; overflow:hidden;
     }
-    .dash-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 24px 28px;
-      box-shadow: var(--shadow-card);
-      position: relative;
-      overflow: hidden;
+    .btn-s::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(124,58,237,.08),transparent);
+      opacity:0; transition:var(--r);
     }
-    .dash-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent);
-    }
+    .btn-s:hover { border-color:rgba(167,139,250,.55); transform:translateY(-2px); }
+    .btn-s:hover::before { opacity:1; }
 
-    .dash-main {
-      background: linear-gradient(145deg, #110f22 0%, #0d0b1a 100%);
+    .hero-scroll {
+      position:absolute; bottom:30px; left:56px; z-index:2;
+      display:flex; align-items:center; gap:12px;
+      font-family:var(--ff-m); font-size:.63rem; color:var(--t3); letter-spacing:.14em;
+      animation: fadeup 1.2s ease both; animation-delay:1.2s;
     }
-    .dash-header {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 20px;
+    @keyframes fadeup { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    .scroll-line {
+      width:38px; height:1px;
+      background:linear-gradient(90deg,var(--violet),transparent);
+      position:relative; overflow:hidden;
     }
-    .dash-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 4px;
+    .scroll-line::after {
+      content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+      background:linear-gradient(90deg,transparent,var(--pale));
+      animation: shimmer-line 2.5s ease-in-out infinite;
     }
-    .dash-title {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-    .dash-badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 99px;
-      background: rgba(124,58,237,0.2);
-      border: 1px solid rgba(124,58,237,0.35);
-      color: var(--purple-soft);
-    }
-    .dash-amount-big {
-      font-family: var(--font-display);
-      font-size: 2.4rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      background: var(--grad-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px;
-    }
-    .dash-sub-amount {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-    }
-    .dash-sub-amount span { color: var(--purple-soft); font-weight: 500; }
+    @keyframes shimmer-line { 0%{left:-100%} 60%,100%{left:120%} }
 
-    .progress-wrap { margin-bottom: 8px; }
-    .progress-labels {
-      display: flex; justify-content: space-between;
-      font-size: 0.75rem; color: var(--text-muted);
-      margin-bottom: 8px;
+    /* ─── TRUST ─── */
+    .trust {
+      display:flex; justify-content:center; flex-wrap:wrap;
+      background:rgba(7,5,24,.7); border-top:1px solid var(--b); border-bottom:1px solid var(--b);
     }
-    .progress-labels span:last-child { color: var(--purple-soft); font-weight: 600; }
-    .progress-track {
-      height: 7px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 99px;
-      overflow: hidden;
+    .ti {
+      display:flex; align-items:center; gap:14px;
+      padding:24px 44px; border-right:1px solid var(--b);
+      flex:1; min-width:200px; transition:var(--r); cursor:default;
     }
-    .progress-fill {
-      height: 100%;
-      border-radius: 99px;
-      background: linear-gradient(90deg, var(--purple-core), var(--violet-accent), var(--purple-soft));
-      box-shadow: 0 0 12px rgba(168,85,247,0.5);
-      position: relative;
+    .ti:last-child { border-right:none; }
+    .ti:hover { background:rgba(124,58,237,.05); }
+    .ti-icon {
+      width:42px; height:42px; border-radius:10px; flex-shrink:0;
+      background:rgba(109,40,217,.12); border:1px solid rgba(109,40,217,.22);
+      display:flex; align-items:center; justify-content:center; font-size:1rem;
+      transition:var(--r);
     }
-    .progress-fill::after {
-      content: '';
-      position: absolute; right: 0; top: 50%;
-      transform: translateY(-50%);
-      width: 13px; height: 13px;
-      background: var(--purple-soft);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--purple-soft);
-      border: 2px solid var(--bg-card);
+    .ti:hover .ti-icon {
+      background:rgba(109,40,217,.2); border-color:rgba(167,139,250,.35);
+      transform:scale(1.12) rotate(3deg);
+      box-shadow:0 4px 20px rgba(109,40,217,.4);
     }
+    .ti-label { font-family:var(--ff-b); font-size:.82rem; font-weight:500; color:var(--t2); letter-spacing:.01em; }
 
-    .dash-stats-row {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 12px; margin-top: 20px;
+    /* ─── COMMON ─── */
+    .container { max-width:1180px; margin:0 auto; padding:0 56px; }
+    .eyebrow {
+      display:inline-block; font-family:var(--ff-m); font-size:.66rem;
+      font-weight:500; text-transform:uppercase; letter-spacing:.14em;
+      color:var(--bright); background:rgba(109,40,217,.1); border:1px solid rgba(167,139,250,.2);
+      padding:5px 16px; border-radius:99px; margin-bottom:20px;
     }
-    .dash-stat {
-      background: rgba(124,58,237,0.07);
-      border: 1px solid rgba(124,58,237,0.12);
-      border-radius: var(--radius-sm);
-      padding: 12px 14px;
+    .s-title {
+      font-family:var(--ff-d); font-size:clamp(2rem,3.6vw,3rem);
+      font-weight:400; letter-spacing:-.02em; line-height:1.12; margin-bottom:16px;
     }
-    .dash-stat-val {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 2px;
-    }
-    .dash-stat-key {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .up { color: #86efac !important; }
-    .down { color: #f9a8d4 !important; }
+    .s-sub { font-size:.98rem; font-weight:300; color:var(--t2); max-width:560px; line-height:1.8; font-style:italic; }
+    .s-head { text-align:center; margin-bottom:70px; }
+    .s-head .s-sub { margin:0 auto; }
+    .gt { background:var(--g2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 
-    .dash-row-two {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    .ai-tip-card {
-      background: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(99,102,241,0.08) 100%);
-      border: 1px solid rgba(124,58,237,0.25);
-    }
-    .ai-icon {
-      width: 32px; height: 32px;
-      border-radius: var(--radius-sm);
-      background: var(--grad-primary);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem;
-      margin-bottom: 12px;
-      box-shadow: 0 4px 16px rgba(124,58,237,0.4);
-    }
-    .ai-tip-label {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--purple-soft);
-      margin-bottom: 6px;
-    }
-    .ai-tip-text {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      line-height: 1.55;
-    }
-    .mini-goals-card { }
-    .mini-goal {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 10px;
-    }
-    .mini-goal:last-child { margin-bottom: 0; }
-    .mini-goal-left { display: flex; align-items: center; gap: 8px; }
-    .mini-goal-icon {
-      width: 26px; height: 26px;
-      border-radius: 6px;
-      background: rgba(124,58,237,0.2);
-      border: 1px solid rgba(124,58,237,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem;
-    }
-    .mini-goal-name {
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      line-height: 1.2;
-    }
-    .mini-goal-pct {
-      font-size: 0.75rem;
-      font-weight: 700;
-      font-family: var(--font-display);
-      color: var(--purple-soft);
-    }
-    .mini-bar {
-      height: 3px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 99px;
-      margin-top: 3px;
-      width: 60px;
-    }
-    .mini-bar-fill {
-      height: 100%;
-      background: var(--grad-primary);
-      border-radius: 99px;
-    }
+    /* ─── FEATURES ─── */
+    .features { padding:120px 0; background:var(--bg); }
+    .feat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
 
-    /* trend chart mock */
-    .trend-chart {
-      display: flex; align-items: flex-end; gap: 5px;
-      height: 36px;
-      margin-top: 10px;
-    }
-    .trend-bar {
-      flex: 1;
-      border-radius: 3px 3px 0 0;
-      background: linear-gradient(to top, rgba(124,58,237,0.5), rgba(168,85,247,0.8));
-    }
-
-    /* ════════════════════════════════════════════
-       TRUST STRIP
-    ════════════════════════════════════════════ */
-    .trust-strip {
-      padding: 28px 48px;
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 0;
-    }
-    .trust-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 36px;
-      border-right: 1px solid var(--border);
-    }
-    .trust-item:last-child { border-right: none; }
-    .trust-icon {
-      width: 36px; height: 36px;
-      border-radius: var(--radius-sm);
-      background: rgba(124,58,237,0.12);
-      border: 1px solid rgba(124,58,237,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.95rem;
-      flex-shrink: 0;
-    }
-    .trust-label {
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-
-    /* ════════════════════════════════════════════
-       SECTIONS COMMON
-    ════════════════════════════════════════════ */
-    section { position: relative; z-index: 1; }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 48px;
-    }
-
-    .section-eyebrow {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--purple-soft);
-      background: rgba(124,58,237,0.1);
-      border: 1px solid rgba(124,58,237,0.22);
-      padding: 5px 14px;
-      border-radius: 99px;
-      margin-bottom: 20px;
-    }
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      line-height: 1.15;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-    .section-sub {
-      font-size: 1.05rem;
-      font-weight: 300;
-      color: var(--text-secondary);
-      max-width: 560px;
-      line-height: 1.7;
-    }
-    .section-head {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-    .section-head .section-sub {
-      margin: 0 auto;
-    }
-    .grad-text {
-      background: linear-gradient(135deg, #c084fc 0%, #9b5de5 50%, #818cf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* ════════════════════════════════════════════
-       FEATURES
-    ════════════════════════════════════════════ */
-    .features {
-      padding: 100px 0;
-      background: var(--bg-base);
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
     .feat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 32px 28px;
-      box-shadow: var(--shadow-card);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
+      background:var(--bg-card); border:1px solid var(--b); border-radius:20px;
+      padding:32px 28px; position:relative; overflow:hidden;
+      transition:all 0.4s cubic-bezier(.2,0,.1,1.5);
+      cursor:default;
     }
+    /* top shimmer line */
     .feat-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(168,85,247,0.35), transparent);
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,transparent,rgba(167,139,250,.25),transparent);
+      transition:var(--r);
+    }
+    /* radial glow on hover */
+    .feat-card::after {
+      content:''; position:absolute; inset:0; border-radius:20px;
+      background:radial-gradient(ellipse 70% 60% at 50% -10%,rgba(109,40,217,.16),transparent);
+      opacity:0; transition:0.4s ease;
     }
     .feat-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-hover);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(124,58,237,0.18);
+      background:var(--bg-card-h);
+      border-color:rgba(167,139,250,.32);
+      transform:translateY(-8px) scale(1.015);
+      box-shadow:0 28px 70px rgba(109,40,217,.22), 0 0 0 1px rgba(167,139,250,.1);
     }
-    .feat-card:hover .feat-icon-wrap {
-      box-shadow: 0 8px 30px rgba(124,58,237,0.5);
-    }
-    .feat-icon-wrap {
-      width: 52px; height: 52px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, rgba(124,58,237,0.25) 0%, rgba(99,102,241,0.15) 100%);
-      border: 1px solid rgba(124,58,237,0.25);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      margin-bottom: 22px;
-      transition: var(--transition);
-    }
-    .feat-name {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-      letter-spacing: -0.01em;
-    }
-    .feat-desc {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      font-weight: 300;
+    .feat-card:hover::after { opacity:1; }
+    .feat-card:hover::before {
+      background:linear-gradient(90deg,transparent,rgba(167,139,250,.65),transparent);
     }
 
-    /* ════════════════════════════════════════════
-       HOW IT WORKS
-    ════════════════════════════════════════════ */
-    .hiw {
-      padding: 100px 0;
-      background: linear-gradient(180deg, var(--bg-base) 0%, var(--bg-surface) 50%, var(--bg-base) 100%);
+    /* tooltip-style pop label */
+    .feat-card .pop-tag {
+      position:absolute; top:-36px; left:50%; transform:translateX(-50%) scale(0.85);
+      background:rgba(109,40,217,.95); color:#fff;
+      font-family:var(--ff-m); font-size:.62rem; letter-spacing:.08em;
+      padding:5px 14px; border-radius:6px; white-space:nowrap;
+      opacity:0; transition:all 0.3s cubic-bezier(.2,0,.1,1.5);
+      pointer-events:none; box-shadow:0 4px 20px rgba(109,40,217,.5);
     }
-    .hiw-steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      position: relative;
+    .feat-card .pop-tag::after {
+      content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+      border:5px solid transparent; border-top-color:rgba(109,40,217,.95);
     }
-    .hiw-steps::before {
-      content: '';
-      position: absolute;
-      top: 36px; left: calc(16.66% + 20px); right: calc(16.66% + 20px);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(124,58,237,0.5), rgba(168,85,247,0.5), transparent);
+    .feat-card:hover .pop-tag { opacity:1; top:-44px; transform:translateX(-50%) scale(1); }
+
+    .fi {
+      width:52px; height:52px; border-radius:14px; margin-bottom:22px;
+      background:linear-gradient(135deg,rgba(109,40,217,.22),rgba(79,70,229,.1));
+      border:1px solid rgba(109,40,217,.2);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.35rem; transition:all 0.4s cubic-bezier(.2,0,.1,1.5);
+      position:relative; z-index:1;
     }
-    .step-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 36px 28px;
-      text-align: center;
-      box-shadow: var(--shadow-card);
-      transition: var(--transition);
-      position: relative;
+    .feat-card:hover .fi {
+      box-shadow:0 0 28px rgba(124,58,237,.55), 0 0 0 4px rgba(109,40,217,.12);
+      transform:scale(1.12) rotate(-3deg);
+      background:linear-gradient(135deg,rgba(109,40,217,.35),rgba(79,70,229,.2));
     }
-    .step-card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-4px);
-    }
-    .step-number {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--purple-core), var(--indigo-glow));
-      box-shadow: 0 4px 24px rgba(124,58,237,0.45);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: #fff;
-    }
-    .step-title {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--text-primary);
-    }
-    .step-desc {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      font-weight: 300;
+    .fn { font-family:var(--ff-b); font-size:.98rem; font-weight:600; margin-bottom:11px; letter-spacing:-.01em; position:relative; z-index:1; }
+    .fd { font-size:.845rem; color:var(--t2); line-height:1.72; font-weight:300; position:relative; z-index:1; }
+
+    /* ─── HOW IT WORKS ─── */
+    .hiw { padding:120px 0; background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 50%,var(--bg) 100%); }
+    .hiw-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; position:relative; }
+    /* connector line */
+    .hiw-grid::before {
+      content:''; position:absolute; top:29px; left:calc(16.66% + 28px); right:calc(16.66% + 28px);
+      height:1px; background:linear-gradient(90deg,transparent,rgba(124,58,237,.35),rgba(124,58,237,.35),transparent);
+      z-index:0;
     }
 
-    /* ════════════════════════════════════════════
-       WHY SECTION
-    ════════════════════════════════════════════ */
-    .why {
-      padding: 100px 0;
-      background: var(--bg-base);
+    .step {
+      background:var(--bg-card); border:1px solid var(--b); border-radius:20px;
+      padding:38px 30px; text-align:center; transition:all 0.4s cubic-bezier(.2,0,.1,1.5);
+      position:relative; overflow:hidden; cursor:default;
     }
-    .why-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
+    .step::after {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(109,40,217,.12), transparent);
+      opacity:0; transition:0.4s ease;
     }
-    .why-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .step:hover {
+      border-color:rgba(167,139,250,.3);
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:0 24px 60px rgba(109,40,217,.2);
     }
-    .why-stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 28px 24px;
-      box-shadow: var(--shadow-card);
-      transition: var(--transition);
-    }
-    .why-stat-card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-3px);
-    }
-    .why-stat-card:first-child {
-      grid-column: 1 / -1;
-      background: linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(99,102,241,0.06) 100%);
-      border-color: rgba(124,58,237,0.25);
-    }
-    .why-stat-val {
-      font-family: var(--font-display);
-      font-size: 2.4rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      background: var(--grad-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px;
-    }
-    .why-stat-desc {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      font-weight: 300;
-      line-height: 1.6;
-    }
+    .step:hover::after { opacity:1; }
 
-    .why-content .section-sub {
-      max-width: 100%;
-      margin-bottom: 28px;
+    .step-n {
+      width:58px; height:58px; border-radius:50%; margin:0 auto 24px;
+      background:var(--g); box-shadow:0 4px 24px rgba(109,40,217,.5);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--ff-m); font-size:.9rem; font-weight:500; color:#fff;
+      position:relative; z-index:1; transition:all 0.4s cubic-bezier(.2,0,.1,1.5);
     }
-    .why-points {
-      display: flex; flex-direction: column; gap: 14px;
-      margin-top: 32px;
+    .step:hover .step-n {
+      transform:scale(1.15);
+      box-shadow:0 8px 40px rgba(109,40,217,.75);
     }
-    .why-point {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 16px 20px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      transition: var(--transition);
-    }
-    .why-point:hover { border-color: var(--border-hover); }
-    .why-point-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--grad-primary);
-      box-shadow: 0 0 10px rgba(168,85,247,0.6);
-      margin-top: 7px;
-      flex-shrink: 0;
-    }
-    .why-point-text {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      line-height: 1.65;
-      font-weight: 300;
-    }
-    .why-point-text strong {
-      color: var(--text-primary);
-      font-weight: 600;
-    }
+    .step-t { font-family:var(--ff-b); font-size:1rem; font-weight:600; margin-bottom:12px; position:relative; z-index:1; letter-spacing:-.01em; }
+    .step-d { font-size:.85rem; color:var(--t2); line-height:1.75; font-weight:300; position:relative; z-index:1; font-style:italic; }
 
-    /* ════════════════════════════════════════════
-       GOAL EXAMPLES
-    ════════════════════════════════════════════ */
-    .goals {
-      padding: 100px 0;
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .goals-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .goal-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      box-shadow: var(--shadow-card);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-    .goal-card::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--grad-primary);
-      transform: scaleX(0);
-      transition: var(--transition);
-      transform-origin: left;
-    }
-    .goal-card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(124,58,237,0.15);
-    }
-    .goal-card:hover::after { transform: scaleX(1); }
-    .goal-top {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 18px;
-    }
-    .goal-emoji {
-      width: 48px; height: 48px;
-      border-radius: var(--radius-md);
-      background: rgba(124,58,237,0.12);
-      border: 1px solid rgba(124,58,237,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-    }
-    .goal-pct-badge {
-      font-family: var(--font-display);
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: var(--purple-soft);
-      background: rgba(124,58,237,0.12);
-      border: 1px solid rgba(124,58,237,0.2);
-      padding: 4px 12px;
-      border-radius: 99px;
-    }
-    .goal-name {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 5px;
-    }
-    .goal-target {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-    .goal-target span {
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-    .goal-bar {
-      height: 5px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 99px;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-    .goal-bar-fill {
-      height: 100%;
-      background: var(--grad-primary);
-      border-radius: 99px;
-      box-shadow: 0 0 8px rgba(168,85,247,0.4);
-    }
-    .goal-progress-labels {
-      display: flex; justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-    .goal-progress-labels span:last-child {
-      color: var(--purple-soft);
-      font-weight: 600;
-    }
+    /* ─── DASHBOARD MOCK ─── */
+    .dash-sec { padding:120px 0; background:var(--bg); overflow:hidden; }
+    .dash-inner { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; }
+    .dash-mock { display:flex; flex-direction:column; gap:16px; }
 
-    /* ════════════════════════════════════════════
-       CTA
-    ════════════════════════════════════════════ */
-    .cta-section {
-      padding: 120px 48px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      background: var(--bg-base);
+    .dm {
+      background:var(--bg-card); border:1px solid var(--b); border-radius:20px;
+      padding:26px 28px; position:relative; overflow:hidden;
+      transition:all 0.4s cubic-bezier(.2,0,.1,1.5);
     }
-    .cta-section::before {
-      content: '';
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 900px; height: 500px;
-      background: radial-gradient(ellipse, rgba(124,58,237,0.18) 0%, transparent 70%);
-      pointer-events: none;
+    .dm::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,transparent,rgba(167,139,250,.3),transparent);
     }
-    .cta-section::after {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent);
+    .dm:hover {
+      border-color:rgba(167,139,250,.25);
+      box-shadow:0 16px 50px rgba(109,40,217,.15);
+      transform:translateY(-3px);
     }
-    .cta-inner {
-      position: relative; z-index: 1;
-      max-width: 700px; margin: 0 auto;
+    .dm-label { font-family:var(--ff-m); font-size:.63rem; text-transform:uppercase; letter-spacing:.12em; color:var(--t3); margin-bottom:4px; }
+    .dm-title { font-family:var(--ff-b); font-size:1.05rem; font-weight:600; letter-spacing:-.01em; }
+    .dm-big { font-family:var(--ff-d); font-size:2.3rem; font-weight:400; letter-spacing:-.02em; background:var(--g2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin:12px 0 5px; }
+    .dm-sub { font-size:.78rem; color:var(--t3); margin-bottom:18px; font-style:italic; }
+    .dm-sub span { color:var(--bright); font-style:normal; }
+    .dm-hdr { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+    .dm-badge {
+      font-family:var(--ff-m); font-size:.62rem; padding:4px 12px; border-radius:99px;
+      background:rgba(109,40,217,.18); border:1px solid rgba(109,40,217,.32); color:var(--bright);
+      letter-spacing:.06em;
     }
-    .cta-section .section-title {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      margin-bottom: 20px;
+    .pb-wrap { margin-bottom:6px; }
+    .pb-lbl { display:flex; justify-content:space-between; font-size:.72rem; color:var(--t3); margin-bottom:8px; }
+    .pb-lbl span:last-child { color:var(--bright); font-weight:600; font-family:var(--ff-m); }
+    .pb-track { height:7px; background:rgba(255,255,255,.04); border-radius:99px; overflow:hidden; position:relative; }
+    .pb-fill {
+      height:100%; background:var(--g); border-radius:99px;
+      box-shadow:0 0 14px rgba(124,58,237,.55); position:relative;
+      animation: fill-anim 2.2s cubic-bezier(.2,0,.1,1) both;
     }
-    .cta-section .section-sub {
-      margin: 0 auto 48px;
-      font-size: 1.1rem;
-      text-align: center;
-    }
-    .cta-buttons {
-      display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
-    }
-    .btn-large {
-      padding: 16px 40px;
-      font-size: 1rem;
-    }
+    @keyframes fill-anim { from{width:0!important} }
+    .pb-fill::after { content:''; position:absolute; right:-1px; top:50%; transform:translateY(-50%); width:14px; height:14px; background:var(--pale); border-radius:50%; border:2.5px solid var(--bg-card); box-shadow:0 0 14px var(--pale); }
+    .dm-stats { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-top:20px; }
+    .ds { padding:12px 14px; border-radius:11px; background:rgba(109,40,217,.07); border:1px solid rgba(109,40,217,.12); transition:var(--r); }
+    .ds:hover { background:rgba(109,40,217,.12); border-color:rgba(167,139,250,.2); transform:scale(1.03); }
+    .ds-v { font-family:var(--ff-b); font-size:1.1rem; font-weight:700; margin-bottom:3px; letter-spacing:-.01em; }
+    .ds-k { font-family:var(--ff-m); font-size:.62rem; text-transform:uppercase; letter-spacing:.09em; color:var(--t3); }
+    .up { color:#86efac!important; }
+    .dm-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .ai-card { background:linear-gradient(135deg,rgba(109,40,217,.15),rgba(79,70,229,.07))!important; border-color:rgba(109,40,217,.28)!important; }
+    .ai-ic { width:32px; height:32px; border-radius:9px; background:var(--g); margin-bottom:12px; display:flex; align-items:center; justify-content:center; font-size:.9rem; box-shadow:0 4px 18px rgba(109,40,217,.45); transition:var(--r); }
+    .dm:hover .ai-ic { transform:scale(1.1) rotate(-5deg); box-shadow:0 6px 28px rgba(109,40,217,.65); }
+    .ai-lbl { font-family:var(--ff-m); font-size:.62rem; text-transform:uppercase; letter-spacing:.12em; color:var(--bright); margin-bottom:8px; }
+    .ai-txt { font-size:.76rem; color:var(--t2); line-height:1.6; font-style:italic; }
+    .mg { display:flex; justify-content:space-between; align-items:center; margin-bottom:11px; }
+    .mg:last-child { margin-bottom:0; }
+    .mg-l { display:flex; align-items:center; gap:9px; }
+    .mg-ico { width:26px; height:26px; border-radius:7px; background:rgba(109,40,217,.15); border:1px solid rgba(109,40,217,.2); display:flex; align-items:center; justify-content:center; font-size:.67rem; transition:var(--r); }
+    .mg:hover .mg-ico { transform:scale(1.12); background:rgba(109,40,217,.25); }
+    .mg-n { font-size:.76rem; font-weight:500; color:var(--t1); letter-spacing:-.01em; }
+    .mg-b { height:3px; background:rgba(255,255,255,.05); border-radius:99px; margin-top:2px; width:55px; }
+    .mg-bf { height:100%; background:var(--g); border-radius:99px; }
+    .mg-p { font-family:var(--ff-m); font-size:.72rem; font-weight:500; color:var(--bright); }
+    .trend { display:flex; align-items:flex-end; gap:5px; height:36px; margin-top:14px; }
+    .tb { flex:1; border-radius:4px 4px 0 0; background:linear-gradient(to top,rgba(109,40,217,.4),rgba(167,139,250,.75)); transition:var(--r); cursor:default; }
+    .tb:hover { background:linear-gradient(to top,rgba(109,40,217,.7),rgba(196,181,253,1)); transform:scaleY(1.1); transform-origin:bottom; }
 
-    /* ════════════════════════════════════════════
-       FOOTER
-    ════════════════════════════════════════════ */
-    footer {
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border);
-      padding: 56px 48px 32px;
-    }
-    .footer-inner {
-      max-width: 1200px; margin: 0 auto;
-    }
-    .footer-top {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 48px;
-      gap: 48px;
-      flex-wrap: wrap;
-    }
-    .footer-brand .nav-logo {
-      font-size: 1.25rem;
-      margin-bottom: 10px;
-    }
-    .footer-tagline {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      max-width: 240px;
-      line-height: 1.6;
-    }
-    .footer-links {
-      display: flex; gap: 64px; flex-wrap: wrap;
-    }
-    .footer-col-title {
-      font-family: var(--font-display);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-    .footer-col ul {
-      list-style: none;
-      display: flex; flex-direction: column; gap: 10px;
-    }
-    .footer-col ul li a {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      transition: var(--transition);
-    }
-    .footer-col ul li a:hover {
-      color: var(--purple-soft);
-    }
-    .footer-bottom {
-      border-top: 1px solid var(--border);
-      padding-top: 24px;
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 12px;
-    }
-    .footer-copy {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-    .footer-accent {
-      width: 80px; height: 2px;
-      background: var(--grad-primary);
-      border-radius: 99px;
-    }
+    /* ─── WHY ─── */
+    .why { padding:120px 0; background:var(--bg2); border-top:1px solid var(--b); }
+    .why-grid { display:grid; grid-template-columns:1fr 1fr; gap:90px; align-items:center; }
+    .why-right { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
 
-    /* ════════════════════════════════════════════
-       RESPONSIVE
-    ════════════════════════════════════════════ */
-    @media (max-width: 1100px) {
-      .features-grid { grid-template-columns: repeat(2, 1fr); }
-      .goals-grid { grid-template-columns: repeat(2, 1fr); }
+    .wc {
+      background:var(--bg-card); border:1px solid var(--b); border-radius:18px;
+      padding:28px 24px; transition:all 0.4s cubic-bezier(.2,0,.1,1.5); cursor:default;
+      position:relative; overflow:hidden;
     }
-    @media (max-width: 900px) {
-      nav { padding: 0 24px; }
-      .nav-links { display: none; }
-      .nav-toggle { display: flex; }
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 120px 24px 80px;
-        gap: 48px;
-      }
-      .hero-visual { order: -1; }
-      .dash-row-two { grid-template-columns: 1fr 1fr; }
-      .trust-strip { padding: 20px 24px; gap: 0; }
-      .trust-item { padding: 10px 20px; }
-      .container { padding: 0 24px; }
-      .why-inner { grid-template-columns: 1fr; gap: 48px; }
-      .hiw-steps { grid-template-columns: 1fr; }
-      .hiw-steps::before { display: none; }
-      .cta-section { padding: 80px 24px; }
-      footer { padding: 48px 24px 28px; }
-      .footer-top { flex-direction: column; gap: 32px; }
-      .footer-links { gap: 32px; }
+    .wc::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+      background:var(--g); transform:scaleX(0); transform-origin:left; transition:0.4s ease;
     }
-    @media (max-width: 640px) {
-      .features-grid { grid-template-columns: 1fr; }
-      .goals-grid { grid-template-columns: 1fr; }
-      .dash-row-two { grid-template-columns: 1fr; }
-      .dash-stats-row { grid-template-columns: 1fr 1fr; }
-      .trust-strip { flex-direction: column; align-items: flex-start; padding: 16px; gap: 4px; }
-      .trust-item { border-right: none; border-bottom: 1px solid var(--border); width: 100%; padding: 12px 16px; }
-      .trust-item:last-child { border-bottom: none; }
-      .hero-ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
-      .why-stats { grid-template-columns: 1fr; }
-      .why-stat-card:first-child { grid-column: 1; }
-      .cta-buttons { flex-direction: column; align-items: center; }
+    .wc:hover {
+      border-color:rgba(167,139,250,.28);
+      transform:translateY(-6px) scale(1.02);
+      box-shadow:0 20px 55px rgba(109,40,217,.2);
+    }
+    .wc:hover::after { transform:scaleX(1); }
+    .wc:first-child {
+      grid-column:1/-1;
+      background:linear-gradient(135deg,rgba(109,40,217,.1),rgba(79,70,229,.06));
+      border-color:rgba(109,40,217,.22);
+    }
+    .wc-v {
+      font-family:var(--ff-d); font-size:2.6rem; font-weight:400; letter-spacing:-.02em;
+      background:var(--g2); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; margin-bottom:7px;
+    }
+    .wc-d { font-size:.82rem; color:var(--t2); line-height:1.68; font-weight:300; font-style:italic; }
+
+    .why-pts { margin-top:32px; display:flex; flex-direction:column; gap:13px; }
+    .wp {
+      display:flex; align-items:flex-start; gap:14px;
+      padding:16px 20px; background:var(--bg-card); border:1px solid var(--b); border-radius:13px;
+      transition:all 0.35s cubic-bezier(.2,0,.1,1.5); cursor:default;
+    }
+    .wp:hover {
+      border-color:rgba(167,139,250,.28);
+      transform:translateX(6px);
+      background:var(--bg-card-h);
+      box-shadow:4px 0 0 0 rgba(124,58,237,.5);
+    }
+    .wp-dot { width:7px; height:7px; border-radius:50%; margin-top:8px; flex-shrink:0; background:var(--g); box-shadow:0 0 12px rgba(167,139,250,.65); transition:var(--r); }
+    .wp:hover .wp-dot { box-shadow:0 0 22px rgba(196,181,253,1); transform:scale(1.4); }
+    .wp-t { font-size:.86rem; color:var(--t2); line-height:1.68; font-weight:300; }
+    .wp-t strong { color:var(--t1); font-weight:600; font-style:normal; }
+
+    /* ─── GOALS ─── */
+    .goals-sec { padding:120px 0; background:var(--bg); border-top:1px solid var(--b); }
+    .goals-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+
+    .gc {
+      background:var(--bg-card); border:1px solid var(--b); border-radius:20px;
+      padding:28px; position:relative; overflow:hidden;
+      transition:all 0.4s cubic-bezier(.2,0,.1,1.5); cursor:default;
+    }
+    .gc::before {
+      content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+      background:radial-gradient(ellipse 80% 60% at 50% -20%, rgba(109,40,217,.12), transparent);
+      opacity:0; transition:0.4s ease;
+    }
+    .gc::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:2.5px;
+      background:var(--g); transform:scaleX(0); transform-origin:left; transition:0.45s cubic-bezier(.2,0,.1,1.5);
+    }
+    .gc:hover {
+      border-color:rgba(167,139,250,.3);
+      transform:translateY(-9px) scale(1.015);
+      box-shadow:0 28px 65px rgba(109,40,217,.22), 0 0 0 1px rgba(167,139,250,.08);
+    }
+    .gc:hover::before { opacity:1; }
+    .gc:hover::after { transform:scaleX(1); }
+
+    /* floating badge pop on hover */
+    .gc-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
+    .gc-ico {
+      width:48px; height:48px; border-radius:12px;
+      background:rgba(109,40,217,.12); border:1px solid rgba(109,40,217,.2);
+      display:flex; align-items:center; justify-content:center; font-size:1.3rem;
+      transition:all 0.4s cubic-bezier(.2,0,.1,1.5); position:relative; z-index:1;
+    }
+    .gc:hover .gc-ico {
+      transform:scale(1.14) rotate(-5deg);
+      background:rgba(109,40,217,.22);
+      border-color:rgba(167,139,250,.35);
+      box-shadow:0 6px 28px rgba(109,40,217,.45);
+    }
+    .gc-pct {
+      font-family:var(--ff-m); font-size:.8rem; font-weight:500; color:var(--bright);
+      background:rgba(109,40,217,.12); border:1px solid rgba(109,40,217,.2);
+      padding:5px 13px; border-radius:99px; transition:all 0.35s ease;
+      position:relative; z-index:1;
+    }
+    .gc:hover .gc-pct {
+      background:rgba(109,40,217,.22);
+      border-color:rgba(167,139,250,.4);
+      transform:scale(1.05);
+      box-shadow:0 0 14px rgba(124,58,237,.3);
+    }
+    .gc-n { font-family:var(--ff-b); font-size:.97rem; font-weight:600; margin-bottom:5px; letter-spacing:-.01em; position:relative; z-index:1; }
+    .gc-t { font-size:.77rem; color:var(--t3); margin-bottom:16px; font-style:italic; position:relative; z-index:1; }
+    .gc-t span { color:var(--t2); font-style:normal; font-weight:500; }
+    .gc-bar { height:5px; background:rgba(255,255,255,.05); border-radius:99px; overflow:hidden; margin-bottom:10px; position:relative; z-index:1; }
+    .gc-fill { height:100%; background:var(--g); border-radius:99px; box-shadow:0 0 10px rgba(167,139,250,.4); animation: fill-anim 2.4s cubic-bezier(.2,0,.1,1) both; }
+    .gc-meta { display:flex; justify-content:space-between; font-size:.72rem; color:var(--t3); position:relative; z-index:1; font-family:var(--ff-m); }
+    .gc-meta span:last-child { color:var(--bright); font-weight:500; }
+
+    /* ─── CTA ─── */
+    .cta-sec { padding:130px 56px; text-align:center; position:relative; overflow:hidden; background:var(--bg); }
+    .cta-sec::before {
+      content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:900px; height:600px;
+      background:radial-gradient(ellipse,rgba(109,40,217,.18) 0%,transparent 68%);
+      pointer-events:none;
+    }
+    .cta-sec::after {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,transparent,rgba(167,139,250,.4),transparent);
+    }
+    .cta-inner { position:relative; z-index:1; max-width:700px; margin:0 auto; }
+    .cta-inner .s-title { font-size:clamp(2.2rem,4.2vw,3.4rem); margin-bottom:20px; }
+    .cta-inner .s-sub { margin:0 auto 52px; text-align:center; max-width:520px; }
+    .cta-btns { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+    .btn-lg { padding:16px 42px!important; font-size:.97rem!important; border-radius:13px!important; }
+
+    /* ─── FOOTER ─── */
+    footer { background:var(--bg2); border-top:1px solid var(--b); padding:60px 56px 32px; }
+    .ft-inner { max-width:1180px; margin:0 auto; }
+    .ft-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:52px; gap:40px; flex-wrap:wrap; }
+    .ft-brand .nav-logo { margin-bottom:12px; font-size:1.4rem; }
+    .ft-tag { font-size:.82rem; color:var(--t3); max-width:230px; line-height:1.7; font-style:italic; }
+    .ft-links { display:flex; gap:60px; flex-wrap:wrap; }
+    .fc-t { font-family:var(--ff-m); font-size:.63rem; text-transform:uppercase; letter-spacing:.13em; color:var(--t3); margin-bottom:16px; }
+    .fc ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .fc ul li a { font-size:.83rem; color:var(--t2); transition:var(--r); display:inline-flex; align-items:center; gap:5px; }
+    .fc ul li a::before { content:''; width:0; height:1px; background:var(--bright); transition:width 0.3s ease; }
+    .fc ul li a:hover { color:var(--bright); padding-left:6px; }
+    .fc ul li a:hover::before { width:8px; }
+    .ft-bottom { border-top:1px solid var(--b); padding-top:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+    .ft-copy { font-size:.76rem; color:var(--t3); font-family:var(--ff-m); }
+    .ft-line { width:72px; height:2px; background:var(--g); border-radius:99px; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.8s ease, transform 0.8s cubic-bezier(.2,0,.1,1); }
+    .reveal.in { opacity:1; transform:translateY(0); }
+
+    /* staggered children */
+    .feat-grid .reveal:nth-child(2) { transition-delay:.08s; }
+    .feat-grid .reveal:nth-child(3) { transition-delay:.16s; }
+    .feat-grid .reveal:nth-child(4) { transition-delay:.24s; }
+    .hiw-grid .reveal:nth-child(2) { transition-delay:.1s; }
+    .hiw-grid .reveal:nth-child(3) { transition-delay:.2s; }
+    .goals-grid .reveal:nth-child(2) { transition-delay:.07s; }
+    .goals-grid .reveal:nth-child(3) { transition-delay:.14s; }
+    .goals-grid .reveal:nth-child(4) { transition-delay:.21s; }
+    .goals-grid .reveal:nth-child(5) { transition-delay:.28s; }
+    .goals-grid .reveal:nth-child(6) { transition-delay:.35s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:1100px){ .feat-grid{grid-template-columns:repeat(2,1fr);} .goals-grid{grid-template-columns:repeat(2,1fr);} }
+    @media(max-width:900px){
+      nav{padding:0 24px;}
+      .nav-links{display:none;}
+      .nav-ham{display:flex;}
+      .hero{grid-template-columns:1fr;min-height:auto;}
+      .hero-left{padding:120px 24px 60px;}
+      #hero3d{position:relative;top:auto;right:auto;width:100%;height:55vw;max-height:420px;min-height:240px;}
+      .container{padding:0 24px;}
+      .hiw-grid,.why-grid,.dash-inner{grid-template-columns:1fr;gap:40px;}
+      .cta-sec{padding:80px 24px;}
+      footer{padding:48px 24px 24px;}
+      .ft-top{flex-direction:column;gap:30px;}
+      .ft-links{gap:30px;}
+      .trust{flex-direction:column;}
+      .ti{border-right:none;border-bottom:1px solid var(--b);width:100%;}
+      .ti:last-child{border-bottom:none;}
+      #cursor,#cursor-dot{display:none;}
+    }
+    @media(max-width:600px){
+      .feat-grid,.goals-grid{grid-template-columns:1fr;}
+      .why-right{grid-template-columns:1fr;}
+      .wc:first-child{grid-column:auto;}
+      .dm-row{grid-template-columns:1fr;}
+      .cta-btns,.hero-ctas{flex-direction:column;align-items:stretch;}
+      .btn-p,.btn-s{justify-content:center;}
     }
   </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════
-     NAVBAR
-════════════════════════════════ -->
-<nav>
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
   <div class="nav-logo">FinTrack AI</div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="/">Home</a></li>
     <li><a href="/features">Features</a></li>
     <li><a href="/goals">Goals</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/contact">Contact Us</a></li>
     <li><a href="/privacy">Privacy Policy</a></li>
-    <li><a href="/login" class="nav-login">Login</a></li>
-    <li><a href="/signup" class="nav-signup">Sign Up</a></li>
+    <li><a href="/login" class="nl-login">Login</a></li>
+    <li><a href="/signup" class="nl-signup">Sign Up</a></li>
   </ul>
-  <div class="nav-toggle" id="navToggle">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="nav-ham" id="ham"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- ════════════════════════════════
-     HERO
-════════════════════════════════ -->
-<section class="hero">
-  <!-- LEFT: Copy -->
-  <div class="hero-content">
-    <div class="hero-badge">AI-Powered Finance Platform</div>
-
-    <h1 class="hero-headline">
-      Turn Your Financial<br>
-      Goals Into <span class="grad-text">Reality</span>
-    </h1>
-
-    <p class="hero-sub">
-      A powerful AI-driven finance management platform that helps you plan, track, and achieve savings goals with clarity, discipline, and smart insights.
-    </p>
-
+<!-- HERO -->
+<section class="hero" id="heroSec">
+  <div class="hero-bg"></div>
+  <canvas id="hero3d"></canvas>
+  <div class="hero-left">
+    <div class="hero-badge"><div class="hb-dot"></div>AI-Powered Finance Platform</div>
+    <h1 class="hero-h1">Turn Your Financial<br>Goals Into <span class="ht"><em>Reality</em></span></h1>
+    <p class="hero-sub">A powerful AI-driven finance management platform that helps you plan, track, and achieve savings goals with clarity, discipline, and smart insights.</p>
     <div class="hero-pills">
-      <div class="pill"><div class="pill-dot"></div>Set a Goal</div>
-      <div class="pill"><div class="pill-dot"></div>Track Progress</div>
-      <div class="pill"><div class="pill-dot"></div>Optimize Habits</div>
-      <div class="pill"><div class="pill-dot"></div>Achieve Faster with AI</div>
+      <div class="pill"><div class="pdot"></div>Set a Goal</div>
+      <div class="pill"><div class="pdot"></div>Track Progress</div>
+      <div class="pill"><div class="pdot"></div>Optimize Habits</div>
+      <div class="pill"><div class="pdot"></div>Achieve Faster with AI</div>
     </div>
-
     <div class="hero-ctas">
-      <a href="/signup" class="btn-primary btn-large">
-        Start Saving Smarter
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-      <a href="/login" class="btn-secondary btn-large">Login</a>
+      <a href="/signup" class="btn-p btn-lg">Start Saving Smarter <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="/login" class="btn-s btn-lg">Login</a>
     </div>
   </div>
-
-  <!-- RIGHT: Dashboard Mock -->
-  <div class="hero-visual">
-    <!-- Main goal card -->
-    <div class="dash-card dash-main">
-      <div class="dash-header">
-        <div>
-          <div class="dash-label">Active Goal</div>
-          <div class="dash-title">🏠 Dream House</div>
-        </div>
-        <div class="dash-badge">On Track</div>
-      </div>
-      <div class="dash-amount-big">₹4,20,000</div>
-      <div class="dash-sub-amount">saved of <span>₹15,00,000</span> target</div>
-      <div class="progress-wrap">
-        <div class="progress-labels">
-          <span>Progress</span>
-          <span>28% complete</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill" style="width:28%;"></div>
-        </div>
-      </div>
-      <div class="dash-stats-row">
-        <div class="dash-stat">
-          <div class="dash-stat-val up">+₹18K</div>
-          <div class="dash-stat-key">This Month</div>
-        </div>
-        <div class="dash-stat">
-          <div class="dash-stat-val">14 mo</div>
-          <div class="dash-stat-key">Est. Remaining</div>
-        </div>
-      </div>
-      <div class="trend-chart" style="margin-top:16px;">
-        <div class="trend-bar" style="height:40%;"></div>
-        <div class="trend-bar" style="height:55%;"></div>
-        <div class="trend-bar" style="height:45%;"></div>
-        <div class="trend-bar" style="height:70%;"></div>
-        <div class="trend-bar" style="height:60%;"></div>
-        <div class="trend-bar" style="height:80%;"></div>
-        <div class="trend-bar" style="height:75%;"></div>
-        <div class="trend-bar" style="height:95%;"></div>
-      </div>
-    </div>
-
-    <!-- Row 2 -->
-    <div class="dash-row-two">
-      <!-- AI tip -->
-      <div class="dash-card ai-tip-card">
-        <div class="ai-icon">✦</div>
-        <div class="ai-tip-label">AI Insight</div>
-        <div class="ai-tip-text">Reduce dining spend by ₹3K/mo to hit your goal <strong style="color:var(--purple-soft);">2 months earlier.</strong></div>
-      </div>
-      <!-- Mini goals -->
-      <div class="dash-card mini-goals-card">
-        <div class="dash-label" style="margin-bottom:14px;">All Goals</div>
-        <div class="mini-goal">
-          <div class="mini-goal-left">
-            <div class="mini-goal-icon">🚗</div>
-            <div>
-              <div class="mini-goal-name">Car</div>
-              <div class="mini-bar"><div class="mini-bar-fill" style="width:62%;"></div></div>
-            </div>
-          </div>
-          <div class="mini-goal-pct">62%</div>
-        </div>
-        <div class="mini-goal">
-          <div class="mini-goal-left">
-            <div class="mini-goal-icon">📱</div>
-            <div>
-              <div class="mini-goal-name">Phone</div>
-              <div class="mini-bar"><div class="mini-bar-fill" style="width:88%;"></div></div>
-            </div>
-          </div>
-          <div class="mini-goal-pct">88%</div>
-        </div>
-        <div class="mini-goal">
-          <div class="mini-goal-left">
-            <div class="mini-goal-icon">🛡️</div>
-            <div>
-              <div class="mini-goal-name">Emergency</div>
-              <div class="mini-bar"><div class="mini-bar-fill" style="width:41%;"></div></div>
-            </div>
-          </div>
-          <div class="mini-goal-pct">41%</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div>SCROLL TO EXPLORE</div>
 </section>
 
-<!-- ════════════════════════════════
-     TRUST STRIP
-════════════════════════════════ -->
-<div class="trust-strip">
-  <div class="trust-item">
-    <div class="trust-icon">🎯</div>
-    <div class="trust-label">AI-Powered Goal Tracking</div>
-  </div>
-  <div class="trust-item">
-    <div class="trust-icon">💡</div>
-    <div class="trust-label">Smart Savings Insights</div>
-  </div>
-  <div class="trust-item">
-    <div class="trust-icon">📈</div>
-    <div class="trust-label">Progress You Can See</div>
-  </div>
-  <div class="trust-item">
-    <div class="trust-icon">🧠</div>
-    <div class="trust-label">Real Financial Discipline</div>
-  </div>
+<!-- TRUST -->
+<div class="trust">
+  <div class="ti"><div class="ti-icon">🎯</div><div class="ti-label">AI-Powered Goal Tracking</div></div>
+  <div class="ti"><div class="ti-icon">💡</div><div class="ti-label">Smart Savings Insights</div></div>
+  <div class="ti"><div class="ti-icon">📈</div><div class="ti-label">Progress You Can See</div></div>
+  <div class="ti"><div class="ti-icon">🧠</div><div class="ti-label">Real Financial Discipline</div></div>
 </div>
 
-<!-- ════════════════════════════════
-     FEATURES
-════════════════════════════════ -->
+<!-- FEATURES -->
 <section class="features">
   <div class="container">
-    <div class="section-head">
-      <div class="section-eyebrow">Platform Features</div>
-      <h2 class="section-title">Everything you need to <span class="grad-text">master your money</span></h2>
-      <p class="section-sub">Purpose-built tools that turn vague financial ambitions into concrete, trackable, achievable goals.</p>
+    <div class="s-head reveal">
+      <div class="eyebrow">Platform Features</div>
+      <h2 class="s-title">Everything you need to <span class="gt">master your money</span></h2>
+      <p class="s-sub">Purpose-built tools that turn vague financial ambitions into concrete, trackable, achievable goals.</p>
     </div>
-    <div class="features-grid">
-      <div class="feat-card">
-        <div class="feat-icon-wrap">🎯</div>
-        <div class="feat-name">Smart Goal Planning</div>
-        <p class="feat-desc">Set goals for a car, house, education, gadgets, travel, or emergency funds. Define target amounts, timelines, and monthly milestones that actually work.</p>
+    <div class="feat-grid">
+      <div class="feat-card reveal">
+        <span class="pop-tag">GOAL PLANNING</span>
+        <div class="fi">🎯</div>
+        <div class="fn">Smart Goal Planning</div>
+        <p class="fd">Set goals for a car, house, education, gadgets, travel, or emergency funds — with clear target amounts and intelligent monthly timelines.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-wrap">📊</div>
-        <div class="feat-name">Real-Time Progress Tracking</div>
-        <p class="feat-desc">Monitor how close you are to each target with visual progress indicators, milestone markers, and streak tracking to keep you accountable.</p>
+      <div class="feat-card reveal">
+        <span class="pop-tag">LIVE TRACKING</span>
+        <div class="fi">📊</div>
+        <div class="fn">Real-Time Progress Tracking</div>
+        <p class="fd">Monitor how close you are to each target with visual progress indicators, milestone markers, and streak tracking to stay accountable.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-wrap">✦</div>
-        <div class="feat-name">AI Financial Insights</div>
-        <p class="feat-desc">Receive personalized AI-backed suggestions to improve your saving habits and reach goals faster — tailored to your actual spending patterns.</p>
+      <div class="feat-card reveal">
+        <span class="pop-tag">AI INSIGHTS</span>
+        <div class="fi">✦</div>
+        <div class="fn">AI Financial Insights</div>
+        <p class="fd">Receive personalized AI-backed suggestions to improve your saving habits and reach goals faster — tailored to your spending patterns.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-wrap">🔍</div>
-        <div class="feat-name">Expense & Savings Visibility</div>
-        <p class="feat-desc">Understand exactly where your money goes every month and discover how much can be redirected towards the goals that matter most to you.</p>
+      <div class="feat-card reveal">
+        <span class="pop-tag">VISIBILITY</span>
+        <div class="fi">🔍</div>
+        <div class="fn">Expense &amp; Savings Visibility</div>
+        <p class="fd">Understand exactly where your money goes each month and discover how much can be redirected toward the goals that matter most.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     HOW IT WORKS
-════════════════════════════════ -->
+<!-- HOW IT WORKS -->
 <section class="hiw">
   <div class="container">
-    <div class="section-head">
-      <div class="section-eyebrow">How It Works</div>
-      <h2 class="section-title">Three steps to <span class="grad-text">financial clarity</span></h2>
-      <p class="section-sub">A simple, structured path from goal-setting to goal-achieving — powered by intelligence at every step.</p>
+    <div class="s-head reveal">
+      <div class="eyebrow">How It Works</div>
+      <h2 class="s-title">Three steps to <span class="gt">financial clarity</span></h2>
+      <p class="s-sub">A simple, structured path from goal-setting to goal-achieving — powered by intelligence at every step.</p>
     </div>
-    <div class="hiw-steps">
-      <div class="step-card">
-        <div class="step-number">01</div>
-        <div class="step-title">Set Your Goal</div>
-        <p class="step-desc">Choose what you want to achieve and define your target amount and time horizon. FinTrack AI breaks it into a clear monthly savings plan.</p>
+    <div class="hiw-grid">
+      <div class="step reveal"><div class="step-n">01</div><div class="step-t">Set Your Goal</div><p class="step-d">Choose what you want to achieve and define your target amount and time horizon. FinTrack AI breaks it into a clear monthly savings plan.</p></div>
+      <div class="step reveal"><div class="step-n">02</div><div class="step-t">Track Every Move</div><p class="step-d">Monitor savings, spending, and progress through a clean, intelligent interface. Real numbers, real trends, real gaps — in real time.</p></div>
+      <div class="step reveal"><div class="step-n">03</div><div class="step-t">Reach It Faster with AI</div><p class="step-d">Use AI-backed suggestions and consistent tracking to stay on course. Intelligent reminders keep you disciplined and on target.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD MOCK -->
+<section class="dash-sec">
+  <div class="container">
+    <div class="dash-inner">
+      <div class="reveal">
+        <div class="eyebrow">Live Dashboard</div>
+        <h2 class="s-title">Your finances,<br><span class="gt">visualized beautifully</span></h2>
+        <p class="s-sub" style="margin-bottom:30px;">A clean, intelligent interface that puts your entire financial picture in one place — no confusion, just clarity.</p>
+        <div class="why-pts">
+          <div class="wp"><div class="wp-dot"></div><div class="wp-t"><strong>Multi-goal overview</strong> — track car, house, travel, and emergency funds simultaneously.</div></div>
+          <div class="wp"><div class="wp-dot"></div><div class="wp-t"><strong>AI tip engine</strong> — smart nudges that tell you exactly what to change to hit goals faster.</div></div>
+          <div class="wp"><div class="wp-dot"></div><div class="wp-t"><strong>Trend analytics</strong> — see your saving velocity and month-over-month improvement clearly.</div></div>
+        </div>
       </div>
-      <div class="step-card">
-        <div class="step-number">02</div>
-        <div class="step-title">Track Every Move</div>
-        <p class="step-desc">Monitor savings, spending, and progress through a clean and intelligent interface. See real numbers, real trends, and real gaps in real time.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">03</div>
-        <div class="step-title">Reach It Faster with AI</div>
-        <p class="step-desc">Use AI-backed suggestions and consistent tracking to stay on course. Intelligent reminders and nudges keep you disciplined and on target.</p>
+      <div class="dash-mock reveal">
+        <div class="dm">
+          <div class="dm-hdr"><div><div class="dm-label">Active Goal</div><div class="dm-title">🏠 Dream House</div></div><div class="dm-badge">ON TRACK</div></div>
+          <div class="dm-big">₹4,20,000</div>
+          <div class="dm-sub">saved of <span>₹15,00,000</span> target</div>
+          <div class="pb-wrap"><div class="pb-lbl"><span>Progress</span><span>28%</span></div><div class="pb-track"><div class="pb-fill" style="width:28%;"></div></div></div>
+          <div class="dm-stats">
+            <div class="ds"><div class="ds-v up">+₹18K</div><div class="ds-k">This Month</div></div>
+            <div class="ds"><div class="ds-v">14 mo</div><div class="ds-k">Remaining</div></div>
+          </div>
+          <div class="trend">
+            <div class="tb" style="height:40%;"></div><div class="tb" style="height:55%;"></div>
+            <div class="tb" style="height:48%;"></div><div class="tb" style="height:72%;"></div>
+            <div class="tb" style="height:62%;"></div><div class="tb" style="height:80%;"></div>
+            <div class="tb" style="height:76%;"></div><div class="tb" style="height:95%;"></div>
+          </div>
+        </div>
+        <div class="dm-row">
+          <div class="dm ai-card">
+            <div class="ai-ic">✦</div>
+            <div class="ai-lbl">AI Insight</div>
+            <div class="ai-txt">Reduce dining by ₹3K/mo — hit your goal <strong style="color:var(--bright);font-style:normal;">2 months earlier.</strong></div>
+          </div>
+          <div class="dm">
+            <div class="dm-label" style="margin-bottom:14px;">All Goals</div>
+            <div class="mg"><div class="mg-l"><div class="mg-ico">🚗</div><div><div class="mg-n">Car</div><div class="mg-b"><div class="mg-bf" style="width:62%;"></div></div></div></div><div class="mg-p">62%</div></div>
+            <div class="mg"><div class="mg-l"><div class="mg-ico">📱</div><div><div class="mg-n">Phone</div><div class="mg-b"><div class="mg-bf" style="width:88%;"></div></div></div></div><div class="mg-p">88%</div></div>
+            <div class="mg"><div class="mg-l"><div class="mg-ico">🛡️</div><div><div class="mg-n">Emergency</div><div class="mg-b"><div class="mg-bf" style="width:41%;"></div></div></div></div><div class="mg-p">41%</div></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     WHY FINTRACK AI
-════════════════════════════════ -->
+<!-- WHY -->
 <section class="why">
   <div class="container">
-    <div class="why-inner">
-      <div class="why-content">
-        <div class="section-eyebrow">Why FinTrack AI</div>
-        <h2 class="section-title">Because financial goals need more than <span class="grad-text">motivation.</span></h2>
-        <p class="section-sub">Most people start saving with excitement. But without structure, visibility, and discipline, the goal slowly fades into a vague intention.</p>
-        <div class="why-points">
-          <div class="why-point">
-            <div class="why-point-dot"></div>
-            <div class="why-point-text"><strong>Structure replaces willpower.</strong> When your goal is broken into weekly milestones, staying on track becomes a system — not a struggle.</div>
-          </div>
-          <div class="why-point">
-            <div class="why-point-dot"></div>
-            <div class="why-point-text"><strong>Visibility drives action.</strong> Seeing real numbers — saved vs. target — creates urgency and momentum that motivation alone never could.</div>
-          </div>
-          <div class="why-point">
-            <div class="why-point-dot"></div>
-            <div class="why-point-text"><strong>AI eliminates guesswork.</strong> Personalized insights show you exactly what to adjust so you hit your goal faster, with less friction.</div>
-          </div>
+    <div class="why-grid">
+      <div class="reveal">
+        <div class="eyebrow">Why FinTrack AI</div>
+        <h2 class="s-title">Because goals need more than <span class="gt">motivation.</span></h2>
+        <p class="s-sub">Most people start saving with excitement. Without structure, visibility, and discipline — the goal slowly fades into a vague intention.</p>
+        <div class="why-pts">
+          <div class="wp"><div class="wp-dot"></div><div class="wp-t"><strong>Structure replaces willpower.</strong> When your goal is broken into weekly milestones, staying on track becomes a system — not a struggle.</div></div>
+          <div class="wp"><div class="wp-dot"></div><div class="wp-t"><strong>Visibility drives action.</strong> Real numbers — saved vs. target — create urgency and momentum that motivation alone never could.</div></div>
+          <div class="wp"><div class="wp-dot"></div><div class="wp-t"><strong>AI eliminates guesswork.</strong> Personalized insights show exactly what to adjust so you hit your goal faster, with less friction.</div></div>
         </div>
       </div>
-      <div class="why-stats">
-        <div class="why-stat-card">
-          <div class="why-stat-val">3.2×</div>
-          <div class="why-stat-desc">Users with structured goal tracking reach milestones 3.2× faster than those saving without a defined plan.</div>
-        </div>
-        <div class="why-stat-card">
-          <div class="why-stat-val">₹48K</div>
-          <div class="why-stat-desc">Average annual savings improvement after applying AI-suggested habit changes.</div>
-        </div>
-        <div class="why-stat-card">
-          <div class="why-stat-val">91%</div>
-          <div class="why-stat-desc">Goal completion rate among users who set up progress tracking in the first week.</div>
-        </div>
+      <div class="why-right reveal">
+        <div class="wc"><div class="wc-v">3.2×</div><div class="wc-d">Users with structured goal tracking reach milestones 3.2× faster than those saving without a plan.</div></div>
+        <div class="wc"><div class="wc-v">₹48K</div><div class="wc-d">Average annual savings improvement after applying AI-suggested habit changes.</div></div>
+        <div class="wc"><div class="wc-v">91%</div><div class="wc-d">Goal completion rate among users who set up progress tracking in week one.</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     GOAL EXAMPLES
-════════════════════════════════ -->
-<section class="goals">
+<!-- GOALS -->
+<section class="goals-sec">
   <div class="container">
-    <div class="section-head">
-      <div class="section-eyebrow">Goal Examples</div>
-      <h2 class="section-title">Every dream has a <span class="grad-text">savings plan</span></h2>
-      <p class="section-sub">From big life purchases to small personal wins — track any goal with clarity and confidence.</p>
+    <div class="s-head reveal">
+      <div class="eyebrow">Goal Examples</div>
+      <h2 class="s-title">Every dream has a <span class="gt">savings plan</span></h2>
+      <p class="s-sub">From big life purchases to small personal wins — track any goal with clarity and confidence.</p>
     </div>
     <div class="goals-grid">
-      <div class="goal-card">
-        <div class="goal-top">
-          <div class="goal-emoji">🚗</div>
-          <div class="goal-pct-badge">62%</div>
-        </div>
-        <div class="goal-name">Buy a Car</div>
-        <div class="goal-target">Target: <span>₹8,50,000</span></div>
-        <div class="goal-bar"><div class="goal-bar-fill" style="width:62%;"></div></div>
-        <div class="goal-progress-labels"><span>₹5,27,000 saved</span><span>62%</span></div>
-      </div>
-      <div class="goal-card">
-        <div class="goal-top">
-          <div class="goal-emoji">🏠</div>
-          <div class="goal-pct-badge">28%</div>
-        </div>
-        <div class="goal-name">Buy a House</div>
-        <div class="goal-target">Target: <span>₹15,00,000</span></div>
-        <div class="goal-bar"><div class="goal-bar-fill" style="width:28%;"></div></div>
-        <div class="goal-progress-labels"><span>₹4,20,000 saved</span><span>28%</span></div>
-      </div>
-      <div class="goal-card">
-        <div class="goal-top">
-          <div class="goal-emoji">🛡️</div>
-          <div class="goal-pct-badge">41%</div>
-        </div>
-        <div class="goal-name">Emergency Fund</div>
-        <div class="goal-target">Target: <span>₹2,00,000</span></div>
-        <div class="goal-bar"><div class="goal-bar-fill" style="width:41%;"></div></div>
-        <div class="goal-progress-labels"><span>₹82,000 saved</span><span>41%</span></div>
-      </div>
-      <div class="goal-card">
-        <div class="goal-top">
-          <div class="goal-emoji">✈️</div>
-          <div class="goal-pct-badge">75%</div>
-        </div>
-        <div class="goal-name">Dream Vacation</div>
-        <div class="goal-target">Target: <span>₹1,20,000</span></div>
-        <div class="goal-bar"><div class="goal-bar-fill" style="width:75%;"></div></div>
-        <div class="goal-progress-labels"><span>₹90,000 saved</span><span>75%</span></div>
-      </div>
-      <div class="goal-card">
-        <div class="goal-top">
-          <div class="goal-emoji">💻</div>
-          <div class="goal-pct-badge">88%</div>
-        </div>
-        <div class="goal-name">New Laptop</div>
-        <div class="goal-target">Target: <span>₹95,000</span></div>
-        <div class="goal-bar"><div class="goal-bar-fill" style="width:88%;"></div></div>
-        <div class="goal-progress-labels"><span>₹83,600 saved</span><span>88%</span></div>
-      </div>
-      <div class="goal-card">
-        <div class="goal-top">
-          <div class="goal-emoji">🎓</div>
-          <div class="goal-pct-badge">19%</div>
-        </div>
-        <div class="goal-name">Higher Education</div>
-        <div class="goal-target">Target: <span>₹5,00,000</span></div>
-        <div class="goal-bar"><div class="goal-bar-fill" style="width:19%;"></div></div>
-        <div class="goal-progress-labels"><span>₹95,000 saved</span><span>19%</span></div>
-      </div>
+      <div class="gc reveal"><div class="gc-top"><div class="gc-ico">🚗</div><div class="gc-pct">62%</div></div><div class="gc-n">Buy a Car</div><div class="gc-t">Target: <span>₹8,50,000</span></div><div class="gc-bar"><div class="gc-fill" style="width:62%;"></div></div><div class="gc-meta"><span>₹5,27,000 saved</span><span>62%</span></div></div>
+      <div class="gc reveal"><div class="gc-top"><div class="gc-ico">🏠</div><div class="gc-pct">28%</div></div><div class="gc-n">Buy a House</div><div class="gc-t">Target: <span>₹15,00,000</span></div><div class="gc-bar"><div class="gc-fill" style="width:28%;"></div></div><div class="gc-meta"><span>₹4,20,000 saved</span><span>28%</span></div></div>
+      <div class="gc reveal"><div class="gc-top"><div class="gc-ico">🛡️</div><div class="gc-pct">41%</div></div><div class="gc-n">Emergency Fund</div><div class="gc-t">Target: <span>₹2,00,000</span></div><div class="gc-bar"><div class="gc-fill" style="width:41%;"></div></div><div class="gc-meta"><span>₹82,000 saved</span><span>41%</span></div></div>
+      <div class="gc reveal"><div class="gc-top"><div class="gc-ico">✈️</div><div class="gc-pct">75%</div></div><div class="gc-n">Dream Vacation</div><div class="gc-t">Target: <span>₹1,20,000</span></div><div class="gc-bar"><div class="gc-fill" style="width:75%;"></div></div><div class="gc-meta"><span>₹90,000 saved</span><span>75%</span></div></div>
+      <div class="gc reveal"><div class="gc-top"><div class="gc-ico">💻</div><div class="gc-pct">88%</div></div><div class="gc-n">New Laptop</div><div class="gc-t">Target: <span>₹95,000</span></div><div class="gc-bar"><div class="gc-fill" style="width:88%;"></div></div><div class="gc-meta"><span>₹83,600 saved</span><span>88%</span></div></div>
+      <div class="gc reveal"><div class="gc-top"><div class="gc-ico">🎓</div><div class="gc-pct">19%</div></div><div class="gc-n">Higher Education</div><div class="gc-t">Target: <span>₹5,00,000</span></div><div class="gc-bar"><div class="gc-fill" style="width:19%;"></div></div><div class="gc-meta"><span>₹95,000 saved</span><span>19%</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CTA SECTION
-════════════════════════════════ -->
-<section class="cta-section">
-  <div class="cta-inner">
-    <div class="section-eyebrow">Get Started Today</div>
-    <h2 class="section-title">Start Building the Future<br><span class="grad-text">You Want</span></h2>
-    <p class="section-sub">Create your first savings goal, track progress intelligently, and let AI guide your financial journey — no spreadsheets, no guesswork.</p>
-    <div class="cta-buttons">
-      <a href="/signup" class="btn-primary btn-large">
-        Create Your Account
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-      <a href="/features" class="btn-secondary btn-large">Explore Features</a>
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="cta-inner reveal">
+    <div class="eyebrow">Get Started Today</div>
+    <h2 class="s-title">Start Building the Future<br><span class="gt"><em>You Want</em></span></h2>
+    <p class="s-sub">Create your first savings goal, track progress intelligently, and let AI guide your financial journey — no spreadsheets, no guesswork.</p>
+    <div class="cta-btns">
+      <a href="/signup" class="btn-p btn-lg">Create Your Account <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="/features" class="btn-s btn-lg">Explore Features</a>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     FOOTER
-════════════════════════════════ -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
+  <div class="ft-inner">
+    <div class="ft-top">
+      <div class="ft-brand">
         <div class="nav-logo" style="margin-bottom:12px;">FinTrack AI</div>
-        <p class="footer-tagline">Intelligent goal-based savings and financial management — built for real people with real ambitions.</p>
+        <p class="ft-tag">Intelligent goal-based savings and financial management — built for real people with real ambitions.</p>
       </div>
-      <div class="footer-links">
-        <div class="footer-col">
-          <div class="footer-col-title">Product</div>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/features">Features</a></li>
-            <li><a href="/goals">Goals</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">Support</div>
-          <ul>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/privacy">Privacy Policy</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/signup">Sign Up</a></li>
-          </ul>
-        </div>
+      <div class="ft-links">
+        <div class="fc"><div class="fc-t">Product</div><ul><li><a href="/">Home</a></li><li><a href="/features">Features</a></li><li><a href="/goals">Goals</a></li><li><a href="/about">About</a></li></ul></div>
+        <div class="fc"><div class="fc-t">Support</div><ul><li><a href="/contact">Contact</a></li><li><a href="/privacy">Privacy Policy</a></li><li><a href="/login">Login</a></li><li><a href="/signup">Sign Up</a></li></ul></div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 FinTrack AI. All rights reserved.</p>
-      <div class="footer-accent"></div>
+    <div class="ft-bottom">
+      <span class="ft-copy">© 2026 FinTrack AI. All rights reserved.</span>
+      <div class="ft-line"></div>
     </div>
   </div>
 </footer>
 
 <script>
-  // Minimal mobile nav toggle
-  document.getElementById('navToggle').addEventListener('click', function() {
-    var links = document.querySelector('.nav-links');
-    if (links.style.display === 'flex') {
-      links.style.display = 'none';
-    } else {
-      links.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:rgba(7,6,15,0.98);padding:16px 24px 24px;border-bottom:1px solid rgba(138,100,255,0.13);backdrop-filter:blur(20px);gap:4px;z-index:998;';
-    }
-  });
-</script>
+/* ══ CURSOR ══ */
+var cur = document.getElementById('cursor');
+var dot = document.getElementById('cursor-dot');
+var cx=0,cy=0,tx=0,ty=0;
+document.addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;dot.style.left=tx+'px';dot.style.top=ty+'px';});
+function animCursor(){cx+=(tx-cx)*0.12;cy+=(ty-cy)*0.12;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(animCursor);}
+animCursor();
+document.querySelectorAll('a,button,.feat-card,.gc,.step,.wc,.wp,.pill').forEach(function(el){
+  el.addEventListener('mouseenter',function(){cur.style.transform='translate(-50%,-50%) scale(2.2)';cur.style.borderColor='rgba(196,181,253,.45)';cur.style.background='rgba(109,40,217,.08)';});
+  el.addEventListener('mouseleave',function(){cur.style.transform='translate(-50%,-50%) scale(1)';cur.style.borderColor='rgba(167,139,250,.6)';cur.style.background='transparent';});
+});
 
+/* ══ NAV SCROLL ══ */
+window.addEventListener('scroll',function(){
+  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>30);
+});
+
+/* ══ THREE.JS CRYSTAL ══ */
+(function(){
+  var canvas=document.getElementById('hero3d');
+  if(!canvas||typeof THREE==='undefined')return;
+  var W=canvas.clientWidth||window.innerWidth*.55,H=canvas.clientHeight||window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(W,H);renderer.setClearColor(0x000000,0);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(58,W/H,0.1,100);
+  camera.position.set(0,0,6.2);
+  scene.add(new THREE.AmbientLight(0x3b0764,.5));
+  var L1=new THREE.PointLight(0x7c3aed,3.5,18);L1.position.set(4,4,3);scene.add(L1);
+  var L2=new THREE.PointLight(0x4f46e5,2.5,18);L2.position.set(-4,-2,4);scene.add(L2);
+  var L3=new THREE.PointLight(0xc4b5fd,1.8,14);L3.position.set(0,-5,2);scene.add(L3);
+  var G=new THREE.Group();scene.add(G);
+  var oWire=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(2.4,1)),new THREE.LineBasicMaterial({color:0x6d28d9,transparent:true,opacity:.16}));G.add(oWire);
+  var mMat=new THREE.LineBasicMaterial({color:0xa78bfa,transparent:true,opacity:.4});
+  var mWire=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1.9,1)),mMat);G.add(mWire);
+  var iGeo=new THREE.IcosahedronGeometry(1.45,1);
+  G.add(new THREE.Mesh(iGeo,new THREE.MeshPhongMaterial({color:0x6d28d9,emissive:0x3b0764,shininess:200,transparent:true,opacity:.15,side:THREE.DoubleSide})));
+  var iWMat=new THREE.LineBasicMaterial({color:0xddd6fe,transparent:true,opacity:.65});
+  var iWire=new THREE.LineSegments(new THREE.EdgesGeometry(iGeo),iWMat);G.add(iWire);
+  var nucleus=new THREE.Mesh(new THREE.OctahedronGeometry(.52,0),new THREE.MeshPhongMaterial({color:0xf0ecff,emissive:0x7c3aed,emissiveIntensity:.9,shininess:320,transparent:true,opacity:.72}));G.add(nucleus);
+  G.add(new THREE.Mesh(new THREE.TorusGeometry(2.62,.007,8,140),new THREE.MeshBasicMaterial({color:0x7c3aed,transparent:true,opacity:.3})));
+  var r2=new THREE.Mesh(new THREE.TorusGeometry(2.9,.005,8,140),new THREE.MeshBasicMaterial({color:0x4f46e5,transparent:true,opacity:.18}));r2.rotation.x=Math.PI/3.2;r2.rotation.y=Math.PI/5;G.add(r2);
+  var r3=new THREE.Mesh(new THREE.TorusGeometry(2.76,.005,8,140),new THREE.MeshBasicMaterial({color:0xc4b5fd,transparent:true,opacity:.13}));r3.rotation.x=Math.PI/5;r3.rotation.z=Math.PI/4;G.add(r3);
+  var orbGeo=new THREE.BufferGeometry(),orbPos=new Float32Array(80*3);
+  for(var i=0;i<80;i++){var a=i/80*Math.PI*2,r=2.7+Math.sin(i*1.7)*.22;orbPos[i*3]=Math.cos(a)*r;orbPos[i*3+1]=(Math.random()-.5)*.6;orbPos[i*3+2]=Math.sin(a)*r;}
+  orbGeo.setAttribute('position',new THREE.BufferAttribute(orbPos,3));
+  var orbPts=new THREE.Points(orbGeo,new THREE.PointsMaterial({color:0xa78bfa,size:.05,transparent:true,opacity:.8}));G.add(orbPts);
+  var starGeo=new THREE.BufferGeometry(),starPos=new Float32Array(320*3);
+  for(var j=0;j<320;j++){starPos[j*3]=(Math.random()-.5)*20;starPos[j*3+1]=(Math.random()-.5)*16;starPos[j*3+2]=(Math.random()-.5)*12-3;}
+  starGeo.setAttribute('position',new THREE.BufferAttribute(starPos,3));
+  var stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0x4f46e5,size:.04,transparent:true,opacity:.42}));scene.add(stars);
+  var shards=[];
+  for(var k=0;k<6;k++){
+    var s=new THREE.Mesh(new THREE.OctahedronGeometry(.08+Math.random()*.07,0),new THREE.MeshPhongMaterial({color:0x7c3aed,emissive:0x4c1d95,emissiveIntensity:.6,transparent:true,opacity:.6+Math.random()*.3}));
+    var sa=Math.random()*Math.PI*2,sr=3.2+Math.random()*.8;
+    s.position.set(Math.cos(sa)*sr,(Math.random()-.5)*2.5,Math.sin(sa)*sr);
+    s.userData={speed:.3+Math.random()*.5,offset:Math.random()*Math.PI*2,orbitR:sr,orbitA:sa};
+    G.add(s);shards.push(s);
+  }
+  var scrollY=0,mx=0,my=0,tmx=0,tmy=0,t=0;
+  window.addEventListener('scroll',function(){scrollY=window.scrollY;});
+  window.addEventListener('mousemove',function(e){tmx=(e.clientX/window.innerWidth-.5)*2;tmy=(e.clientY/window.innerHeight-.5)*2;});
+  function onResize(){
+    var isMob=window.innerWidth<900,nw,nh;
+    if(isMob){nw=window.innerWidth;nh=Math.min(420,window.innerWidth*.75);}
+    else{nw=window.innerWidth*.55;nh=window.innerHeight;}
+    canvas.style.width=nw+'px';canvas.style.height=nh+'px';
+    renderer.setSize(nw,nh);camera.aspect=nw/nh;camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize',onResize);
+  function animate(){
+    requestAnimationFrame(animate);t+=.009;
+    mx+=(tmx-mx)*.045;my+=(tmy-my)*.045;
+    var sf=scrollY*.0014;
+    G.rotation.y=t*.35+sf*2.2+mx*.42;
+    G.rotation.x=Math.sin(t*.22)*.16+sf*.65+my*.26;
+    G.rotation.z=Math.cos(t*.14)*.09+sf*.28;
+    G.position.y=Math.sin(t*.58)*.13;G.position.z=-sf*.3;
+    nucleus.rotation.y=t*1.4;nucleus.rotation.x=t*.7;
+    mMat.opacity=.3+Math.sin(t*1.9)*.18;iWMat.opacity=.55+Math.sin(t*1.4)*.15;
+    orbPts.rotation.y=-t*.48+sf*.7;orbPts.rotation.x=Math.sin(t*.28)*.1;
+    L1.position.set(Math.cos(t*.45)*5,4+Math.sin(t*.3)*1,Math.sin(t*.45)*5);
+    L2.position.set(Math.cos(t*.38+Math.PI)*5,-2,Math.sin(t*.38+Math.PI)*5);
+    L3.position.set(Math.cos(t*.6+1)*4,-4,Math.sin(t*.6+1)*4);
+    for(var i=0;i<shards.length;i++){var sh=shards[i],d=sh.userData;d.orbitA+=d.speed*.008;sh.position.x=Math.cos(d.orbitA)*d.orbitR;sh.position.z=Math.sin(d.orbitA)*d.orbitR;sh.position.y=Math.sin(t*d.speed+d.offset)*1.2;sh.rotation.y=t*d.speed;sh.rotation.z=t*d.speed*.5;}
+    stars.rotation.y=t*.015;
+    camera.position.z=6.2+sf*1.6;camera.position.y=-my*.35-sf*.3;camera.position.x=mx*.25;
+    renderer.render(scene,camera);
+  }
+  animate();onResize();
+})();
+
+/* ══ SCROLL REVEAL ══ */
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+/* ══ MOBILE NAV ══ */
+document.getElementById('ham').addEventListener('click',function(){
+  var nl=document.getElementById('navLinks');
+  nl.style.display=nl.style.display==='flex'?'none':'';
+  if(nl.style.display!=='none'){nl.style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(4,3,15,0.97);backdrop-filter:blur(28px);padding:18px 24px 30px;border-bottom:1px solid rgba(124,58,237,.15);gap:4px;z-index:999;';}
+});
+</script>
 </body>
 </html>
