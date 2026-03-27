@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinTrack AI — Contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#04030f;--bg-card:#0a0820;--b:rgba(120,80,255,0.11);--bh:rgba(150,110,255,0.38);--g:linear-gradient(135deg,#6d28d9 0%,#7c3aed 50%,#4f46e5 100%);--g2:linear-gradient(135deg,#c4b5fd 0%,#a78bfa 50%,#818cf8 100%);--bright:#a78bfa;--pale:#c4b5fd;--t1:#ede8ff;--t2:#9d8ec4;--t3:#5c5080;--err:#f87171;--ok:#86efac;--ff-d:'Instrument Serif',serif;--ff-b:'DM Sans',sans-serif;--ff-m:'DM Mono',monospace;--r:all 0.35s cubic-bezier(.4,0,.2,1);}
+    html,body{background:var(--bg);color:var(--t1);font-family:var(--ff-b);-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100%;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");background-size:180px;}
+    body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(109,40,217,.1) 0%,transparent 60%);}
+    a{color:inherit;text-decoration:none;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(4,3,15,0.65);backdrop-filter:blur(32px);border-bottom:1px solid var(--b);}
+    nav::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40%;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.5),transparent);}
+    .nav-logo{font-family:var(--ff-d);font-size:1.4rem;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-links{display:flex;align-items:center;gap:2px;list-style:none;}
+    .nav-links a{font-size:.82rem;color:var(--t2);padding:7px 14px;border-radius:9px;transition:var(--r);}
+    .nav-links a:hover{color:var(--t1);background:rgba(124,58,237,.09);}
+    .nl-login{color:var(--t1)!important;border:1px solid var(--b)!important;}
+    .nl-signup{background:var(--g)!important;color:#fff!important;font-weight:600!important;padding:8px 22px!important;border-radius:10px!important;}
+    .page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:90px 24px 48px;position:relative;z-index:1;}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:920px;width:100%;align-items:start;}
+    .contact-info{padding-top:8px;}
+    .eyebrow{display:inline-block;font-family:var(--ff-m);font-size:.66rem;font-weight:500;text-transform:uppercase;letter-spacing:.14em;color:var(--bright);background:rgba(109,40,217,.1);border:1px solid rgba(167,139,250,.2);padding:5px 16px;border-radius:99px;margin-bottom:20px;}
+    .ci-title{font-family:var(--ff-d);font-size:2.2rem;font-weight:400;letter-spacing:-.02em;margin-bottom:14px;line-height:1.12;}
+    .ci-title em{font-style:italic;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .ci-sub{font-size:.9rem;color:var(--t2);line-height:1.8;font-weight:300;font-style:italic;margin-bottom:36px;}
+    .ci-items{display:flex;flex-direction:column;gap:18px;}
+    .ci-item{display:flex;align-items:center;gap:14px;}
+    .ci-icon{width:42px;height:42px;border-radius:12px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.18);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+    .ci-label{font-family:var(--ff-m);font-size:.6rem;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}
+    .ci-val{font-size:.88rem;color:var(--t1);}
+    /* card */
+    .card{background:rgba(10,8,32,.85);border:1px solid var(--b);border-radius:24px;padding:36px 32px;backdrop-filter:blur(28px);box-shadow:0 24px 64px rgba(0,0,0,.4);position:relative;overflow:hidden;}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.45),transparent);}
+    .card::after{content:'';position:absolute;top:0;left:0;right:0;height:160px;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(109,40,217,.12),transparent);pointer-events:none;}
+    .card-title{font-family:var(--ff-d);font-size:1.35rem;font-weight:400;margin-bottom:22px;position:relative;z-index:1;}
+    .form{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;}
+    .field{display:flex;flex-direction:column;gap:6px;}
+    label{font-family:var(--ff-m);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);}
+    .field:focus-within label{color:var(--bright);}
+    input[type="text"],input[type="email"],textarea,select{width:100%;padding:12px 16px;background:rgba(255,255,255,.03);border:1px solid var(--b);border-radius:11px;color:var(--t1);font-family:var(--ff-b);font-size:.88rem;outline:none;transition:var(--r);}
+    textarea{resize:vertical;min-height:110px;line-height:1.65;}
+    input:focus,textarea:focus,select:focus{border-color:rgba(124,58,237,.55);box-shadow:0 0 0 3px rgba(109,40,217,.1);}
+    input::placeholder,textarea::placeholder{color:var(--t3);font-style:italic;}
+    .submit-btn{padding:14px;background:var(--g);color:#fff;font-family:var(--ff-b);font-size:.92rem;font-weight:600;border-radius:12px;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(109,40,217,.4);transition:var(--r);}
+    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(109,40,217,.6);}
+    .form-msg{font-family:var(--ff-m);font-size:.72rem;padding:10px 14px;border-radius:9px;display:none;}
+    .form-msg.ok{display:block;background:rgba(134,239,172,.08);border:1px solid rgba(134,239,172,.22);color:var(--ok);}
+    .form-msg.err{display:block;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.22);color:var(--err);}
+    footer{position:relative;z-index:1;border-top:1px solid var(--b);padding:24px 56px;display:flex;justify-content:center;}
+    .ft-copy{font-family:var(--ff-m);font-size:.65rem;color:var(--t3);}
+    @media(max-width:800px){.contact-grid{grid-template-columns:1fr;}.nav-links{display:none;}nav{padding:0 20px;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">FinTrack AI</a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/features">Features</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/login" class="nl-login">Login</a></li>
+    <li><a href="/signup" class="nl-signup">Get Started</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="eyebrow">Get in Touch</div>
+      <h1 class="ci-title">We'd Love to <em>Hear From You</em></h1>
+      <p class="ci-sub">Have a question, suggestion, or just want to say hello? Drop us a message and we'll get back to you.</p>
+      <div class="ci-items">
+        <div class="ci-item">
+          <div class="ci-icon">📧</div>
+          <div><div class="ci-label">Email</div><div class="ci-val">support@fintrack.ai</div></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">🌐</div>
+          <div><div class="ci-label">Website</div><div class="ci-val">fintrack.ai</div></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">🕐</div>
+          <div><div class="ci-label">Response Time</div><div class="ci-val">Within 24 hours</div></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">📍</div>
+          <div><div class="ci-label">Based In</div><div class="ci-val">Hyderabad, India</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Send a Message</div>
+      <div id="formMsg" class="form-msg"></div>
+      <div class="form">
+        <div class="field">
+          <label>Your Name</label>
+          <input type="text" id="cName" placeholder="Rahul Sharma"/>
+        </div>
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" id="cEmail" placeholder="you@example.com"/>
+        </div>
+        <div class="field">
+          <label>Subject</label>
+          <select id="cSubject">
+            <option value="">Select a topic…</option>
+            <option>General Inquiry</option>
+            <option>Bug Report</option>
+            <option>Feature Request</option>
+            <option>Account Help</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea id="cMsg" placeholder="Tell us what's on your mind…"></textarea>
+        </div>
+        <button class="submit-btn" onclick="sendMsg()">Send Message ✉️</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer><span class="ft-copy">© 2026 FinTrack AI. All rights reserved.</span></footer>
+
+<script>
+function sendMsg(){
+  var name=document.getElementById('cName').value.trim();
+  var email=document.getElementById('cEmail').value.trim();
+  var msg=document.getElementById('cMsg').value.trim();
+  var fmsg=document.getElementById('formMsg');
+  fmsg.className='form-msg';
+  if(!name||!email||!msg){fmsg.className='form-msg err';fmsg.textContent='Please fill in name, email and message.';return;}
+  /* In production, POST to /api/contact */
+  fmsg.className='form-msg ok';
+  fmsg.textContent='Message sent! We\'ll be in touch within 24 hours. 🙌';
+  document.getElementById('cName').value='';
+  document.getElementById('cEmail').value='';
+  document.getElementById('cMsg').value='';
+  document.getElementById('cSubject').value='';
+}
+</script>
+</body>
+</html>

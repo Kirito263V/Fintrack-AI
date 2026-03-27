@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinTrack AI — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #04030f;
+      --bg-card:  #0a0820;
+      --b:        rgba(120,80,255,0.11);
+      --bh:       rgba(150,110,255,0.38);
+      --purple:   #6d28d9;
+      --violet:   #7c3aed;
+      --indigo:   #4f46e5;
+      --bright:   #a78bfa;
+      --pale:     #c4b5fd;
+      --g:        linear-gradient(135deg,#6d28d9 0%,#7c3aed 50%,#4f46e5 100%);
+      --g2:       linear-gradient(135deg,#c4b5fd 0%,#a78bfa 50%,#818cf8 100%);
+      --t1:       #ede8ff;
+      --t2:       #9d8ec4;
+      --t3:       #5c5080;
+      --r:        all 0.3s cubic-bezier(.4,0,.2,1);
+      --ff-d:     'Instrument Serif', serif;
+      --ff-b:     'DM Sans', sans-serif;
+      --ff-m:     'DM Mono', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: var(--ff-b);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── DEMO TRIGGER BUTTON (remove in production) ─── */
+    .demo-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+    .open-btn {
+      padding: 14px 32px;
+      background: var(--g);
+      color: #fff;
+      font-family: var(--ff-b);
+      font-size: .94rem;
+      font-weight: 600;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 30px rgba(109,40,217,.5);
+      transition: var(--r);
+    }
+    .open-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(109,40,217,.7);
+    }
+
+    /* ─── OVERLAY BACKDROP ─── */
+    #loginOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(4,3,15,0.82);
+      backdrop-filter: blur(18px) saturate(160%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(.4,0,.2,1);
+    }
+    #loginOverlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ─── MODAL ─── */
+    .modal {
+      background: rgba(10,8,32,0.97);
+      border: 1px solid rgba(120,80,255,0.18);
+      border-radius: 24px;
+      padding: 40px 40px 36px;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      overflow: hidden;
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.4s cubic-bezier(.2,0,.1,1.4), opacity 0.35s ease;
+      opacity: 0;
+    }
+    #loginOverlay.open .modal {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    /* top shimmer line */
+    .modal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(167,139,250,.55), transparent);
+    }
+    /* radial glow */
+    .modal::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(109,40,217,.13), transparent);
+      pointer-events: none;
+    }
+
+    /* grain texture */
+    .modal-grain {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      background-size: 140px;
+      z-index: 0;
+    }
+
+    /* ─── CLOSE BUTTON ─── */
+    .close-btn {
+      position: absolute;
+      top: 18px; right: 20px;
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      border: 1px solid rgba(120,80,255,0.18);
+      background: rgba(109,40,217,.08);
+      color: rgba(156,124,255,.7);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-family: monospace;
+      transition: var(--r);
+      z-index: 2;
+    }
+    .close-btn:hover {
+      background: rgba(109,40,217,.22);
+      border-color: rgba(167,139,250,.4);
+      color: #c4b5fd;
+    }
+
+    /* ─── LOGO ─── */
+    .modal-logo {
+      font-family: var(--ff-d);
+      font-size: 1.25rem;
+      background: var(--g2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── LIVE BADGE ─── */
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(109,40,217,.1);
+      border: 1px solid rgba(167,139,250,.2);
+      font-family: var(--ff-m);
+      font-size: .6rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--bright);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .badge-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--bright);
+      animation: blink 2.4s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.3; transform:scale(.5); }
+    }
+
+    /* ─── HEADING ─── */
+    .modal-title {
+      font-family: var(--ff-d);
+      font-size: 1.9rem;
+      font-weight: 400;
+      color: var(--t1);
+      line-height: 1.12;
+      letter-spacing: -.02em;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .modal-title em {
+      font-style: italic;
+      background: var(--g2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .modal-sub {
+      font-size: .82rem;
+      color: rgba(157,142,196,.85);
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── FIELDS ─── */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+    .field-label {
+      font-family: var(--ff-m);
+      font-size: .62rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--t3);
+      margin-bottom: 7px;
+      display: block;
+    }
+    .field-input {
+      width: 100%;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(120,80,255,.15);
+      border-radius: 12px;
+      padding: 13px 16px;
+      color: var(--t1);
+      font-family: var(--ff-b);
+      font-size: .88rem;
+      font-weight: 400;
+      outline: none;
+      transition: var(--r);
+      -webkit-text-fill-color: var(--t1);
+    }
+    .field-input::placeholder {
+      color: rgba(92,80,128,.7);
+      -webkit-text-fill-color: rgba(92,80,128,.7);
+    }
+    .field-input:hover {
+      border-color: rgba(167,139,250,.28);
+      background: rgba(109,40,217,.06);
+    }
+    .field-input:focus {
+      border-color: rgba(167,139,250,.55);
+      background: rgba(109,40,217,.1);
+      box-shadow: 0 0 0 3px rgba(109,40,217,.12);
+    }
+    .field-input.error {
+      border-color: rgba(248,113,113,.45);
+    }
+    .error-msg {
+      font-size: .72rem;
+      color: #f87171;
+      margin-top: 5px;
+      display: none;
+    }
+
+    /* password wrapper */
+    .pass-wrap { position: relative; }
+    .pass-wrap .field-input { padding-right: 44px; }
+    .eye-btn {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(92,80,128,.8);
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+      padding: 0;
+    }
+    .eye-btn:hover { color: var(--bright); }
+
+    /* forgot */
+    .forgot-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 9px;
+      position: relative;
+      z-index: 1;
+    }
+    .forgot-link {
+      font-size: .74rem;
+      color: rgba(167,139,250,.7);
+      cursor: pointer;
+      transition: color .2s;
+      background: none;
+      border: none;
+      font-family: var(--ff-b);
+    }
+    .forgot-link:hover { color: var(--pale); }
+
+    /* ─── LOGIN BUTTON ─── */
+    .btn-login {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      background: var(--g);
+      color: #fff;
+      font-family: var(--ff-b);
+      font-size: .92rem;
+      font-weight: 600;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 28px rgba(109,40,217,.45);
+      transition: var(--r);
+      letter-spacing: .01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .btn-login::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.13) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 42px rgba(109,40,217,.65);
+    }
+    .btn-login:hover::before { opacity: 1; }
+    .btn-login:active { transform: translateY(0) scale(.99); }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(120,80,255,.12);
+    }
+    .divider-text {
+      font-family: var(--ff-m);
+      font-size: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: rgba(92,80,128,.7);
+    }
+
+    /* ─── SOCIAL BUTTONS ─── */
+    .social-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-social {
+      padding: 11px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(120,80,255,.14);
+      border-radius: 11px;
+      color: rgba(157,142,196,.85);
+      font-family: var(--ff-b);
+      font-size: .79rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--r);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+    .btn-social:hover {
+      background: rgba(109,40,217,.1);
+      border-color: rgba(167,139,250,.3);
+      color: var(--pale);
+      transform: translateY(-2px);
+    }
+
+    /* ─── FOOTER ─── */
+    .modal-footer {
+      margin-top: 26px;
+      text-align: center;
+      font-size: .79rem;
+      color: rgba(92,80,128,.9);
+      position: relative;
+      z-index: 1;
+    }
+    .modal-footer a {
+      color: var(--bright);
+      font-weight: 500;
+      cursor: pointer;
+      transition: color .2s;
+      text-decoration: none;
+    }
+    .modal-footer a:hover { color: var(--pale); }
+
+    /* ─── SUCCESS STATE ─── */
+    .success-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 30px 0 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .success-icon {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: var(--g);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 36px rgba(109,40,217,.55);
+      animation: pop .45s cubic-bezier(.2,0,.1,1.8) both;
+    }
+    @keyframes pop {
+      from { transform:scale(0); opacity:0; }
+      to   { transform:scale(1); opacity:1; }
+    }
+    .success-title {
+      font-family: var(--ff-d);
+      font-size: 1.7rem;
+      color: var(--t1);
+      margin-bottom: 8px;
+    }
+    .success-title em {
+      font-style: italic;
+      background: var(--g2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .success-sub {
+      font-size: .82rem;
+      color: var(--t2);
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .success-tag {
+      font-family: var(--ff-m);
+      font-size: .6rem;
+      color: var(--t3);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 480px) {
+      .modal { padding: 32px 24px 28px; }
+      .modal-title { font-size: 1.6rem; }
+      .social-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DEMO PAGE — remove in production, just keep the overlay below -->
+  <div class="demo-trigger">
+    <button class="open-btn" onclick="openLogin()">Open Login Popup</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       LOGIN MODAL — copy everything below into
+       your existing HTML, before </body>
+  ════════════════════════════════════════════ -->
+
+  <div id="loginOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal" id="loginModal">
+      <div class="modal-grain"></div>
+
+      <!-- Close -->
+      <button class="close-btn" onclick="closeLogin()">✕</button>
+
+      <!-- Logo -->
+      <div class="modal-logo">FinTrack AI</div>
+
+      <!-- ── MAIN FORM ── -->
+      <div id="loginForm">
+        <div class="badge-live"><div class="badge-dot"></div>Secure Login</div>
+        <h2 class="modal-title">Welcome <em>back</em></h2>
+        <p class="modal-sub">Pick up right where you left off — your goals are waiting.</p>
+
+        <div class="field-group">
+          <!-- Email -->
+          <div>
+            <label class="field-label" for="loginEmail">Email address</label>
+            <input class="field-input" id="loginEmail" type="email"
+              placeholder="you@example.com" autocomplete="email" />
+            <div class="error-msg" id="emailError">Please enter a valid email address.</div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label class="field-label" for="loginPass">Password</label>
+            <div class="pass-wrap">
+              <input class="field-input" id="loginPass" type="password"
+                placeholder="••••••••••••" autocomplete="current-password" />
+              <button class="eye-btn" onclick="togglePass()" aria-label="Toggle password visibility">
+                <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <div class="error-msg" id="passError">Password must be at least 6 characters.</div>
+          </div>
+        </div>
+
+        <!-- Forgot -->
+        <div class="forgot-row">
+          <button class="forgot-link" onclick="alert('Password reset coming soon!')">Forgot password?</button>
+        </div>
+
+        <!-- Primary CTA -->
+        <button class="btn-login" onclick="handleLogin()">
+          Sign In
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <!-- Divider -->
+        <div class="divider">
+          <div class="divider-line"></div>
+          <span class="divider-text">or continue with</span>
+          <div class="divider-line"></div>
+        </div>
+
+        <!-- Social -->
+        <div class="social-row">
+          <button class="btn-social">
+            <!-- Google icon -->
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Google
+          </button>
+          <button class="btn-social">
+            <!-- GitHub icon -->
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+          </button>
+        </div>
+      </div>
+
+      <!-- ── SUCCESS STATE ── -->
+      <div class="success-state" id="successState">
+        <div class="success-icon">✦</div>
+        <div class="success-title">You're <em>in!</em></div>
+        <p class="success-sub">Redirecting to your dashboard…</p>
+        <div class="success-tag">Loading your goals</div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer" id="modalFooter">
+        Don't have an account? <a href="/signup">Create one — it's free</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── OPEN / CLOSE ── */
+    function openLogin() {
+      document.getElementById('loginOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      // reset to form state each open
+      document.getElementById('loginForm').style.display = '';
+      document.getElementById('modalFooter').style.display = '';
+      document.getElementById('successState').style.display = 'none';
+      clearErrors();
+    }
+
+    function closeLogin() {
+      document.getElementById('loginOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // close on backdrop click
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('loginOverlay')) closeLogin();
+    }
+
+    // close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLogin();
+    });
+
+    /* ── PASSWORD TOGGLE ── */
+    function togglePass() {
+      var inp  = document.getElementById('loginPass');
+      var icon = document.getElementById('eyeIcon');
+      var show = inp.type === 'text';
+      inp.type = show ? 'password' : 'text';
+      icon.innerHTML = show
+        ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
+        : '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+    }
+
+    /* ── VALIDATION & SUBMIT ── */
+    function clearErrors() {
+      ['loginEmail','loginPass'].forEach(function(id) {
+        document.getElementById(id).classList.remove('error');
+      });
+      document.getElementById('emailError').style.display = 'none';
+      document.getElementById('passError').style.display  = 'none';
+    }
+
+    function handleLogin() {
+      clearErrors();
+      var email = document.getElementById('loginEmail').value.trim();
+      var pass  = document.getElementById('loginPass').value;
+      var valid = true;
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('loginEmail').classList.add('error');
+        document.getElementById('emailError').style.display = 'block';
+        valid = false;
+      }
+      if (pass.length < 6) {
+        document.getElementById('loginPass').classList.add('error');
+        document.getElementById('passError').style.display = 'block';
+        valid = false;
+      }
+      if (!valid) return;
+
+      // ── SUCCESS ──
+      document.getElementById('loginForm').style.display   = 'none';
+      document.getElementById('modalFooter').style.display = 'none';
+      document.getElementById('successState').style.display = 'flex';
+
+      // ── Replace with your actual redirect / auth call ──
+      // setTimeout(function() { window.location.href = '/dashboard'; }, 1800);
+    }
+
+    /* ── TO OPEN ON PAGE LOAD (e.g. on /login route) ──
+       Just call openLogin() anywhere after DOM ready:
+       document.addEventListener('DOMContentLoaded', openLogin);
+    */
+  </script>
+
+</body>
+</html>

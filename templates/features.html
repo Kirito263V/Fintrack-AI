@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinTrack AI — Features</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#04030f;--bg2:#070518;--bg-card:#0a0820;--bg-card-h:#0f0c2a;--b:rgba(120,80,255,0.11);--bh:rgba(150,110,255,0.38);--g:linear-gradient(135deg,#6d28d9 0%,#7c3aed 50%,#4f46e5 100%);--g2:linear-gradient(135deg,#c4b5fd 0%,#a78bfa 50%,#818cf8 100%);--bright:#a78bfa;--pale:#c4b5fd;--t1:#ede8ff;--t2:#9d8ec4;--t3:#5c5080;--ff-d:'Instrument Serif',serif;--ff-b:'DM Sans',sans-serif;--ff-m:'DM Mono',monospace;--r:all 0.35s cubic-bezier(.4,0,.2,1);}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--t1);font-family:var(--ff-b);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");background-size:180px;}
+    body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(109,40,217,.12) 0%,transparent 60%);}
+    a{color:inherit;text-decoration:none;}
+    ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,#7c3aed,#4f46e5);border-radius:99px;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(4,3,15,0.65);backdrop-filter:blur(32px) saturate(200%);border-bottom:1px solid var(--b);}
+    nav::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40%;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.5),transparent);}
+    .nav-logo{font-family:var(--ff-d);font-weight:400;font-size:1.4rem;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-links{display:flex;align-items:center;gap:2px;list-style:none;}
+    .nav-links a{font-size:.82rem;color:var(--t2);padding:7px 14px;border-radius:9px;transition:var(--r);}
+    .nav-links a:hover{color:var(--t1);background:rgba(124,58,237,.09);}
+    .nl-login{color:var(--t1)!important;font-weight:500!important;border:1px solid var(--b)!important;}
+    .nl-signup{background:var(--g)!important;color:#fff!important;font-weight:600!important;padding:8px 22px!important;border-radius:10px!important;box-shadow:0 4px 24px rgba(109,40,217,.45)!important;}
+    .nl-signup:hover{transform:translateY(-2px) scale(1.03)!important;box-shadow:0 10px 40px rgba(109,40,217,.7)!important;}
+    .container{max-width:1180px;margin:0 auto;padding:0 56px;}
+    .eyebrow{display:inline-block;font-family:var(--ff-m);font-size:.66rem;font-weight:500;text-transform:uppercase;letter-spacing:.14em;color:var(--bright);background:rgba(109,40,217,.1);border:1px solid rgba(167,139,250,.2);padding:5px 16px;border-radius:99px;margin-bottom:20px;}
+    .s-title{font-family:var(--ff-d);font-size:clamp(2rem,3.6vw,3rem);font-weight:400;letter-spacing:-.02em;line-height:1.12;margin-bottom:16px;}
+    .s-sub{font-size:.98rem;font-weight:300;color:var(--t2);max-width:560px;line-height:1.8;font-style:italic;}
+    .s-head{text-align:center;margin-bottom:70px;}
+    .s-head .s-sub{margin:0 auto;}
+    .gt{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .btn-p{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:var(--g);color:#fff;font-family:var(--ff-b);font-size:.94rem;font-weight:600;border-radius:12px;border:none;cursor:pointer;box-shadow:0 6px 30px rgba(109,40,217,.5);transition:var(--r);}
+    .btn-p:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 48px rgba(109,40,217,.7);}
+    .btn-s{display:inline-flex;align-items:center;gap:9px;padding:14px 32px;background:transparent;color:var(--t1);font-size:.94rem;font-weight:500;border-radius:12px;border:1px solid rgba(124,58,237,.3);transition:var(--r);}
+    .btn-s:hover{border-color:rgba(167,139,250,.55);transform:translateY(-2px);}
+    /* hero */
+    .feat-hero{padding:148px 0 90px;text-align:center;position:relative;z-index:1;}
+    .feat-hero .s-sub{margin:0 auto 40px;}
+    .hero-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
+    /* big feature sections */
+    .feat-section{padding:90px 0;position:relative;z-index:1;}
+    .feat-section:nth-child(even){background:rgba(7,5,24,.5);}
+    .fs-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+    .fs-inner.rev{direction:rtl;}
+    .fs-inner.rev>*{direction:ltr;}
+    .fs-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff-m);font-size:.65rem;color:var(--bright);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;}
+    .fs-title{font-family:var(--ff-d);font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:400;letter-spacing:-.02em;margin-bottom:14px;line-height:1.15;}
+    .fs-title em{font-style:italic;}
+    .fs-desc{font-size:.95rem;color:var(--t2);line-height:1.85;font-weight:300;margin-bottom:28px;}
+    .fs-bullets{display:flex;flex-direction:column;gap:12px;}
+    .fs-bullet{display:flex;align-items:flex-start;gap:12px;font-size:.9rem;color:var(--t2);}
+    .fs-bullet-dot{width:20px;height:20px;border-radius:50%;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.25);display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;margin-top:1px;}
+    /* visual mock */
+    .fs-visual{background:var(--bg-card);border:1px solid var(--b);border-radius:22px;padding:28px;position:relative;overflow:hidden;}
+    .fs-visual::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.35),transparent);}
+    .fs-visual::after{content:'';position:absolute;top:0;left:0;right:0;height:160px;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(109,40,217,.12),transparent);pointer-events:none;}
+    .vis-header{font-family:var(--ff-m);font-size:.65rem;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+    /* goal progress vis */
+    .vis-goal{margin-bottom:16px;}
+    .vis-goal-top{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:7px;}
+    .vis-goal-bar{height:7px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden;}
+    .vis-goal-fill{height:100%;border-radius:99px;background:var(--g);}
+    .vis-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px;}
+    .vis-stat{background:rgba(124,58,237,.07);border:1px solid rgba(124,58,237,.12);border-radius:12px;padding:14px;text-align:center;}
+    .vis-stat-val{font-family:var(--ff-d);font-size:1.2rem;margin-bottom:4px;}
+    .vis-stat-lbl{font-family:var(--ff-m);font-size:.55rem;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;}
+    /* expense chart vis */
+    .vis-bars{display:flex;align-items:flex-end;gap:8px;height:100px;margin:16px 0 8px;}
+    .vis-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+    .vis-bar{width:100%;border-radius:4px 4px 0 0;background:var(--g);opacity:.7;transition:opacity .3s;}
+    .vis-bar:hover{opacity:1;}
+    .vis-bar-lbl{font-family:var(--ff-m);font-size:.52rem;color:var(--t3);}
+    /* AI chat vis */
+    .vis-chat{display:flex;flex-direction:column;gap:12px;}
+    .vis-msg{padding:12px 15px;border-radius:14px;font-size:.82rem;line-height:1.6;max-width:90%;}
+    .vis-msg-ai{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.2);align-self:flex-start;}
+    .vis-msg-user{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);align-self:flex-end;text-align:right;}
+    .vis-typing{display:flex;gap:5px;align-items:center;padding:10px 15px;}
+    .vis-dot{width:6px;height:6px;border-radius:50%;background:var(--bright);animation:typing .9s ease-in-out infinite;}
+    .vis-dot:nth-child(2){animation-delay:.15s;}.vis-dot:nth-child(3){animation-delay:.3s;}
+    @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+    /* features grid */
+    .mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:0;}
+    .mini-card{background:var(--bg-card);border:1px solid var(--b);border-radius:16px;padding:24px;transition:var(--r);}
+    .mini-card:hover{border-color:var(--bh);transform:translateY(-4px);background:var(--bg-card-h);}
+    .mini-icon{font-size:1.5rem;margin-bottom:14px;}
+    .mini-title{font-size:.92rem;font-weight:600;margin-bottom:6px;}
+    .mini-desc{font-size:.8rem;color:var(--t2);line-height:1.7;font-weight:300;}
+    /* cta */
+    .cta-sec{background:linear-gradient(135deg,rgba(109,40,217,.12),rgba(79,70,229,.06));border-top:1px solid var(--b);border-bottom:1px solid var(--b);padding:100px 0;text-align:center;position:relative;z-index:1;}
+    .cta-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:32px;}
+    /* footer */
+    footer{background:rgba(7,5,24,.9);border-top:1px solid var(--b);padding:40px 0 28px;position:relative;z-index:1;}
+    .ft-inner{max-width:1180px;margin:0 auto;padding:0 56px;}
+    .ft-bottom{display:flex;align-items:center;justify-content:center;gap:16px;padding-top:28px;border-top:1px solid var(--b);}
+    .ft-copy{font-family:var(--ff-m);font-size:.65rem;color:var(--t3);}
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+    .reveal.in{opacity:1;transform:none;}
+    @media(max-width:900px){nav{padding:0 20px;}.container{padding:0 24px;}.fs-inner{grid-template-columns:1fr;gap:36px;}.fs-inner.rev{direction:ltr;}.mini-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:600px){.mini-grid{grid-template-columns:1fr;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">FinTrack AI</a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/features">Features</a></li>
+    <li><a href="/goals">Goals</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/login" class="nl-login">Login</a></li>
+    <li><a href="/signup" class="nl-signup">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="feat-hero">
+  <div class="container">
+    <div class="eyebrow reveal">Everything You Need</div>
+    <h1 class="s-title reveal">Powerful Features for <span class="gt"><em>Smart Finance</em></span></h1>
+    <p class="s-sub reveal">From goal tracking to AI-powered insights — FinTrack AI gives you everything to take control of your money.</p>
+    <div class="hero-btns reveal">
+      <a href="/signup" class="btn-p">Start Free →</a>
+      <a href="/login" class="btn-s">Sign In</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 1: GOAL TRACKING -->
+<section class="feat-section">
+  <div class="container">
+    <div class="fs-inner">
+      <div class="reveal">
+        <div class="fs-badge">🎯 Goal Tracking</div>
+        <h2 class="fs-title">Set Goals, <em>Watch Them Grow</em></h2>
+        <p class="fs-desc">Define financial targets — from emergency funds to dream vacations. FinTrack AI calculates how much you need to save monthly and tracks every rupee of progress.</p>
+        <div class="fs-bullets">
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Create unlimited savings goals</div>
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Automatic progress tracking</div>
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Smart ETA calculator</div>
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Goal history timeline</div>
+        </div>
+      </div>
+      <div class="fs-visual reveal">
+        <div class="vis-header">Goal Progress</div>
+        <div class="vis-goal"><div class="vis-goal-top"><span>Emergency Fund</span><span style="color:var(--ok)">68%</span></div><div class="vis-goal-bar"><div class="vis-goal-fill" style="width:68%"></div></div></div>
+        <div class="vis-goal"><div class="vis-goal-top"><span>New Laptop</span><span style="color:var(--bright)">42%</span></div><div class="vis-goal-bar"><div class="vis-goal-fill" style="width:42%;background:linear-gradient(90deg,#7c3aed,#c4b5fd)"></div></div></div>
+        <div class="vis-goal"><div class="vis-goal-top"><span>Vacation – Goa</span><span style="color:var(--warn)">15%</span></div><div class="vis-goal-bar"><div class="vis-goal-fill" style="width:15%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div></div></div>
+        <div class="vis-stat-row">
+          <div class="vis-stat"><div class="vis-stat-val">3</div><div class="vis-stat-lbl">Active Goals</div></div>
+          <div class="vis-stat"><div class="vis-stat-val" style="color:var(--ok)">₹1.7L</div><div class="vis-stat-lbl">Total Saved</div></div>
+          <div class="vis-stat"><div class="vis-stat-val">8mo</div><div class="vis-stat-lbl">Avg ETA</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 2: EXPENSE TRACKING -->
+<section class="feat-section">
+  <div class="container">
+    <div class="fs-inner rev">
+      <div class="reveal">
+        <div class="fs-badge">💸 Expense Tracking</div>
+        <h2 class="fs-title">Know <em>Where Every Rupee Goes</em></h2>
+        <p class="fs-desc">Log expenses across 10 key categories. Instantly see your spending patterns and understand what's eating into your savings.</p>
+        <div class="fs-bullets">
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>10 expense categories</div>
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Monthly history tracking</div>
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Visual spending breakdown</div>
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Savings rate calculator</div>
+        </div>
+      </div>
+      <div class="fs-visual reveal">
+        <div class="vis-header">Monthly Spending</div>
+        <div class="vis-bars">
+          <div class="vis-bar-col"><div class="vis-bar" style="height:65%"></div><div class="vis-bar-lbl">Groc</div></div>
+          <div class="vis-bar-col"><div class="vis-bar" style="height:100%;background:linear-gradient(135deg,#7c3aed,#c4b5fd)"></div><div class="vis-bar-lbl">Rent</div></div>
+          <div class="vis-bar-col"><div class="vis-bar" style="height:40%"></div><div class="vis-bar-lbl">Travel</div></div>
+          <div class="vis-bar-col"><div class="vis-bar" style="height:25%"></div><div class="vis-bar-lbl">Bills</div></div>
+          <div class="vis-bar-col"><div class="vis-bar" style="height:30%"></div><div class="vis-bar-lbl">Fashion</div></div>
+          <div class="vis-bar-col"><div class="vis-bar" style="height:20%"></div><div class="vis-bar-lbl">Entmt</div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:.68rem;margin-top:8px;color:var(--t3)">
+          <span>Total: <span style="color:var(--err)">₹42,300</span></span>
+          <span>Income: <span style="color:var(--ok)">₹65,000</span></span>
+          <span>Saved: <span style="color:var(--bright)">35%</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 3: AI INSIGHTS -->
+<section class="feat-section">
+  <div class="container">
+    <div class="fs-inner">
+      <div class="reveal">
+        <div class="fs-badge">✨ AI Insights</div>
+        <h2 class="fs-title">Your Personal <em>AI Finance Advisor</em></h2>
+        <p class="fs-desc">FinTrack AI analyzes your income, expenses, and goals to deliver personalized insights — helping you make smarter financial decisions every month.</p>
+        <div class="fs-bullets">
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Personalized monthly tips</div>
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Spending anomaly detection</div>
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Goal pace optimization</div>
+          <div class="fs-bullet"><div class="fs-bullet-dot">✓</div>Income vs expense balance score</div>
+        </div>
+      </div>
+      <div class="fs-visual reveal">
+        <div class="vis-header">AI Insights</div>
+        <div class="vis-chat">
+          <div class="vis-msg vis-msg-ai">✨ <strong>Insight:</strong> Your rent takes up 23% of income. Boosting your Emergency Fund by ₹1,800/month puts you on track to hit your goal 3 months early.</div>
+          <div class="vis-msg vis-msg-user">How much should I save this month?</div>
+          <div class="vis-msg vis-msg-ai" style="display:flex;align-items:center;gap:4px;padding:10px 15px;"><div class="vis-dot"></div><div class="vis-dot"></div><div class="vis-dot"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MINI FEATURES GRID -->
+<section style="padding:90px 0;position:relative;z-index:1;">
+  <div class="container">
+    <div class="s-head reveal">
+      <div class="eyebrow">Everything Included</div>
+      <h2 class="s-title">Built for <span class="gt"><em>Real People</em></span></h2>
+      <p class="s-sub">No financial jargon, no complex setup. Just smart tools that work.</p>
+    </div>
+    <div class="mini-grid reveal">
+      <div class="mini-card"><div class="mini-icon">🔐</div><div class="mini-title">Secure Authentication</div><div class="mini-desc">OTP-verified email signup, password hashing, and session management to keep your data safe.</div></div>
+      <div class="mini-card"><div class="mini-icon">📊</div><div class="mini-title">Dashboard Overview</div><div class="mini-desc">See income, expenses, savings, and goals at a glance on a beautiful unified dashboard.</div></div>
+      <div class="mini-card"><div class="mini-icon">📅</div><div class="mini-title">Goal History</div><div class="mini-desc">Track how your savings have evolved over time with full historical goal progress data.</div></div>
+      <div class="mini-card"><div class="mini-icon">💰</div><div class="mini-title">Income Profiles</div><div class="mini-desc">Support for multiple income sources — salary, freelance, investments, and more.</div></div>
+      <div class="mini-card"><div class="mini-icon">📱</div><div class="mini-title">Fully Responsive</div><div class="mini-desc">Works seamlessly on desktop, tablet, and mobile — your finances, anywhere you go.</div></div>
+      <div class="mini-card"><div class="mini-icon">🎨</div><div class="mini-title">Beautiful Design</div><div class="mini-desc">A dark, minimal interface designed for clarity — because finance shouldn't feel stressful.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="container reveal">
+    <div class="eyebrow">Get Started Free</div>
+    <h2 class="s-title">Ready to Take Control of <span class="gt"><em>Your Money?</em></span></h2>
+    <p class="s-sub" style="margin:0 auto">Join FinTrack AI today — no credit card, no complexity. Just clarity.</p>
+    <div class="cta-btns">
+      <a href="/signup" class="btn-p">Create Free Account →</a>
+      <a href="/login" class="btn-s">Already have one? Login</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-inner">
+    <div class="ft-bottom">
+      <span class="ft-copy">© 2026 FinTrack AI. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>

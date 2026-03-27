@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinTrack AI — About</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#04030f;--bg2:#070518;--bg-card:#0a0820;--b:rgba(120,80,255,0.11);--bh:rgba(150,110,255,0.38);--g:linear-gradient(135deg,#6d28d9 0%,#7c3aed 50%,#4f46e5 100%);--g2:linear-gradient(135deg,#c4b5fd 0%,#a78bfa 50%,#818cf8 100%);--bright:#a78bfa;--pale:#c4b5fd;--t1:#ede8ff;--t2:#9d8ec4;--t3:#5c5080;--ff-d:'Instrument Serif',serif;--ff-b:'DM Sans',sans-serif;--ff-m:'DM Mono',monospace;--r:all 0.35s cubic-bezier(.4,0,.2,1);}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--t1);font-family:var(--ff-b);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");background-size:180px;}
+    body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(109,40,217,.12) 0%,transparent 60%);}
+    a{color:inherit;text-decoration:none;}
+    ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,#7c3aed,#4f46e5);border-radius:99px;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(4,3,15,0.65);backdrop-filter:blur(32px);border-bottom:1px solid var(--b);}
+    nav::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40%;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.5),transparent);}
+    .nav-logo{font-family:var(--ff-d);font-size:1.4rem;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-links{display:flex;align-items:center;gap:2px;list-style:none;}
+    .nav-links a{font-size:.82rem;color:var(--t2);padding:7px 14px;border-radius:9px;transition:var(--r);}
+    .nav-links a:hover{color:var(--t1);background:rgba(124,58,237,.09);}
+    .nl-login{color:var(--t1)!important;font-weight:500!important;border:1px solid var(--b)!important;}
+    .nl-signup{background:var(--g)!important;color:#fff!important;font-weight:600!important;padding:8px 22px!important;border-radius:10px!important;box-shadow:0 4px 24px rgba(109,40,217,.45)!important;}
+    .container{max-width:1000px;margin:0 auto;padding:0 56px;}
+    .eyebrow{display:inline-block;font-family:var(--ff-m);font-size:.66rem;font-weight:500;text-transform:uppercase;letter-spacing:.14em;color:var(--bright);background:rgba(109,40,217,.1);border:1px solid rgba(167,139,250,.2);padding:5px 16px;border-radius:99px;margin-bottom:20px;}
+    .s-title{font-family:var(--ff-d);font-size:clamp(2rem,3.6vw,3rem);font-weight:400;letter-spacing:-.02em;line-height:1.12;margin-bottom:16px;}
+    .s-sub{font-size:.98rem;font-weight:300;color:var(--t2);max-width:660px;line-height:1.85;font-style:italic;}
+    .gt{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .btn-p{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:var(--g);color:#fff;font-size:.94rem;font-weight:600;border-radius:12px;border:none;cursor:pointer;box-shadow:0 6px 30px rgba(109,40,217,.5);transition:var(--r);}
+    .btn-p:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(109,40,217,.7);}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+    .reveal.in{opacity:1;transform:none;}
+    /* page */
+    .page-hero{padding:148px 0 80px;position:relative;z-index:1;}
+    .about-body{padding-bottom:90px;position:relative;z-index:1;}
+    .prose{max-width:740px;}
+    .prose h3{font-family:var(--ff-d);font-size:1.4rem;font-weight:400;margin:36px 0 12px;letter-spacing:-.01em;}
+    .prose h3 em{font-style:italic;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .prose p{font-size:.96rem;color:var(--t2);line-height:1.9;margin-bottom:14px;font-weight:300;}
+    .prose p strong{color:var(--t1);font-weight:500;}
+    .divider{height:1px;background:linear-gradient(90deg,rgba(124,58,237,.3),transparent);margin:40px 0;}
+    .values-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:24px 0;}
+    .val-card{background:var(--bg-card);border:1px solid var(--b);border-radius:16px;padding:22px;transition:var(--r);}
+    .val-card:hover{border-color:var(--bh);transform:translateY(-3px);}
+    .val-icon{font-size:1.4rem;margin-bottom:10px;}
+    .val-title{font-size:.92rem;font-weight:600;margin-bottom:6px;}
+    .val-desc{font-size:.82rem;color:var(--t2);line-height:1.7;font-weight:300;}
+    .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:28px 0;}
+    .stat-b{text-align:center;background:var(--bg-card);border:1px solid var(--b);border-radius:16px;padding:24px;}
+    .stat-b-val{font-family:var(--ff-d);font-size:2rem;margin-bottom:6px;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .stat-b-lbl{font-size:.8rem;color:var(--t3);}
+    /* footer */
+    footer{background:rgba(7,5,24,.9);border-top:1px solid var(--b);padding:28px 0;position:relative;z-index:1;}
+    .ft-inner{max-width:1180px;margin:0 auto;padding:0 56px;display:flex;justify-content:center;}
+    .ft-copy{font-family:var(--ff-m);font-size:.65rem;color:var(--t3);}
+    @media(max-width:900px){nav{padding:0 20px;}.container{padding:0 24px;}.values-grid{grid-template-columns:1fr;}.stat-row{grid-template-columns:1fr 1fr;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">FinTrack AI</a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/features">Features</a></li>
+    <li><a href="/goals">Goals</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/login" class="nl-login">Login</a></li>
+    <li><a href="/signup" class="nl-signup">Get Started</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="eyebrow reveal">Our Story</div>
+    <h1 class="s-title reveal">Built for <span class="gt"><em>Real Ambitions</em></span></h1>
+    <p class="s-sub reveal">FinTrack AI was born from a simple belief — everyone deserves a clear picture of their financial life, without the overwhelm.</p>
+  </div>
+</div>
+
+<div class="about-body">
+  <div class="container">
+    <div class="prose reveal">
+      <p>Most people know <strong>what they earn</strong> but have no idea where it actually goes. Budgeting apps are either too complex, too generic, or too manual. We wanted something different — something that thinks with you.</p>
+      <p>FinTrack AI combines <strong>goal-based savings tracking</strong> with intelligent expense analysis and AI-powered insights to give you a complete picture of your finances in one place. No spreadsheets, no guesswork.</p>
+
+      <div class="divider"></div>
+
+      <h3>Why <em>Goal-Based?</em></h3>
+      <p>Traditional budgets feel restrictive. Goals feel motivating. When you're saving for a <strong>vacation, a gadget, or an emergency fund</strong> — you have a reason. FinTrack AI connects every rupee you save to something meaningful.</p>
+
+      <div class="stat-row">
+        <div class="stat-b"><div class="stat-b-val">10+</div><div class="stat-b-lbl">Expense categories tracked</div></div>
+        <div class="stat-b"><div class="stat-b-val">∞</div><div class="stat-b-lbl">Goals you can create</div></div>
+        <div class="stat-b"><div class="stat-b-val">AI</div><div class="stat-b-lbl">Powered monthly insights</div></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h3>Our <em>Values</em></h3>
+    </div>
+
+    <div class="values-grid reveal">
+      <div class="val-card"><div class="val-icon">🔒</div><div class="val-title">Privacy First</div><div class="val-desc">Your financial data stays yours. We use OTP-verified authentication and never sell your information.</div></div>
+      <div class="val-card"><div class="val-icon">✨</div><div class="val-title">Clarity Over Complexity</div><div class="val-desc">Finance can be confusing. We strip away jargon and give you just what you need to make decisions.</div></div>
+      <div class="val-card"><div class="val-icon">🎯</div><div class="val-title">Goals Over Budgets</div><div class="val-desc">A budget tells you what you can't do. A goal tells you what you're working toward. We choose goals.</div></div>
+      <div class="val-card"><div class="val-icon">🤝</div><div class="val-title">Built for India</div><div class="val-desc">Designed with Indian financial patterns in mind — rupee-first, rent-aware, family-aware.</div></div>
+    </div>
+
+    <div class="prose reveal" style="margin-top:32px;">
+      <div class="divider"></div>
+      <h3>Get <em>Started Today</em></h3>
+      <p>FinTrack AI is free to use. Create an account, set your first goal, and start your journey toward financial clarity.</p>
+      <a href="/signup" class="btn-p" style="margin-top:12px;">Create Free Account →</a>
+    </div>
+  </div>
+</div>
+
+<footer><div class="ft-inner"><span class="ft-copy">© 2026 FinTrack AI. All rights reserved.</span></div></footer>
+
+<script>
+var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>
