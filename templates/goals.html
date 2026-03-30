@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinTrack AI — Goals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #04030f; --bg2: #070518; --bg-card: #0a0820; --bg-card-h: #0f0c2a;
+      --b: rgba(120,80,255,0.11); --bh: rgba(150,110,255,0.38);
+      --g: linear-gradient(135deg,#6d28d9 0%,#7c3aed 50%,#4f46e5 100%);
+      --g2: linear-gradient(135deg,#c4b5fd 0%,#a78bfa 50%,#818cf8 100%);
+      --bright: #a78bfa; --pale: #c4b5fd;
+      --t1: #ede8ff; --t2: #9d8ec4; --t3: #5c5080;
+      --ok: #86efac; --warn: #fbbf24;
+      --ff-d: 'Instrument Serif', serif; --ff-b: 'DM Sans', sans-serif; --ff-m: 'DM Mono', monospace;
+      --r: all 0.35s cubic-bezier(.4,0,.2,1);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--t1); font-family: var(--ff-b); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E"); background-size: 180px; }
+    body::after { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 80% 50% at 50% -10%,rgba(109,40,217,.12) 0%,transparent 60%); }
+    a { color: inherit; text-decoration: none; }
+    ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom,#7c3aed,#4f46e5); border-radius: 99px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 56px; height: 68px; background: rgba(4,3,15,0.65); backdrop-filter: blur(32px) saturate(200%); border-bottom: 1px solid var(--b); }
+    nav::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40%; height: 1px; background: linear-gradient(90deg,transparent,rgba(167,139,250,.5),transparent); }
+    .nav-logo { font-family: var(--ff-d); font-size: 1.4rem; background: var(--g2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+    .nav-links a { font-size: .82rem; color: var(--t2); padding: 7px 14px; border-radius: 9px; transition: var(--r); }
+    .nav-links a:hover { color: var(--t1); background: rgba(124,58,237,.09); }
+    .nl-login { color: var(--t1)!important; font-weight: 500!important; border: 1px solid var(--b)!important; }
+    .nl-signup { background: var(--g)!important; color: #fff!important; font-weight: 600!important; padding: 8px 22px!important; border-radius: 10px!important; box-shadow: 0 4px 24px rgba(109,40,217,.45)!important; }
+    .nl-signup:hover { transform: translateY(-2px)!important; box-shadow: 0 10px 40px rgba(109,40,217,.7)!important; }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 56px; }
+    .eyebrow { display: inline-block; font-family: var(--ff-m); font-size: .66rem; font-weight: 500; text-transform: uppercase; letter-spacing: .14em; color: var(--bright); background: rgba(109,40,217,.1); border: 1px solid rgba(167,139,250,.2); padding: 5px 16px; border-radius: 99px; margin-bottom: 20px; }
+    .s-title { font-family: var(--ff-d); font-size: clamp(2rem,3.6vw,3rem); font-weight: 400; letter-spacing: -.02em; line-height: 1.12; margin-bottom: 16px; }
+    .s-sub { font-size: .98rem; font-weight: 300; color: var(--t2); max-width: 560px; line-height: 1.8; font-style: italic; }
+    .s-head { text-align: center; margin-bottom: 64px; }
+    .s-head .s-sub { margin: 0 auto; }
+    .gt { background: var(--g2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .btn-p { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: var(--g); color: #fff; font-family: var(--ff-b); font-size: .94rem; font-weight: 600; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 30px rgba(109,40,217,.5); transition: var(--r); }
+    .btn-p:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 16px 48px rgba(109,40,217,.7); }
+    .btn-s { display: inline-flex; align-items: center; gap: 9px; padding: 14px 32px; background: transparent; color: var(--t1); font-size: .94rem; font-weight: 500; border-radius: 12px; border: 1px solid rgba(124,58,237,.3); transition: var(--r); }
+    .btn-s:hover { border-color: rgba(167,139,250,.55); transform: translateY(-2px); }
+
+    /* HERO */
+    .goals-hero { padding: 148px 0 80px; position: relative; z-index: 1; text-align: center; }
+    .goals-hero .s-sub { margin: 0 auto 40px; }
+    .hero-btns { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* GOAL CATEGORIES GRID */
+    .categories-sec { padding: 80px 0; position: relative; z-index: 1; }
+    .cat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .cat-card { background: var(--bg-card); border: 1px solid var(--b); border-radius: 22px; padding: 30px 28px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); cursor: default; }
+    .cat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(167,139,250,.25),transparent); transition: var(--r); }
+    .cat-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2.5px; background: var(--g); transform: scaleX(0); transform-origin: left; transition: 0.45s cubic-bezier(.2,0,.1,1.5); }
+    .cat-card:hover { border-color: rgba(167,139,250,.3); transform: translateY(-8px) scale(1.015); box-shadow: 0 28px 65px rgba(109,40,217,.2); background: var(--bg-card-h); }
+    .cat-card:hover::before { background: linear-gradient(90deg,transparent,rgba(167,139,250,.55),transparent); }
+    .cat-card:hover::after { transform: scaleX(1); }
+    .cat-card:hover .cat-icon { transform: scale(1.14) rotate(-5deg); box-shadow: 0 6px 28px rgba(109,40,217,.45); background: rgba(109,40,217,.22); border-color: rgba(167,139,250,.35); }
+
+    .cat-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
+    .cat-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(109,40,217,.12); border: 1px solid rgba(109,40,217,.22); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); }
+    .cat-range { font-family: var(--ff-m); font-size: .65rem; color: var(--bright); background: rgba(109,40,217,.1); border: 1px solid rgba(109,40,217,.18); padding: 4px 12px; border-radius: 99px; letter-spacing: .05em; transition: var(--r); }
+    .cat-card:hover .cat-range { background: rgba(109,40,217,.2); border-color: rgba(167,139,250,.35); }
+
+    .cat-name { font-family: var(--ff-b); font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; letter-spacing: -.01em; }
+    .cat-desc { font-size: .84rem; color: var(--t2); line-height: 1.72; font-weight: 300; margin-bottom: 18px; }
+
+    /* Mini progress bar in card */
+    .cat-progress { }
+    .cp-top { display: flex; justify-content: space-between; font-family: var(--ff-m); font-size: .65rem; color: var(--t3); margin-bottom: 7px; }
+    .cp-top .pct { color: var(--bright); font-weight: 500; }
+    .cp-bar { height: 5px; background: rgba(255,255,255,.05); border-radius: 99px; overflow: hidden; }
+    .cp-fill { height: 100%; background: var(--g); border-radius: 99px; box-shadow: 0 0 10px rgba(167,139,250,.3); animation: fill-in 2s cubic-bezier(.2,0,.1,1) both; }
+    @keyframes fill-in { from { width: 0!important; } }
+    .cp-saved { font-size: .76rem; color: var(--t3); margin-top: 8px; font-family: var(--ff-m); }
+    .cp-saved span { color: var(--ok); }
+
+    /* HOW TRACKING WORKS */
+    .how-sec { padding: 100px 0; background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%); position: relative; z-index: 1; }
+    .hiw-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; position: relative; }
+    .hiw-grid::before { content: ''; position: absolute; top: 30px; left: calc(12.5% + 24px); right: calc(12.5% + 24px); height: 1px; background: linear-gradient(90deg,transparent,rgba(124,58,237,.3),rgba(124,58,237,.3),rgba(124,58,237,.3),transparent); z-index: 0; }
+    .step-card { background: var(--bg-card); border: 1px solid var(--b); border-radius: 20px; padding: 32px 24px; text-align: center; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); position: relative; overflow: hidden; cursor: default; }
+    .step-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%,rgba(109,40,217,.12),transparent); opacity: 0; transition: .4s ease; }
+    .step-card:hover { border-color: rgba(167,139,250,.3); transform: translateY(-8px) scale(1.02); box-shadow: 0 24px 60px rgba(109,40,217,.2); }
+    .step-card:hover::after { opacity: 1; }
+    .step-n { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 22px; background: var(--g); box-shadow: 0 4px 24px rgba(109,40,217,.5); display: flex; align-items: center; justify-content: center; font-family: var(--ff-m); font-size: .88rem; font-weight: 500; color: #fff; position: relative; z-index: 1; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); }
+    .step-card:hover .step-n { transform: scale(1.15); box-shadow: 0 8px 40px rgba(109,40,217,.75); }
+    .step-t { font-size: .97rem; font-weight: 600; margin-bottom: 10px; position: relative; z-index: 1; letter-spacing: -.01em; }
+    .step-d { font-size: .82rem; color: var(--t2); line-height: 1.75; font-weight: 300; font-style: italic; position: relative; z-index: 1; }
+
+    /* SMART TRACKER VISUAL */
+    .tracker-sec { padding: 100px 0; position: relative; z-index: 1; }
+    .tracker-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .tracker-copy { }
+    .tc-points { margin-top: 30px; display: flex; flex-direction: column; gap: 14px; }
+    .tcp { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; background: var(--bg-card); border: 1px solid var(--b); border-radius: 13px; transition: all 0.35s cubic-bezier(.2,0,.1,1.5); cursor: default; }
+    .tcp:hover { border-color: rgba(167,139,250,.28); transform: translateX(6px); background: var(--bg-card-h); box-shadow: 4px 0 0 0 rgba(124,58,237,.5); }
+    .tcp-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 8px; flex-shrink: 0; background: var(--g); box-shadow: 0 0 12px rgba(167,139,250,.65); transition: var(--r); }
+    .tcp:hover .tcp-dot { box-shadow: 0 0 22px rgba(196,181,253,1); transform: scale(1.4); }
+    .tcp-t { font-size: .86rem; color: var(--t2); line-height: 1.68; font-weight: 300; }
+    .tcp-t strong { color: var(--t1); font-weight: 500; }
+
+    /* tracker visual mock */
+    .tracker-visual { background: var(--bg-card); border: 1px solid var(--b); border-radius: 24px; padding: 30px; position: relative; overflow: hidden; }
+    .tracker-visual::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(167,139,250,.35),transparent); }
+    .tracker-visual::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 160px; background: radial-gradient(ellipse 80% 60% at 50% -10%,rgba(109,40,217,.12),transparent); pointer-events: none; }
+    .tv-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .tv-title { font-family: var(--ff-m); font-size: .65rem; text-transform: uppercase; letter-spacing: .12em; color: var(--t3); }
+    .tv-badge { font-family: var(--ff-m); font-size: .62rem; color: var(--bright); background: rgba(109,40,217,.15); border: 1px solid rgba(109,40,217,.28); padding: 4px 12px; border-radius: 99px; }
+    .tv-goal { margin-bottom: 18px; }
+    .tg-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .tg-name { display: flex; align-items: center; gap: 9px; font-size: .9rem; font-weight: 500; }
+    .tg-ico { width: 30px; height: 30px; border-radius: 8px; background: rgba(109,40,217,.12); border: 1px solid rgba(109,40,217,.2); display: flex; align-items: center; justify-content: center; font-size: .8rem; }
+    .tg-pct { font-family: var(--ff-m); font-size: .78rem; font-weight: 500; color: var(--bright); }
+    .tg-bar { height: 6px; background: rgba(255,255,255,.05); border-radius: 99px; overflow: hidden; margin-bottom: 5px; }
+    .tg-fill { height: 100%; background: var(--g); border-radius: 99px; box-shadow: 0 0 12px rgba(167,139,250,.4); animation: fill-in 2.5s cubic-bezier(.2,0,.1,1) both; }
+    .tg-meta { display: flex; justify-content: space-between; font-family: var(--ff-m); font-size: .6rem; color: var(--t3); }
+    .tg-meta span:last-child { color: var(--t2); }
+
+    .tv-divider { height: 1px; background: var(--b); margin: 20px 0; }
+    .tv-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+    .tvs { background: rgba(109,40,217,.07); border: 1px solid rgba(109,40,217,.12); border-radius: 11px; padding: 12px; text-align: center; }
+    .tvs-v { font-family: var(--ff-d); font-size: 1.3rem; margin-bottom: 4px; background: var(--g2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .tvs-l { font-family: var(--ff-m); font-size: .55rem; color: var(--t3); letter-spacing: .08em; text-transform: uppercase; }
+
+    .ai-tip { margin-top: 20px; background: linear-gradient(135deg,rgba(109,40,217,.1),rgba(79,70,229,.05)); border: 1px solid rgba(109,40,217,.22); border-radius: 14px; padding: 16px 18px; }
+    .ai-tip-label { font-family: var(--ff-m); font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; color: var(--bright); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .ai-tip-text { font-size: .82rem; color: var(--t2); line-height: 1.65; font-style: italic; }
+    .ai-tip-text strong { color: var(--t1); font-style: normal; font-weight: 500; }
+
+    /* STATS ROW */
+    .stats-sec { padding: 80px 0; background: rgba(7,5,24,.5); border-top: 1px solid var(--b); border-bottom: 1px solid var(--b); position: relative; z-index: 1; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--b); border-radius: 18px; padding: 28px 24px; text-align: center; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); cursor: default; }
+    .stat-card:hover { border-color: rgba(167,139,250,.28); transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 55px rgba(109,40,217,.18); }
+    .stat-val { font-family: var(--ff-d); font-size: 2.4rem; font-weight: 400; background: var(--g2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+    .stat-lbl { font-size: .82rem; color: var(--t2); font-weight: 300; font-style: italic; }
+
+    /* CTA */
+    .cta-sec { padding: 110px 0; text-align: center; position: relative; z-index: 1; background: var(--bg); }
+    .cta-sec::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 800px; height: 500px; background: radial-gradient(ellipse,rgba(109,40,217,.15) 0%,transparent 65%); pointer-events: none; }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-inner .s-sub { margin: 0 auto 40px; }
+    .cta-btns { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* Footer */
+    footer { background: rgba(7,5,24,.9); border-top: 1px solid var(--b); padding: 28px 0; position: relative; z-index: 1; }
+    .ft-inner { max-width: 1180px; margin: 0 auto; padding: 0 56px; display: flex; justify-content: center; }
+    .ft-copy { font-family: var(--ff-m); font-size: .65rem; color: var(--t3); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .cat-grid .reveal:nth-child(2) { transition-delay: .06s; }
+    .cat-grid .reveal:nth-child(3) { transition-delay: .12s; }
+    .cat-grid .reveal:nth-child(4) { transition-delay: .18s; }
+    .cat-grid .reveal:nth-child(5) { transition-delay: .24s; }
+    .cat-grid .reveal:nth-child(6) { transition-delay: .30s; }
+    .hiw-grid .reveal:nth-child(2) { transition-delay: .08s; }
+    .hiw-grid .reveal:nth-child(3) { transition-delay: .16s; }
+    .hiw-grid .reveal:nth-child(4) { transition-delay: .24s; }
+
+    @media(max-width:1100px) { .cat-grid { grid-template-columns: repeat(2,1fr); } .stats-grid { grid-template-columns: repeat(2,1fr); } .hiw-grid { grid-template-columns: repeat(2,1fr); } }
+    @media(max-width:900px) { nav { padding: 0 20px; } .container { padding: 0 24px; } .tracker-inner { grid-template-columns: 1fr; gap: 40px; } }
+    @media(max-width:600px) { .nav-links { display: none; } .cat-grid { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-logo">FinTrack AI</a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/goals">Goals</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/login" class="nl-login">Login</a></li>
+      <li><a href="/signup" class="nl-signup">Get Started</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="goals-hero">
+    <div class="container">
+      <div class="eyebrow reveal">Savings Goals</div>
+      <h1 class="s-title reveal">Every Dream Deserves a <span class="gt"><em>Savings Plan</em></span></h1>
+      <p class="s-sub reveal">From a laptop to a house, from a vacation to an emergency fund — FinTrack AI helps you set structured, trackable goals so every rupee works with purpose.</p>
+      <div class="hero-btns reveal">
+        <a href="/signup" class="btn-p">Start Tracking Goals →</a>
+        <a href="/login" class="btn-s">Sign In</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOAL CATEGORIES -->
+  <section class="categories-sec">
+    <div class="container">
+      <div class="s-head reveal">
+        <div class="eyebrow">What You Can Track</div>
+        <h2 class="s-title">Six Goals, <span class="gt"><em>Infinite Possibilities</em></span></h2>
+        <p class="s-sub">FinTrack AI supports every kind of savings goal — from everyday purchases to life-defining milestones.</p>
+      </div>
+      <div class="cat-grid">
+        <!-- Car -->
+        <div class="cat-card reveal">
+          <div class="cat-top"><div class="cat-icon">🚗</div><div class="cat-range">₹3L – ₹30L</div></div>
+          <div class="cat-name">Buy a Car</div>
+          <div class="cat-desc">From a pre-owned hatchback to your dream SUV — set your target and watch your savings build toward it month by month.</div>
+          <div class="cat-progress">
+            <div class="cp-top"><span>Example Progress</span><span class="pct">62%</span></div>
+            <div class="cp-bar"><div class="cp-fill" style="width:62%"></div></div>
+            <div class="cp-saved">₹5,27,000 saved of <span>₹8,50,000</span> target</div>
+          </div>
+        </div>
+        <!-- House -->
+        <div class="cat-card reveal">
+          <div class="cat-top"><div class="cat-icon">🏠</div><div class="cat-range">₹5L – ₹2Cr+</div></div>
+          <div class="cat-name">Buy a House</div>
+          <div class="cat-desc">Your most ambitious financial goal deserves a real plan. Track down-payments and long-term savings with clarity.</div>
+          <div class="cat-progress">
+            <div class="cp-top"><span>Example Progress</span><span class="pct">28%</span></div>
+            <div class="cp-bar"><div class="cp-fill" style="width:28%"></div></div>
+            <div class="cp-saved">₹4,20,000 saved of <span>₹15,00,000</span> target</div>
+          </div>
+        </div>
+        <!-- Emergency -->
+        <div class="cat-card reveal">
+          <div class="cat-top"><div class="cat-icon">🛡️</div><div class="cat-range">₹50K – ₹5L</div></div>
+          <div class="cat-name">Emergency Fund</div>
+          <div class="cat-desc">Financial security starts with 3–6 months of expenses saved. Set your safety net goal and build it systematically.</div>
+          <div class="cat-progress">
+            <div class="cp-top"><span>Example Progress</span><span class="pct">41%</span></div>
+            <div class="cp-bar"><div class="cp-fill" style="width:41%"></div></div>
+            <div class="cp-saved">₹82,000 saved of <span>₹2,00,000</span> target</div>
+          </div>
+        </div>
+        <!-- Vacation -->
+        <div class="cat-card reveal">
+          <div class="cat-top"><div class="cat-icon">✈️</div><div class="cat-range">₹30K – ₹5L</div></div>
+          <div class="cat-name">Dream Vacation</div>
+          <div class="cat-desc">Bali, Europe, Japan — wherever you want to go, a clear savings goal makes it a plan, not just a wish.</div>
+          <div class="cat-progress">
+            <div class="cp-top"><span>Example Progress</span><span class="pct">75%</span></div>
+            <div class="cp-bar"><div class="cp-fill" style="width:75%"></div></div>
+            <div class="cp-saved">₹90,000 saved of <span>₹1,20,000</span> target</div>
+          </div>
+        </div>
+        <!-- Gadget -->
+        <div class="cat-card reveal">
+          <div class="cat-top"><div class="cat-icon">💻</div><div class="cat-range">₹20K – ₹2L</div></div>
+          <div class="cat-name">Gadgets & Tech</div>
+          <div class="cat-desc">New laptop, phone, camera — save for it over time instead of stretching your budget all at once.</div>
+          <div class="cat-progress">
+            <div class="cp-top"><span>Example Progress</span><span class="pct">88%</span></div>
+            <div class="cp-bar"><div class="cp-fill" style="width:88%"></div></div>
+            <div class="cp-saved">₹83,600 saved of <span>₹95,000</span> target</div>
+          </div>
+        </div>
+        <!-- Education -->
+        <div class="cat-card reveal">
+          <div class="cat-top"><div class="cat-icon">🎓</div><div class="cat-range">₹1L – ₹20L+</div></div>
+          <div class="cat-name">Higher Education</div>
+          <div class="cat-desc">PG, MBA, abroad studies — long-horizon goals need the most structure. FinTrack AI makes them manageable.</div>
+          <div class="cat-progress">
+            <div class="cp-top"><span>Example Progress</span><span class="pct">19%</span></div>
+            <div class="cp-bar"><div class="cp-fill" style="width:19%"></div></div>
+            <div class="cp-saved">₹95,000 saved of <span>₹5,00,000</span> target</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS FOR GOALS -->
+  <section class="how-sec">
+    <div class="container">
+      <div class="s-head reveal">
+        <div class="eyebrow">Goal Lifecycle</div>
+        <h2 class="s-title">From Idea to <span class="gt"><em>Achievement</em></span></h2>
+        <p class="s-sub">Four simple steps that turn a financial wish into a concrete, trackable reality.</p>
+      </div>
+      <div class="hiw-grid">
+        <div class="step-card reveal"><div class="step-n">01</div><div class="step-t">Define Your Goal</div><p class="step-d">Name it, set the target amount, and choose your deadline. FinTrack AI handles the math from there.</p></div>
+        <div class="step-card reveal"><div class="step-n">02</div><div class="step-t">Get a Monthly Plan</div><p class="step-d">The AI calculates exactly how much you need to save per month to reach your goal by your target date.</p></div>
+        <div class="step-card reveal"><div class="step-n">03</div><div class="step-t">Log Monthly Savings</div><p class="step-d">Each month, log what you actually saved. Watch the progress bar grow and get reassured you're on track.</p></div>
+        <div class="step-card reveal"><div class="step-n">04</div><div class="step-t">Achieve & Celebrate</div><p class="step-d">When you hit 100%, your goal is marked Achieved. Then set the next one — the momentum is yours to keep.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SMART TRACKER SECTION -->
+  <section class="tracker-sec">
+    <div class="container">
+      <div class="tracker-inner">
+        <div class="tracker-copy reveal">
+          <div class="eyebrow">Smart Tracking</div>
+          <h2 class="s-title">Every Rupee Tells a <span class="gt"><em>Story</em></span></h2>
+          <p class="s-sub">FinTrack AI connects your income and expenses directly to your goals — so you always know what's possible and what's at risk.</p>
+          <div class="tc-points">
+            <div class="tcp"><div class="tcp-dot"></div><div class="tcp-t"><strong>Automatic ETA recalculation</strong> — every time you log a saving, your goal's ETA updates in real time.</div></div>
+            <div class="tcp"><div class="tcp-dot"></div><div class="tcp-t"><strong>Multiple goals in parallel</strong> — manage a car fund, vacation savings, and an emergency fund all at once.</div></div>
+            <div class="tcp"><div class="tcp-dot"></div><div class="tcp-t"><strong>Pause &amp; resume</strong> — life happens. Pause a goal when you need to, and pick it back up later.</div></div>
+            <div class="tcp"><div class="tcp-dot"></div><div class="tcp-t"><strong>AI-driven nudges</strong> — tips that tell you exactly which expense category to trim to reach your goal faster.</div></div>
+          </div>
+        </div>
+        <div class="tracker-visual reveal">
+          <div class="tv-header">
+            <div class="tv-title">Goal Dashboard</div>
+            <div class="tv-badge">LIVE</div>
+          </div>
+          <div class="tv-goal">
+            <div class="tg-top">
+              <div class="tg-name"><div class="tg-ico">🏠</div>Dream House</div>
+              <div class="tg-pct">28%</div>
+            </div>
+            <div class="tg-bar"><div class="tg-fill" style="width:28%"></div></div>
+            <div class="tg-meta"><span>₹4,20,000 saved</span><span>₹15,00,000 target</span></div>
+          </div>
+          <div class="tv-goal">
+            <div class="tg-top">
+              <div class="tg-name"><div class="tg-ico">🚗</div>Buy a Car</div>
+              <div class="tg-pct" style="color:var(--ok)">62%</div>
+            </div>
+            <div class="tg-bar"><div class="tg-fill" style="width:62%;background:linear-gradient(90deg,#059669,#86efac)"></div></div>
+            <div class="tg-meta"><span>₹5,27,000 saved</span><span>₹8,50,000 target</span></div>
+          </div>
+          <div class="tv-goal">
+            <div class="tg-top">
+              <div class="tg-name"><div class="tg-ico">✈️</div>Vacation – Japan</div>
+              <div class="tg-pct" style="color:var(--warn)">75%</div>
+            </div>
+            <div class="tg-bar"><div class="tg-fill" style="width:75%;background:linear-gradient(90deg,#b45309,#fbbf24)"></div></div>
+            <div class="tg-meta"><span>₹90,000 saved</span><span>₹1,20,000 target</span></div>
+          </div>
+          <div class="tv-divider"></div>
+          <div class="tv-stats">
+            <div class="tvs"><div class="tvs-v">3</div><div class="tvs-l">Active Goals</div></div>
+            <div class="tvs"><div class="tvs-v">₹10.4L</div><div class="tvs-l">Total Saved</div></div>
+            <div class="tvs"><div class="tvs-v">2</div><div class="tvs-l">Achieved</div></div>
+          </div>
+          <div class="ai-tip">
+            <div class="ai-tip-label">✦ AI Insight</div>
+            <div class="ai-tip-text">Reduce dining out by <strong>₹2,500/month</strong> to hit your car goal <strong>3 months earlier</strong>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-sec">
+    <div class="container">
+      <div class="stats-grid reveal">
+        <div class="stat-card"><div class="stat-val">3.2×</div><div class="stat-lbl">Faster goal achievement with structured tracking vs no plan</div></div>
+        <div class="stat-card"><div class="stat-val">₹48K</div><div class="stat-lbl">Average annual savings improvement with AI insights</div></div>
+        <div class="stat-card"><div class="stat-val">91%</div><div class="stat-lbl">Goal completion rate for users who set up tracking in week one</div></div>
+        <div class="stat-card"><div class="stat-val">∞</div><div class="stat-lbl">Goals you can create — no limits, no fees, no confusion</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-sec">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <div class="eyebrow">Start Today, Free</div>
+        <h2 class="s-title">Your First Goal Takes <span class="gt"><em>Two Minutes</em></span></h2>
+        <p class="s-sub">Create your account, name your first goal, and let FinTrack AI build the plan for you. No credit card, no complexity.</p>
+        <div class="cta-btns">
+          <a href="/signup" class="btn-p">Create Free Account →</a>
+          <a href="/features" class="btn-s">Explore All Features</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="ft-inner">
+      <span class="ft-copy">© 2026 FinTrack AI. All rights reserved.</span>
+    </div>
+  </footer>
+
+<script>
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>

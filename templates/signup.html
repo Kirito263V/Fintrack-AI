@@ -163,13 +163,11 @@
     .terms a { color:var(--t2); text-decoration:none; transition:var(--r); }
     .terms a:hover { color:var(--bright); }
 
-    /* ═══════════════════════════════
-       OTP OVERLAY
-    ═══════════════════════════════ */
+    /* ═══ OTP OVERLAY ═══ */
     .overlay { position:fixed; inset:0; z-index:500; background:rgba(4,3,15,.78); backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .4s ease; padding:24px; }
     .overlay.open { opacity:1; pointer-events:all; }
 
-    .otp-modal { width:100%; max-width:420px; background:rgba(10,8,32,.97); border:1px solid rgba(109,40,217,.25); border-radius:26px; padding:44px 40px; position:relative; overflow:hidden; box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(109,40,217,.1); transform:scale(.9) translateY(30px); transition:transform .45s cubic-bezier(.2,0,.1,1.5),opacity .4s ease; opacity:0; }
+    .otp-modal { width:100%; max-width:400px; background:rgba(10,8,32,.97); border:1px solid rgba(109,40,217,.25); border-radius:26px; padding:44px 40px; position:relative; overflow:hidden; box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(109,40,217,.1); transform:scale(.9) translateY(30px); transition:transform .45s cubic-bezier(.2,0,.1,1.5),opacity .4s ease; opacity:0; }
     .overlay.open .otp-modal { transform:scale(1) translateY(0); opacity:1; }
     .otp-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(167,139,250,.55),transparent); }
     .otp-modal::after  { content:''; position:absolute; top:0; left:0; right:0; height:200px; background:radial-gradient(ellipse 90% 60% at 50% -5%,rgba(109,40,217,.18),transparent); pointer-events:none; }
@@ -184,12 +182,41 @@
     .otp-sub    { font-size:.84rem; color:var(--t2); font-weight:300; font-style:italic; line-height:1.6; }
     .otp-email-pill { display:inline-block; margin-top:10px; padding:4px 14px; border-radius:99px; background:rgba(109,40,217,.1); border:1px solid rgba(109,40,217,.22); font-family:var(--ff-m); font-size:.72rem; color:var(--bright); }
 
-    .otp-boxes { display:flex; gap:10px; justify-content:center; margin-bottom:24px; position:relative; z-index:1; }
-    .otp-box { width:56px; height:64px; border-radius:14px; background:rgba(255,255,255,.03); border:1.5px solid var(--b); color:var(--t1); font-family:var(--ff-m); font-size:1.5rem; font-weight:500; text-align:center; outline:none; transition:all .3s cubic-bezier(.2,0,.1,1.5); caret-color:transparent; }
-    .otp-box:focus { border-color:rgba(124,58,237,.65); background:rgba(109,40,217,.08); box-shadow:0 0 0 3px rgba(109,40,217,.14),0 6px 24px rgba(109,40,217,.15); transform:scale(1.06) translateY(-3px); }
-    .otp-box.filled { border-color:rgba(124,58,237,.45); background:rgba(109,40,217,.1); }
-    .otp-box.shake  { animation:shake .45s cubic-bezier(.36,.07,.19,.97); }
-    @keyframes shake { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-5px)} 30%{transform:translateX(5px)} 45%{transform:translateX(-4px)} 60%{transform:translateX(4px)} 75%{transform:translateX(-2px)} 90%{transform:translateX(2px)} }
+    /* ── 4-DIGIT OTP BOXES ── */
+    .otp-boxes { display:flex; gap:14px; justify-content:center; margin-bottom:24px; position:relative; z-index:1; }
+    .otp-box {
+      width:68px; height:76px;
+      border-radius:16px;
+      background:rgba(255,255,255,.04);
+      border:1.5px solid rgba(120,80,255,.2);
+      /* FIX: explicit color ensures digits are always visible */
+      color:#ede8ff;
+      font-family:'DM Mono', monospace;
+      font-size:1.8rem;
+      font-weight:600;
+      text-align:center;
+      outline:none;
+      transition:all .3s cubic-bezier(.2,0,.1,1.5);
+      /* FIX: removed caret-color:transparent so cursor is visible while typing */
+      caret-color: var(--bright);
+      /* FIX: no -webkit-text-fill-color override that could hide text */
+      -webkit-text-fill-color: #ede8ff;
+    }
+    .otp-box:focus {
+      border-color:rgba(124,58,237,.7);
+      background:rgba(109,40,217,.1);
+      box-shadow:0 0 0 3px rgba(109,40,217,.18), 0 8px 28px rgba(109,40,217,.2);
+      transform:scale(1.06) translateY(-3px);
+    }
+    .otp-box.filled {
+      border-color:rgba(167,139,250,.55);
+      background:rgba(109,40,217,.14);
+      box-shadow:0 4px 18px rgba(109,40,217,.2);
+    }
+    .otp-box.shake { animation:shake .45s cubic-bezier(.36,.07,.19,.97); }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-6px)} 30%{transform:translateX(6px)} 45%{transform:translateX(-4px)} 60%{transform:translateX(4px)} 75%{transform:translateX(-2px)} 90%{transform:translateX(2px)} }
+
+    .otp-hint { text-align:center; font-family:var(--ff-m); font-size:.62rem; color:var(--t3); letter-spacing:.08em; margin-bottom:16px; position:relative; z-index:1; }
 
     .otp-feedback { text-align:center; font-family:var(--ff-m); font-size:.72rem; margin-bottom:14px; min-height:18px; position:relative; z-index:1; opacity:0; transition:opacity .3s; }
     .otp-feedback.show { opacity:1; }
@@ -227,7 +254,7 @@
 
     @media(max-width:520px){
       .card{padding:36px 22px;} .otp-modal{padding:36px 24px;} nav{padding:0 20px;}
-      .otp-box{width:42px;height:52px;font-size:1.2rem;} .otp-boxes{gap:6px;}
+      .otp-box{width:56px;height:64px;font-size:1.5rem;} .otp-boxes{gap:10px;}
     }
   </style>
 </head>
@@ -267,8 +294,6 @@
 
     <!-- FORM -->
     <form class="form" id="signupForm" novalidate>
-
-      <!-- Name -->
       <div class="field">
         <label for="name">Full Name</label>
         <div class="input-wrap">
@@ -278,7 +303,6 @@
         <span class="v-msg" id="nameMsg"></span>
       </div>
 
-      <!-- Email -->
       <div class="field">
         <label for="email">Email Address</label>
         <div class="input-wrap">
@@ -288,7 +312,6 @@
         <span class="v-msg" id="emailMsg"></span>
       </div>
 
-      <!-- Gender -->
       <div class="field">
         <label for="gender">Gender</label>
         <div class="input-wrap">
@@ -303,7 +326,6 @@
         <span class="v-msg" id="genderMsg"></span>
       </div>
 
-      <!-- Password -->
       <div class="field">
         <label for="password">Password</label>
         <div class="input-wrap">
@@ -317,7 +339,6 @@
         <span class="v-msg" id="passMsg"></span>
       </div>
 
-      <!-- Confirm Password -->
       <div class="field">
         <label for="confirmPassword">Confirm Password</label>
         <div class="input-wrap">
@@ -345,7 +366,7 @@
   </div>
 </div>
 
-<!-- OTP OVERLAY -->
+<!-- OTP OVERLAY — 4 DIGIT -->
 <div class="overlay" id="otpOverlay">
   <div class="otp-modal" id="otpModal">
     <button class="otp-close" id="otpClose">✕</button>
@@ -354,18 +375,19 @@
       <div class="otp-header">
         <div class="otp-icon">📬</div>
         <h2 class="otp-title">Verify your <em>email</em></h2>
-        <p class="otp-sub">We've sent a 6-digit code to</p>
+        <p class="otp-sub">We've sent a 4-digit code to</p>
         <div class="otp-email-pill" id="otpEmailPill">—</div>
       </div>
 
+      <!-- 4 boxes only -->
       <div class="otp-boxes">
-        <input class="otp-box" type="text" maxlength="1" inputmode="numeric" id="o1" autocomplete="one-time-code"/>
-        <input class="otp-box" type="text" maxlength="1" inputmode="numeric" id="o2"/>
-        <input class="otp-box" type="text" maxlength="1" inputmode="numeric" id="o3"/>
-        <input class="otp-box" type="text" maxlength="1" inputmode="numeric" id="o4"/>
-        <input class="otp-box" type="text" maxlength="1" inputmode="numeric" id="o5"/>
-        <input class="otp-box" type="text" maxlength="1" inputmode="numeric" id="o6"/>
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" id="o1" autocomplete="one-time-code"/>
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" id="o2"/>
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" id="o3"/>
+        <input class="otp-box" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" id="o4"/>
       </div>
+
+      <p class="otp-hint">Enter the 4-digit code from your email</p>
 
       <div class="otp-feedback" id="otpFeedback"></div>
 
@@ -385,7 +407,7 @@
       <div class="success-ring">✓</div>
       <h2 class="success-title">You're <em>in!</em></h2>
       <p class="success-sub">Registration completed successfully.<br>Welcome to FinTrack AI.</p>
-      <a href="/dashboard" class="btn-dashboard">Go to Dashboard &nbsp;→</a>
+      <a href="/login" class="btn-dashboard">Go to Login &nbsp;→</a>
     </div>
   </div>
 </div>
@@ -448,7 +470,7 @@ document.getElementById('password').addEventListener('blur',vPass);
 document.getElementById('confirmPassword').addEventListener('input',function(){if(this.value)vConfirm();});
 document.getElementById('confirmPassword').addEventListener('blur',vConfirm);
 
-/* ── FORM SUBMIT → Flask /send-otp ── */
+/* ── FORM SUBMIT ── */
 var currentEmail='';
 
 document.getElementById('signupForm').addEventListener('submit',async function(e){
@@ -482,129 +504,205 @@ document.getElementById('signupForm').addEventListener('submit',async function(e
   }
 });
 
-/* ── OTP OVERLAY ── */
-var otpTimer=null;
-var otpBoxes=Array.from(document.querySelectorAll('.otp-box'));
+/* ── OTP — 4 BOXES ── */
+var otpTimer = null;
+var otpBoxes = Array.from(document.querySelectorAll('.otp-box'));  /* 4 boxes */
 
 function openOTP(){
-  document.getElementById('otpEmailPill').textContent=currentEmail;
+  document.getElementById('otpEmailPill').textContent = currentEmail;
   document.getElementById('otpOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
-  // advance step bar
-  document.getElementById('sc1').className='step-circle done';document.getElementById('sc1').textContent='✓';document.getElementById('sl1').className='step-label';
+  document.body.style.overflow = 'hidden';
+  document.getElementById('sc1').className='step-circle done';
+  document.getElementById('sc1').textContent='✓';
+  document.getElementById('sl1').className='step-label';
   document.getElementById('conn1').className='step-connector done';
-  document.getElementById('sc2').className='step-circle active';document.getElementById('sl2').className='step-label active';
-  clearBoxes();startTimer();
-  setTimeout(function(){otpBoxes[0].focus();},450);
+  document.getElementById('sc2').className='step-circle active';
+  document.getElementById('sl2').className='step-label active';
+  clearBoxes();
+  startTimer();
+  setTimeout(function(){ otpBoxes[0].focus(); }, 450);
 }
+
 function closeOTP(){
   document.getElementById('otpOverlay').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow = '';
   clearInterval(otpTimer);
 }
-document.getElementById('otpClose').addEventListener('click',closeOTP);
-document.getElementById('otpOverlay').addEventListener('click',function(e){if(e.target===this)closeOTP();});
 
-/* OTP box interactions */
-otpBoxes.forEach(function(box,idx){
-  box.addEventListener('input',function(e){
-    var v=e.target.value.replace(/\D/g,'');e.target.value=v;
-    e.target.classList.toggle('filled',!!v);
-    if(v&&idx<5)otpBoxes[idx+1].focus();
-    checkFull();
+document.getElementById('otpClose').addEventListener('click', closeOTP);
+document.getElementById('otpOverlay').addEventListener('click', function(e){
+  if(e.target === this) closeOTP();
+});
+
+/* OTP box input handling — FIXED for visibility */
+otpBoxes.forEach(function(box, idx){
+
+  /* keydown: handle backspace + arrows */
+  box.addEventListener('keydown', function(e){
+    if(e.key === 'Backspace'){
+      if(this.value){
+        this.value = '';
+        this.classList.remove('filled');
+        checkFull();
+      } else if(idx > 0){
+        otpBoxes[idx-1].focus();
+        otpBoxes[idx-1].value = '';
+        otpBoxes[idx-1].classList.remove('filled');
+        checkFull();
+      }
+      e.preventDefault();
+    }
+    if(e.key === 'ArrowLeft'  && idx > 0) otpBoxes[idx-1].focus();
+    if(e.key === 'ArrowRight' && idx < 3) otpBoxes[idx+1].focus();
+  });
+
+  /* input: accept only single digit, auto-advance */
+  box.addEventListener('input', function(e){
+    var raw = this.value;
+    /* Keep only the last digit typed */
+    var digit = raw.replace(/\D/g, '').slice(-1);
+    this.value = digit;
     document.getElementById('otpFeedback').classList.remove('show');
+
+    if(digit){
+      this.classList.add('filled');
+      if(idx < 3) otpBoxes[idx+1].focus();
+    } else {
+      this.classList.remove('filled');
+    }
+    checkFull();
   });
-  box.addEventListener('keydown',function(e){
-    if(e.key==='Backspace'&&!this.value&&idx>0){otpBoxes[idx-1].focus();otpBoxes[idx-1].value='';otpBoxes[idx-1].classList.remove('filled');checkFull();}
-    if(e.key==='ArrowLeft'&&idx>0)otpBoxes[idx-1].focus();
-    if(e.key==='ArrowRight'&&idx<5)otpBoxes[idx+1].focus();
-  });
-  box.addEventListener('paste',function(e){
+
+  /* paste: fill all 4 boxes from pasted digits */
+  box.addEventListener('paste', function(e){
     e.preventDefault();
-    var p=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
-    p.split('').forEach(function(ch,i){if(otpBoxes[idx+i]){otpBoxes[idx+i].value=ch;otpBoxes[idx+i].classList.add('filled');}});
-    otpBoxes[Math.min(idx+p.length,5)].focus();checkFull();
+    var pasted = (e.clipboardData || window.clipboardData)
+                   .getData('text').replace(/\D/g,'').slice(0, 4);
+    pasted.split('').forEach(function(ch, i){
+      if(otpBoxes[idx + i]){
+        otpBoxes[idx + i].value = ch;
+        otpBoxes[idx + i].classList.add('filled');
+      }
+    });
+    var next = Math.min(idx + pasted.length, 3);
+    otpBoxes[next].focus();
+    checkFull();
   });
 });
 
-function getOTP(){return otpBoxes.map(function(b){return b.value;}).join('');}
-function checkFull(){document.getElementById('verifyBtn').disabled=getOTP().length!==6;}
-function clearBoxes(){otpBoxes.forEach(function(b){b.value='';b.className='otp-box';});document.getElementById('verifyBtn').disabled=true;setFeedback('','');}
-function shakeAll(){otpBoxes.forEach(function(b){b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');});}
-function setFeedback(msg,type){var f=document.getElementById('otpFeedback');f.textContent=msg;f.className='otp-feedback'+(msg?' show ':' ')+(type||'');}
+function getOTP(){ return otpBoxes.map(function(b){ return b.value; }).join(''); }
+function checkFull(){ document.getElementById('verifyBtn').disabled = getOTP().length !== 4; }
 
-function pad(n){return n<10?'0'+n:n;}
-function startTimer(){
-  var s=30;
-  document.getElementById('resendBtn').disabled=true;
-  document.getElementById('countdown').style.display='inline';
-  document.getElementById('countdown').textContent='(0:'+pad(s)+')';
-  clearInterval(otpTimer);
-  otpTimer=setInterval(function(){
-    s--;document.getElementById('countdown').textContent='(0:'+pad(s)+')';
-    if(s<=0){clearInterval(otpTimer);document.getElementById('resendBtn').disabled=false;document.getElementById('countdown').style.display='none';}
-  },1000);
+function clearBoxes(){
+  otpBoxes.forEach(function(b){ b.value = ''; b.className = 'otp-box'; });
+  document.getElementById('verifyBtn').disabled = true;
+  setFeedback('','');
 }
 
-document.getElementById('resendBtn').addEventListener('click',function(){
-  clearBoxes();startTimer();otpBoxes[0].focus();
+function shakeAll(){
+  otpBoxes.forEach(function(b){
+    b.classList.remove('shake');
+    void b.offsetWidth;
+    b.classList.add('shake');
+  });
+}
+
+function setFeedback(msg, type){
+  var f = document.getElementById('otpFeedback');
+  f.textContent = msg;
+  f.className = 'otp-feedback' + (msg ? ' show ' : ' ') + (type || '');
+}
+
+function pad(n){ return n < 10 ? '0'+n : n; }
+
+function startTimer(){
+  var s = 30;
+  document.getElementById('resendBtn').disabled = true;
+  document.getElementById('countdown').style.display = 'inline';
+  document.getElementById('countdown').textContent = '(0:'+pad(s)+')';
+  clearInterval(otpTimer);
+  otpTimer = setInterval(function(){
+    s--;
+    document.getElementById('countdown').textContent = '(0:'+pad(s)+')';
+    if(s <= 0){
+      clearInterval(otpTimer);
+      document.getElementById('resendBtn').disabled = false;
+      document.getElementById('countdown').style.display = 'none';
+    }
+  }, 1000);
+}
+
+document.getElementById('resendBtn').addEventListener('click', function(){
+  clearBoxes();
+  startTimer();
+  otpBoxes[0].focus();
 });
 
-/* ── VERIFY → Flask /verify-otp ── */
-document.getElementById('verifyBtn').addEventListener('click',async function(){
-  var btn=this;
-  btn.classList.add('loading');btn.disabled=true;
+/* ── VERIFY ── */
+document.getElementById('verifyBtn').addEventListener('click', async function(){
+  var btn = this;
+  btn.classList.add('loading');
+  btn.disabled = true;
   setFeedback('','');
 
   try{
-    var res=await fetch('/verify-otp',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:currentEmail,otp:getOTP()})
+    var res = await fetch('/verify-otp',{
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email: currentEmail, otp: getOTP()})
     });
-    var data=await res.json();
-    if(!res.ok)throw new Error(data.message||'OTP verification failed.');
-
-    /* ✅ success path */
-    setFeedback(data.message,'ok');
-    setTimeout(function(){showSuccess();},900);
-
+    var data = await res.json();
+    if(!res.ok) throw new Error(data.message || 'OTP verification failed.');
+    setFeedback(data.message, 'ok');
+    setTimeout(function(){ showSuccess(); }, 900);
   }catch(err){
-    /* ❌ wrong otp */
     shakeAll();
-    setFeedback(err.message,'err');
-    clearBoxes();otpBoxes[0].focus();
+    setFeedback(err.message, 'err');
+    clearBoxes();
+    otpBoxes[0].focus();
     btn.classList.remove('loading');
-    /* verifyBtn stays disabled until user re-fills boxes */
   }
 });
 
-/* ── SUCCESS STATE ── */
+/* ── SUCCESS ── */
 function showSuccess(){
   clearInterval(otpTimer);
-  ['sc2','sc3'].forEach(function(id,i){
-    var el=document.getElementById(id);el.className='step-circle done';el.textContent='✓';
+  ['sc2','sc3'].forEach(function(id){
+    var el = document.getElementById(id);
+    el.className = 'step-circle done';
+    el.textContent = '✓';
   });
-  document.getElementById('sl2').className='step-label';
-  document.getElementById('sl3').className='step-label active';
-  document.getElementById('conn2').className='step-connector done';
-  document.getElementById('otpInputState').style.display='none';
-  document.getElementById('otpClose').style.display='none';
+  document.getElementById('sl2').className = 'step-label';
+  document.getElementById('sl3').className = 'step-label active';
+  document.getElementById('conn2').className = 'step-connector done';
+  document.getElementById('otpInputState').style.display = 'none';
+  document.getElementById('otpClose').style.display = 'none';
   document.getElementById('successState').classList.add('show');
   spawnConfetti();
   document.getElementById('signupForm').reset();
-  setFormMsg('Registration completed successfully! 🎉','ok');
+  setFormMsg('Registration completed! Redirecting to login...', 'ok');
+  setTimeout(function(){ window.location.href = '/login'; }, 2500);
 }
 
 function spawnConfetti(){
-  var colors=['#a78bfa','#c4b5fd','#86efac','#fbbf24','#f472b6','#60a5fa'],m=document.getElementById('otpModal');
-  for(var i=0;i<24;i++){(function(i){setTimeout(function(){
-    var d=document.createElement('div');d.className='confetti-dot';
-    d.style.setProperty('--drift','translate('+(Math.random()-.5)*260+'px,'+(-70-Math.random()*110)+'px)');
-    d.style.background=colors[i%colors.length];d.style.left='50%';d.style.top='42%';
-    d.style.width=(4+Math.random()*5)+'px';d.style.height=d.style.width;d.style.animationDuration=(.9+Math.random()*.5)+'s';
-    m.appendChild(d);setTimeout(function(){d.remove();},1600);
-  },i*42);})(i);}
+  var colors=['#a78bfa','#c4b5fd','#86efac','#fbbf24','#f472b6','#60a5fa'];
+  var m = document.getElementById('otpModal');
+  for(var i=0;i<24;i++){
+    (function(i){
+      setTimeout(function(){
+        var d = document.createElement('div');
+        d.className = 'confetti-dot';
+        d.style.setProperty('--drift','translate('+(Math.random()-.5)*260+'px,'+(-70-Math.random()*110)+'px)');
+        d.style.background = colors[i % colors.length];
+        d.style.left = '50%'; d.style.top = '42%';
+        d.style.width = (4+Math.random()*5)+'px';
+        d.style.height = d.style.width;
+        d.style.animationDuration = (.9+Math.random()*.5)+'s';
+        m.appendChild(d);
+        setTimeout(function(){ d.remove(); }, 1600);
+      }, i * 42);
+    })(i);
+  }
 }
 </script>
 </body>
