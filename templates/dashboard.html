@@ -450,7 +450,7 @@
       </a>
     </nav>
     <div class="sb-bottom">
-      <button class="logout-btn" onclick="doLogout()">⬡ &nbsp;Sign Out</button>
+      <button class="logout-btn" onclick="logoutUser()">Sign Out</button>
     </div>
   </aside>
 
@@ -461,7 +461,9 @@
       <div class="topbar-title" id="topbarTitle">Overview</div>
       <div class="topbar-right">
         <span class="eyebrow-sm" id="topbarDate"></span>
-        <button class="refresh-btn" onclick="loadDashboard()">↻ &nbsp;Refresh</button>
+        <button class="refresh-btn" onclick="loadDashboard(); this.innerText='Refreshing...'">
+          ↻ Refresh
+        </button>
       </div>
     </div>
 
@@ -870,18 +872,53 @@ document.addEventListener('DOMContentLoaded', function(){
    LOAD DASHBOARD
 ══════════════════════════════════ */
 async function loadDashboard(){
-  try{
-    var r = await fetch('/api/dashboard');
-    if(r.status===401){ window.location.href='/login'; return; }
-    var d = await r.json();
-    if(!d.success){ window.location.href='/login'; return; }
-    DB = d.dashboard;
-    renderAll();
-    document.getElementById('pageLoader').classList.add('hidden');
-  }catch(e){
-    console.error(e);
-    document.getElementById('pageLoader').classList.add('hidden');
-  }
+
+    const btn = document.querySelector(".refresh-btn");
+
+    if(btn){
+        btn.innerText = "Refreshing...";
+        btn.disabled = true;
+    }
+
+    try{
+
+        const res = await fetch("/api/dashboard");
+
+        if(!res.ok){
+            console.log("Server error");
+            return;
+        }
+
+        const data = await res.json();
+
+        if(!data.success){
+            console.log("Dashboard fetch failed");
+            return;
+        }
+
+        DB = data.dashboard;
+
+        renderAll();
+
+        const loader = document.getElementById("pageLoader");
+        if(loader) loader.classList.add("hidden");
+
+        console.log("Dashboard refreshed successfully");
+
+    }
+    catch(err){
+
+        console.log("Refresh failed:", err);
+
+    }
+    finally{
+
+        if(btn){
+            btn.innerText = "↻ Refresh";
+            btn.disabled = false;
+        }
+
+    }
 }
 
 function renderAll(){
@@ -904,18 +941,80 @@ function renderUser(){
 function fmt(n){ return '₹'+Number(n||0).toLocaleString('en-IN'); }
 
 function renderStats(){
+
   var s = DB.stats || {};
   var ip = DB.income_profile;
   var ep = DB.expense_profile;
-  var totalInc = ip ? (+(ip.MONTHLY_INCOME||0) + +(ip.ADDITIONAL_MONTHLY_INCOME||0)) : 0;
-  var expCols = ['GROCERIES','TRAVEL','MEDFIT','LEP','MONTHLY_RENT','M_BILLS','FASHION','ENTERTAINMENT','EDUCATION','EMSAVING','MISCELLANEOUS'];
-  var totalExp = ep ? expCols.reduce(function(a,c){return a+(+(ep[c]||0));},0) : 0;
-  document.getElementById('st-income').textContent = fmt(totalInc);
-  document.getElementById('st-expenses').textContent = fmt(totalExp);
-  document.getElementById('st-disposable').textContent = fmt(totalInc - totalExp);
-  document.getElementById('st-goals').textContent = s.active_goals || 0;
-  document.getElementById('st-goals-sub').textContent = (s.achieved_goals||0)+' achieved';
-  document.getElementById('goalsBadge').textContent = (DB.goals||[]).filter(function(g){return g.GOAL_STATUS==='ACTIVE';}).length;
+
+  var totalInc = ip
+      ? (+(ip.MONTHLY_INCOME||0) + +(ip.ADDITIONAL_MONTHLY_INCOME||0))
+      : 0;
+
+  var expCols = [
+      'GROCERIES','TRAVEL','MEDFIT','LEP',
+      'MONTHLY_RENT','M_BILLS','FASHION',
+      'ENTERTAINMENT','EDUCATION','EMSAVING',
+      'MISCELLANEOUS'
+  ];
+
+  var totalExp = ep
+      ? expCols.reduce((a,c)=>a+(+(ep[c]||0)),0)
+      : 0;
+
+  const incomeEl = document.getElementById('st-income');
+  const expenseEl = document.getElementById('st-expenses');
+  const disposableEl = document.getElementById('st-disposable');
+  const goalsEl = document.getElementById('st-goals');
+  const goalsSubEl = document.getElementById('st-goals-sub');
+  const badgeEl = document.getElementById('goalsBadge');
+
+  if(incomeEl) incomeEl.textContent = fmt(totalInc);
+  if(expenseEl) expenseEl.textContent = fmt(totalExp);
+  if(disposableEl) disposableEl.textContent = fmt(totalInc-totalExp);
+  if(goalsEl) goalsEl.textContent = s.active_goals || 0;
+  if(goalsSubEl) goalsSubEl.textContent = (s.achieved_goals||0)+' achieved';
+
+  if(badgeEl)
+      badgeEl.textContent =
+      (DB.goals||[]).filter(g=>g.GOAL_STATUS==='ACTIVE').length;
+
+}
+
+function renderGoalSnapshots(){
+
+  const container =
+  document.getElementById("goalSnapshotsContainer");
+
+  if(!container) return;
+
+  const goals = DB.goals || [];
+
+  if(goals.length === 0){
+
+    container.innerHTML = `
+      <div class="no-goals">
+        No goals yet<br>
+        <span>Create your first goal</span>
+      </div>
+    `;
+
+    return;
+  }
+
+  container.innerHTML = goals.map(goal => `
+
+    <div class="goal-item">
+
+      <strong>${goal.GOAL_NAME}</strong><br>
+
+      Target:
+      ₹${Number(goal.GOAL_AMOUNT)
+      .toLocaleString("en-IN")}
+
+    </div>
+
+  `).join("");
+
 }
 
 function renderOverviewGoals(){
@@ -977,33 +1076,68 @@ function renderGoalsList(){
 }
 
 function renderIncomeForm(){
+
   var p = DB.income_profile;
+
   hasIncome = !!p;
-  document.getElementById('incomeStatus').textContent = p ? 'PROFILE EXISTS — UPDATING' : 'NO PROFILE YET — CREATE NEW';
+
+  document.getElementById('incomeStatus').textContent =
+    p ? 'PROFILE EXISTS — UPDATING'
+      : 'NO PROFILE YET — CREATE NEW';
+
   if(!p) return;
-  document.getElementById('incomeType').value = p.INCOME_TYPE || '';
-  document.getElementById('monthlyIncome').value = p.MONTHLY_INCOME || '';
-  document.getElementById('addIncomeType').value = p.ADDITIONAL_INCOME_TYPE || '';
-  document.getElementById('addMonthlyIncome').value = p.ADDITIONAL_MONTHLY_INCOME || '';
-  document.getElementById('dependants').value = p.DEPENDANTS || '';
+
+  document.getElementById('incomeType').value =
+    p.INCOME_TYPE || '';
+
+  document.getElementById('monthlyIncome').value =
+    p.MONTHLY_INCOME || '';
+
+  document.getElementById('addIncomeType').value =
+    p.ADDITIONAL_TYPE || '';   // ✅ fixed field name
+
+  document.getElementById('addMonthlyIncome').value =
+    p.ADDITIONAL_MONTHLY_INCOME || '';
+
+  document.getElementById('dependants').value =
+    p.DEPENDANTS || '';
+
 }
 
 var EXP_FIELDS = ['groceries','travel','medfit','lep','monthly_rent','m_bills','fashion','entertainment','education','emsaving','miscellaneous'];
-function renderExpenseForm(){
-  var p = DB.expense_profile;
-  hasExpense = !!p;
-  document.getElementById('expenseStatus').textContent = p ? 'PROFILE EXISTS — UPDATING' : 'NO PROFILE YET — CREATE NEW';
-  if(!p){ updateExpTotal(); return; }
-  var map = {groceries:'GROCERIES',travel:'TRAVEL',medfit:'MEDFIT',lep:'LEP',monthly_rent:'MONTHLY_RENT',m_bills:'M_BILLS',fashion:'FASHION',entertainment:'ENTERTAINMENT',education:'EDUCATION',emsaving:'EMSAVING',miscellaneous:'MISCELLANEOUS'};
-  EXP_FIELDS.forEach(function(f){ var el=document.getElementById(f); if(el) el.value = p[map[f]] || ''; });
-  updateExpTotal();
-}
+
 
 function updateExpTotal(){
   var total = EXP_FIELDS.reduce(function(a,f){ return a + (+(document.getElementById(f).value||0)); },0);
   document.getElementById('expTotal').textContent = fmt(total);
 }
+function renderExpenseForm(){
 
+  var p = DB.expense_profile;
+
+  hasExpense = !!p;
+
+  document.getElementById('expenseStatus').textContent =
+    p ? 'PROFILE EXISTS — UPDATING'
+      : 'NO PROFILE YET — CREATE NEW';
+
+  if(!p) return;
+
+  document.getElementById('groceries').value = p.GROCERIES || '';
+  document.getElementById('travel').value = p.TRAVEL || '';
+  document.getElementById('medfit').value = p.MEDFIT || '';
+  document.getElementById('lep').value = p.LEP || '';
+  document.getElementById('monthly_rent').value = p.MONTHLY_RENT || '';
+  document.getElementById('m_bills').value = p.M_BILLS || '';
+  document.getElementById('fashion').value = p.FASHION || '';
+  document.getElementById('entertainment').value = p.ENTERTAINMENT || '';
+  document.getElementById('education').value = p.EDUCATION || '';
+  document.getElementById('emsaving').value = p.EMSAVING || '';
+  document.getElementById('miscellaneous').value = p.MISCELLANEOUS || '';
+
+  updateExpTotal();
+
+}
 async function saveIncome(){
   var btn = document.getElementById('incomeSaveBtn');
   btn.disabled = true; btn.textContent = 'Saving…';
@@ -1225,6 +1359,31 @@ async function loadSidebarUser() {
 }
 
 loadSidebarUser();
+</script>
+<script>
+
+function logoutUser(){
+
+    fetch("/logout", {
+        method: "POST"
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        if(data.success){
+            window.location.href = "/login";
+        }
+
+    })
+    .catch(err => {
+
+        console.log("Logout error:", err);
+        window.location.href = "/login";
+
+    });
+
+}
+
 </script>
 </body>
 </html>

@@ -377,7 +377,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 /* Check if already logged in */
 (async function(){
   try{
-    var r=await fetch('/me');
+    var r=await fetch('/api/me');
     var d=await r.json();
     if(d.success)window.location.href='/dashboard';
   }catch(e){}

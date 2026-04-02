@@ -3,396 +3,639 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FinTrack AI — Goals</title>
+  <title>FinTrack AI — My Goals</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #04030f; --bg2: #070518; --bg-card: #0a0820; --bg-card-h: #0f0c2a;
-      --b: rgba(120,80,255,0.11); --bh: rgba(150,110,255,0.38);
-      --g: linear-gradient(135deg,#6d28d9 0%,#7c3aed 50%,#4f46e5 100%);
-      --g2: linear-gradient(135deg,#c4b5fd 0%,#a78bfa 50%,#818cf8 100%);
-      --bright: #a78bfa; --pale: #c4b5fd;
-      --t1: #ede8ff; --t2: #9d8ec4; --t3: #5c5080;
-      --ok: #86efac; --warn: #fbbf24;
-      --ff-d: 'Instrument Serif', serif; --ff-b: 'DM Sans', sans-serif; --ff-m: 'DM Mono', monospace;
-      --r: all 0.35s cubic-bezier(.4,0,.2,1);
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#04030f;--bg2:#070518;--bg-card:#0a0820;--bg-card-h:#0f0c2a;--bg-sidebar:#060414;
+      --b:rgba(120,80,255,0.11);--bh:rgba(150,110,255,0.38);
+      --g:linear-gradient(135deg,#6d28d9 0%,#7c3aed 50%,#4f46e5 100%);
+      --g2:linear-gradient(135deg,#c4b5fd 0%,#a78bfa 50%,#818cf8 100%);
+      --bright:#a78bfa;--pale:#c4b5fd;--t1:#ede8ff;--t2:#9d8ec4;--t3:#5c5080;
+      --err:#f87171;--ok:#86efac;--warn:#fbbf24;
+      --ff-d:'Instrument Serif',serif;--ff-b:'DM Sans',sans-serif;--ff-m:'DM Mono',monospace;
+      --sw:248px;
     }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--t1); font-family: var(--ff-b); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-    body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E"); background-size: 180px; }
-    body::after { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 80% 50% at 50% -10%,rgba(109,40,217,.12) 0%,transparent 60%); }
-    a { color: inherit; text-decoration: none; }
-    ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom,#7c3aed,#4f46e5); border-radius: 99px; }
+    html,body{height:100%;scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--t1);font-family:var(--ff-b);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");background-size:180px;}
+    .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+    .aurora-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.07;animation:auroraFloat 18s ease-in-out infinite;}
+    .aurora-blob:nth-child(1){width:600px;height:600px;background:radial-gradient(circle,#7c3aed,transparent);top:-200px;left:-100px;animation-duration:20s;}
+    .aurora-blob:nth-child(2){width:500px;height:500px;background:radial-gradient(circle,#4f46e5,transparent);bottom:-100px;right:-100px;animation-duration:25s;animation-delay:-8s;}
+    .aurora-blob:nth-child(3){width:400px;height:400px;background:radial-gradient(circle,#6d28d9,transparent);top:40%;left:40%;animation-duration:22s;animation-delay:-4s;}
+    @keyframes auroraFloat{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(40px,-30px) scale(1.08);}66%{transform:translate(-30px,20px) scale(.95);}}
+    #sparkleCanvas{position:fixed;inset:0;z-index:1;pointer-events:none;}
+    a{color:inherit;text-decoration:none;}
+    ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,#7c3aed,#4f46e5);border-radius:99px;}
+    .layout{display:flex;min-height:100vh;position:relative;z-index:2;}
 
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 56px; height: 68px; background: rgba(4,3,15,0.65); backdrop-filter: blur(32px) saturate(200%); border-bottom: 1px solid var(--b); }
-    nav::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40%; height: 1px; background: linear-gradient(90deg,transparent,rgba(167,139,250,.5),transparent); }
-    .nav-logo { font-family: var(--ff-d); font-size: 1.4rem; background: var(--g2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
-    .nav-links a { font-size: .82rem; color: var(--t2); padding: 7px 14px; border-radius: 9px; transition: var(--r); }
-    .nav-links a:hover { color: var(--t1); background: rgba(124,58,237,.09); }
-    .nl-login { color: var(--t1)!important; font-weight: 500!important; border: 1px solid var(--b)!important; }
-    .nl-signup { background: var(--g)!important; color: #fff!important; font-weight: 600!important; padding: 8px 22px!important; border-radius: 10px!important; box-shadow: 0 4px 24px rgba(109,40,217,.45)!important; }
-    .nl-signup:hover { transform: translateY(-2px)!important; box-shadow: 0 10px 40px rgba(109,40,217,.7)!important; }
+    /* ── SIDEBAR ── */
+    .sidebar{width:var(--sw);flex-shrink:0;position:fixed;top:0;left:0;bottom:0;background:rgba(6,4,20,.92);border-right:1px solid var(--b);display:flex;flex-direction:column;z-index:100;overflow-y:auto;backdrop-filter:blur(24px);}
+    .sidebar::after{content:'';position:absolute;top:0;right:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.2) 30%,rgba(124,58,237,.3) 60%,transparent);}
+    .sb-logo{padding:26px 24px 22px;border-bottom:1px solid var(--b);font-family:var(--ff-d);font-size:1.35rem;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:flex;align-items:center;gap:10px;transition:opacity .3s;}
+    .sb-logo:hover{opacity:.85;}
+    .logo-gem{width:28px;height:28px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;box-shadow:0 4px 14px rgba(109,40,217,.55);flex-shrink:0;animation:gemPulse 3s ease-in-out infinite;}
+    @keyframes gemPulse{0%,100%{box-shadow:0 4px 14px rgba(109,40,217,.55);}50%{box-shadow:0 4px 22px rgba(167,139,250,.7);}}
+    .sb-user{padding:16px 20px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:11px;transition:background .3s;}
+    .sb-user:hover{background:rgba(124,58,237,.04);}
+    .sb-avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;background:var(--g);display:flex;align-items:center;justify-content:center;font-family:var(--ff-d);font-size:1rem;color:#fff;box-shadow:0 4px 16px rgba(109,40,217,.4);position:relative;}
+    .sb-avatar::after{content:'';position:absolute;inset:-2px;border-radius:50%;border:1px solid rgba(167,139,250,.3);animation:avatarRing 3s linear infinite;}
+    @keyframes avatarRing{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+    .sb-name{font-size:.85rem;font-weight:600;margin-bottom:2px;}
+    .sb-email{font-family:var(--ff-m);font-size:.6rem;color:var(--t3);letter-spacing:.04em;}
+    .sb-nav{padding:16px 12px;flex:1;}
+    .sb-section{font-family:var(--ff-m);font-size:.55rem;text-transform:uppercase;letter-spacing:.16em;color:var(--t3);padding:0 8px;margin-bottom:8px;margin-top:18px;display:flex;align-items:center;gap:8px;}
+    .sb-section:first-child{margin-top:0;}
+    .sb-section::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(124,58,237,.15),transparent);}
+    .sb-link{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;font-size:.84rem;color:var(--t2);cursor:pointer;border:1px solid transparent;margin-bottom:3px;position:relative;overflow:hidden;text-decoration:none;transition:color .3s,background .3s,border-color .3s,transform .3s;}
+    .sb-link::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--g);border-radius:0 3px 3px 0;transform:scaleY(0);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+    .sb-link:hover{color:var(--t1);background:rgba(124,58,237,.07);border-color:var(--b);transform:translateX(3px);}
+    .sb-link.active{color:var(--t1);background:rgba(124,58,237,.13);border-color:rgba(124,58,237,.22);}
+    .sb-link.active::before{transform:scaleY(1);}
+    .sb-link.active .sb-ico{color:var(--bright);filter:drop-shadow(0 0 6px rgba(167,139,250,.5));}
+    .sb-ico{font-size:1rem;width:20px;text-align:center;flex-shrink:0;transition:transform .3s;}
+    .sb-link:hover .sb-ico{transform:scale(1.2);}
+    .sb-badge{margin-left:auto;font-family:var(--ff-m);font-size:.58rem;background:rgba(109,40,217,.2);border:1px solid rgba(109,40,217,.3);color:var(--bright);padding:2px 8px;border-radius:99px;transition:background .3s;}
+    .sb-bottom{padding:16px 12px;border-top:1px solid var(--b);}
+    .logout-btn{width:100%;padding:11px;background:transparent;border:1px solid rgba(248,113,113,.15);border-radius:12px;color:var(--err);font-family:var(--ff-b);font-size:.82rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .3s;}
+    .logout-btn:hover{background:rgba(248,113,113,.09);border-color:rgba(248,113,113,.35);transform:translateY(-2px);}
 
-    .container { max-width: 1180px; margin: 0 auto; padding: 0 56px; }
-    .eyebrow { display: inline-block; font-family: var(--ff-m); font-size: .66rem; font-weight: 500; text-transform: uppercase; letter-spacing: .14em; color: var(--bright); background: rgba(109,40,217,.1); border: 1px solid rgba(167,139,250,.2); padding: 5px 16px; border-radius: 99px; margin-bottom: 20px; }
-    .s-title { font-family: var(--ff-d); font-size: clamp(2rem,3.6vw,3rem); font-weight: 400; letter-spacing: -.02em; line-height: 1.12; margin-bottom: 16px; }
-    .s-sub { font-size: .98rem; font-weight: 300; color: var(--t2); max-width: 560px; line-height: 1.8; font-style: italic; }
-    .s-head { text-align: center; margin-bottom: 64px; }
-    .s-head .s-sub { margin: 0 auto; }
-    .gt { background: var(--g2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .btn-p { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: var(--g); color: #fff; font-family: var(--ff-b); font-size: .94rem; font-weight: 600; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 30px rgba(109,40,217,.5); transition: var(--r); }
-    .btn-p:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 16px 48px rgba(109,40,217,.7); }
-    .btn-s { display: inline-flex; align-items: center; gap: 9px; padding: 14px 32px; background: transparent; color: var(--t1); font-size: .94rem; font-weight: 500; border-radius: 12px; border: 1px solid rgba(124,58,237,.3); transition: var(--r); }
-    .btn-s:hover { border-color: rgba(167,139,250,.55); transform: translateY(-2px); }
+    /* ── MAIN ── */
+    .main{margin-left:var(--sw);flex:1;min-height:100vh;display:flex;flex-direction:column;}
+    .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:66px;background:rgba(4,3,15,.82);backdrop-filter:blur(32px);border-bottom:1px solid var(--b);}
+    .topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.35),transparent);}
+    .topbar-left{display:flex;align-items:center;gap:14px;}
+    .back-btn{display:flex;align-items:center;gap:7px;padding:7px 14px;border:1px solid var(--b);border-radius:9px;font-family:var(--ff-m);font-size:.62rem;color:var(--t2);letter-spacing:.06em;text-decoration:none;transition:all .3s;}
+    .back-btn:hover{color:var(--t1);border-color:var(--bh);background:rgba(124,58,237,.07);transform:translateX(-3px);}
+    .topbar-title{font-family:var(--ff-d);font-size:1.35rem;font-weight:400;}
+    .eyebrow-sm{font-family:var(--ff-m);font-size:.62rem;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;}
+    .content{padding:38px 36px 70px;flex:1;position:relative;z-index:1;}
 
-    /* HERO */
-    .goals-hero { padding: 148px 0 80px; position: relative; z-index: 1; text-align: center; }
-    .goals-hero .s-sub { margin: 0 auto 40px; }
-    .hero-btns { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    /* ── PAGE HERO ── */
+    .page-hero{margin-bottom:32px;animation:fadeUp .5s cubic-bezier(.4,0,.2,1);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+    .page-eyebrow{font-family:var(--ff-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.2em;color:var(--t3);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+    .page-eyebrow::before{content:'';width:24px;height:1px;background:linear-gradient(to right,rgba(124,58,237,.6),transparent);}
+    .page-hero-title{font-family:var(--ff-d);font-size:2.4rem;font-weight:400;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px;}
+    .page-hero-title span{font-style:italic;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .page-hero-sub{font-size:.88rem;color:var(--t3);max-width:520px;line-height:1.7;}
+    .glow-divider{height:1px;background:linear-gradient(to right,transparent,rgba(124,58,237,.3),rgba(167,139,250,.5),rgba(124,58,237,.3),transparent);margin:28px 0;border:none;}
 
-    /* GOAL CATEGORIES GRID */
-    .categories-sec { padding: 80px 0; position: relative; z-index: 1; }
-    .cat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-    .cat-card { background: var(--bg-card); border: 1px solid var(--b); border-radius: 22px; padding: 30px 28px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); cursor: default; }
-    .cat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(167,139,250,.25),transparent); transition: var(--r); }
-    .cat-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2.5px; background: var(--g); transform: scaleX(0); transform-origin: left; transition: 0.45s cubic-bezier(.2,0,.1,1.5); }
-    .cat-card:hover { border-color: rgba(167,139,250,.3); transform: translateY(-8px) scale(1.015); box-shadow: 0 28px 65px rgba(109,40,217,.2); background: var(--bg-card-h); }
-    .cat-card:hover::before { background: linear-gradient(90deg,transparent,rgba(167,139,250,.55),transparent); }
-    .cat-card:hover::after { transform: scaleX(1); }
-    .cat-card:hover .cat-icon { transform: scale(1.14) rotate(-5deg); box-shadow: 0 6px 28px rgba(109,40,217,.45); background: rgba(109,40,217,.22); border-color: rgba(167,139,250,.35); }
+    /* ── STATS ROW ── */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+    .stat-mini{background:var(--bg-card);border:1px solid var(--b);border-radius:16px;padding:18px 16px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;animation:fadeUp .5s cubic-bezier(.4,0,.2,1) both;}
+    .stat-mini::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.22),transparent);}
+    .stat-mini:hover{border-color:var(--bh);transform:translateY(-4px);box-shadow:0 16px 40px rgba(109,40,217,.15);}
+    .stat-mini:nth-child(1){animation-delay:.05s;}.stat-mini:nth-child(2){animation-delay:.1s;}.stat-mini:nth-child(3){animation-delay:.15s;}.stat-mini:nth-child(4){animation-delay:.2s;}
+    .sm-icon{font-size:1.3rem;margin-bottom:8px;display:block;}
+    .sm-label{font-family:var(--ff-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:5px;}
+    .sm-val{font-family:var(--ff-d);font-size:1.6rem;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-    .cat-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
-    .cat-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(109,40,217,.12); border: 1px solid rgba(109,40,217,.22); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); }
-    .cat-range { font-family: var(--ff-m); font-size: .65rem; color: var(--bright); background: rgba(109,40,217,.1); border: 1px solid rgba(109,40,217,.18); padding: 4px 12px; border-radius: 99px; letter-spacing: .05em; transition: var(--r); }
-    .cat-card:hover .cat-range { background: rgba(109,40,217,.2); border-color: rgba(167,139,250,.35); }
+    /* ── TWO-COL LAYOUT ── */
+    .two-col{display:grid;grid-template-columns:1fr 1.7fr;gap:20px;align-items:start;}
 
-    .cat-name { font-family: var(--ff-b); font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; letter-spacing: -.01em; }
-    .cat-desc { font-size: .84rem; color: var(--t2); line-height: 1.72; font-weight: 300; margin-bottom: 18px; }
+    /* ── PANEL ── */
+    .panel{background:var(--bg-card);border:1px solid var(--b);border-radius:20px;padding:28px;position:relative;overflow:hidden;animation:fadeUp .5s .2s cubic-bezier(.4,0,.2,1) both;}
+    .panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.25),transparent);}
+    .panel-title{font-family:var(--ff-d);font-size:1.15rem;font-weight:400;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+    .panel-title em{font-style:italic;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .panel-title-icon{width:34px;height:34px;border-radius:10px;background:rgba(109,40,217,.15);border:1px solid rgba(109,40,217,.25);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
 
-    /* Mini progress bar in card */
-    .cat-progress { }
-    .cp-top { display: flex; justify-content: space-between; font-family: var(--ff-m); font-size: .65rem; color: var(--t3); margin-bottom: 7px; }
-    .cp-top .pct { color: var(--bright); font-weight: 500; }
-    .cp-bar { height: 5px; background: rgba(255,255,255,.05); border-radius: 99px; overflow: hidden; }
-    .cp-fill { height: 100%; background: var(--g); border-radius: 99px; box-shadow: 0 0 10px rgba(167,139,250,.3); animation: fill-in 2s cubic-bezier(.2,0,.1,1) both; }
-    @keyframes fill-in { from { width: 0!important; } }
-    .cp-saved { font-size: .76rem; color: var(--t3); margin-top: 8px; font-family: var(--ff-m); }
-    .cp-saved span { color: var(--ok); }
+    /* ── FORM FIELDS ── */
+    .field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+    .field:last-of-type{margin-bottom:0;}
+    label{font-family:var(--ff-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;color:var(--t3);transition:color .3s;display:flex;align-items:center;gap:6px;}
+    .field:focus-within label{color:var(--bright);}
+    .label-req{font-size:.5rem;padding:1px 7px;background:rgba(109,40,217,.15);border:1px solid rgba(109,40,217,.25);border-radius:99px;color:var(--bright);letter-spacing:.06em;}
+    .input-wrap{position:relative;}
+    .inp-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none;transition:filter .3s;}
+    .field:focus-within .inp-icon{filter:drop-shadow(0 0 5px rgba(167,139,250,.45));}
+    .has-ico{padding-left:38px !important;}
+    input[type="text"],input[type="number"],input[type="date"]{width:100%;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid var(--b);border-radius:11px;color:var(--t1);font-family:var(--ff-b);font-size:.86rem;outline:none;transition:border-color .3s,box-shadow .3s,background .3s;}
+    input:focus{border-color:rgba(124,58,237,.55);box-shadow:0 0 0 3px rgba(109,40,217,.1);}
+    input:hover:not(:focus){border-color:rgba(124,58,237,.25);background:rgba(255,255,255,.045);}
+    input::placeholder{color:var(--t3);font-style:italic;}
+    .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .field-hint{font-family:var(--ff-m);font-size:.57rem;color:var(--t3);margin-top:-4px;}
 
-    /* HOW TRACKING WORKS */
-    .how-sec { padding: 100px 0; background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%); position: relative; z-index: 1; }
-    .hiw-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; position: relative; }
-    .hiw-grid::before { content: ''; position: absolute; top: 30px; left: calc(12.5% + 24px); right: calc(12.5% + 24px); height: 1px; background: linear-gradient(90deg,transparent,rgba(124,58,237,.3),rgba(124,58,237,.3),rgba(124,58,237,.3),transparent); z-index: 0; }
-    .step-card { background: var(--bg-card); border: 1px solid var(--b); border-radius: 20px; padding: 32px 24px; text-align: center; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); position: relative; overflow: hidden; cursor: default; }
-    .step-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%,rgba(109,40,217,.12),transparent); opacity: 0; transition: .4s ease; }
-    .step-card:hover { border-color: rgba(167,139,250,.3); transform: translateY(-8px) scale(1.02); box-shadow: 0 24px 60px rgba(109,40,217,.2); }
-    .step-card:hover::after { opacity: 1; }
-    .step-n { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 22px; background: var(--g); box-shadow: 0 4px 24px rgba(109,40,217,.5); display: flex; align-items: center; justify-content: center; font-family: var(--ff-m); font-size: .88rem; font-weight: 500; color: #fff; position: relative; z-index: 1; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); }
-    .step-card:hover .step-n { transform: scale(1.15); box-shadow: 0 8px 40px rgba(109,40,217,.75); }
-    .step-t { font-size: .97rem; font-weight: 600; margin-bottom: 10px; position: relative; z-index: 1; letter-spacing: -.01em; }
-    .step-d { font-size: .82rem; color: var(--t2); line-height: 1.75; font-weight: 300; font-style: italic; position: relative; z-index: 1; }
+    /* ── CALCULATED FIELD ── */
+    .calc-box{background:rgba(109,40,217,.08);border:1px solid rgba(109,40,217,.2);border-radius:11px;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;margin-top:4px;}
+    .calc-label{font-family:var(--ff-m);font-size:.58rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;}
+    .calc-val{font-family:var(--ff-d);font-size:1.1rem;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-    /* SMART TRACKER VISUAL */
-    .tracker-sec { padding: 100px 0; position: relative; z-index: 1; }
-    .tracker-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .tracker-copy { }
-    .tc-points { margin-top: 30px; display: flex; flex-direction: column; gap: 14px; }
-    .tcp { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; background: var(--bg-card); border: 1px solid var(--b); border-radius: 13px; transition: all 0.35s cubic-bezier(.2,0,.1,1.5); cursor: default; }
-    .tcp:hover { border-color: rgba(167,139,250,.28); transform: translateX(6px); background: var(--bg-card-h); box-shadow: 4px 0 0 0 rgba(124,58,237,.5); }
-    .tcp-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 8px; flex-shrink: 0; background: var(--g); box-shadow: 0 0 12px rgba(167,139,250,.65); transition: var(--r); }
-    .tcp:hover .tcp-dot { box-shadow: 0 0 22px rgba(196,181,253,1); transform: scale(1.4); }
-    .tcp-t { font-size: .86rem; color: var(--t2); line-height: 1.68; font-weight: 300; }
-    .tcp-t strong { color: var(--t1); font-weight: 500; }
+    /* ── BUTTONS ── */
+    .btn-primary{width:100%;padding:13px;background:var(--g);color:#fff;border:none;font-family:var(--ff-b);font-size:.88rem;font-weight:600;border-radius:12px;cursor:pointer;box-shadow:0 4px 18px rgba(109,40,217,.38);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:18px;transition:transform .3s,box-shadow .3s;}
+    .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.14),transparent);opacity:0;transition:opacity .3s;}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(109,40,217,.6);}
+    .btn-primary:hover::before{opacity:1;}
+    .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
+    .btn-icon{transition:transform .3s;}
+    .btn-primary:hover .btn-icon{transform:translateX(3px);}
+    .spinner-sm{width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+    .btn-primary.loading .spinner-sm{display:block;}
+    .btn-primary.loading .btn-text{opacity:.7;}
+    .btn-primary.loading .btn-icon{display:none;}
+    @keyframes spin{to{transform:rotate(360deg);}}
 
-    /* tracker visual mock */
-    .tracker-visual { background: var(--bg-card); border: 1px solid var(--b); border-radius: 24px; padding: 30px; position: relative; overflow: hidden; }
-    .tracker-visual::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(167,139,250,.35),transparent); }
-    .tracker-visual::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 160px; background: radial-gradient(ellipse 80% 60% at 50% -10%,rgba(109,40,217,.12),transparent); pointer-events: none; }
-    .tv-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-    .tv-title { font-family: var(--ff-m); font-size: .65rem; text-transform: uppercase; letter-spacing: .12em; color: var(--t3); }
-    .tv-badge { font-family: var(--ff-m); font-size: .62rem; color: var(--bright); background: rgba(109,40,217,.15); border: 1px solid rgba(109,40,217,.28); padding: 4px 12px; border-radius: 99px; }
-    .tv-goal { margin-bottom: 18px; }
-    .tg-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .tg-name { display: flex; align-items: center; gap: 9px; font-size: .9rem; font-weight: 500; }
-    .tg-ico { width: 30px; height: 30px; border-radius: 8px; background: rgba(109,40,217,.12); border: 1px solid rgba(109,40,217,.2); display: flex; align-items: center; justify-content: center; font-size: .8rem; }
-    .tg-pct { font-family: var(--ff-m); font-size: .78rem; font-weight: 500; color: var(--bright); }
-    .tg-bar { height: 6px; background: rgba(255,255,255,.05); border-radius: 99px; overflow: hidden; margin-bottom: 5px; }
-    .tg-fill { height: 100%; background: var(--g); border-radius: 99px; box-shadow: 0 0 12px rgba(167,139,250,.4); animation: fill-in 2.5s cubic-bezier(.2,0,.1,1) both; }
-    .tg-meta { display: flex; justify-content: space-between; font-family: var(--ff-m); font-size: .6rem; color: var(--t3); }
-    .tg-meta span:last-child { color: var(--t2); }
+    /* ── GOAL CARDS ── */
+    .goals-wrap{display:flex;flex-direction:column;gap:14px;}
+    .goal-card{background:var(--bg-card);border:1px solid var(--b);border-radius:18px;padding:22px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;animation:fadeUp .4s cubic-bezier(.4,0,.2,1) both;}
+    .goal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.2),transparent);}
+    .goal-card:hover{border-color:var(--bh);transform:translateX(4px);box-shadow:0 8px 30px rgba(109,40,217,.12);}
+    .gc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;}
+    .gc-left{display:flex;align-items:center;gap:12px;}
+    .gc-icon{width:42px;height:42px;border-radius:12px;background:rgba(109,40,217,.14);border:1px solid rgba(109,40,217,.22);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;transition:transform .35s,box-shadow .35s;}
+    .goal-card:hover .gc-icon{transform:scale(1.1) rotate(-5deg);box-shadow:0 4px 16px rgba(109,40,217,.3);}
+    .gc-name{font-family:var(--ff-d);font-size:1.05rem;font-weight:400;margin-bottom:3px;}
+    .gc-dates{font-family:var(--ff-m);font-size:.58rem;color:var(--t3);letter-spacing:.04em;}
+    .gc-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+    .gc-status{font-family:var(--ff-m);font-size:.55rem;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:99px;}
+    .s-active{background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.22);color:var(--ok);}
+    .s-achieved{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.22);color:var(--bright);}
+    .s-paused{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);color:var(--warn);}
+    .gc-amount{font-family:var(--ff-m);font-size:.72rem;color:var(--bright);}
 
-    .tv-divider { height: 1px; background: var(--b); margin: 20px 0; }
-    .tv-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-    .tvs { background: rgba(109,40,217,.07); border: 1px solid rgba(109,40,217,.12); border-radius: 11px; padding: 12px; text-align: center; }
-    .tvs-v { font-family: var(--ff-d); font-size: 1.3rem; margin-bottom: 4px; background: var(--g2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .tvs-l { font-family: var(--ff-m); font-size: .55rem; color: var(--t3); letter-spacing: .08em; text-transform: uppercase; }
+    /* ── PROGRESS ── */
+    .gc-progress{margin-bottom:14px;}
+    .gp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+    .gp-saved{font-family:var(--ff-m);font-size:.65rem;color:var(--t2);}
+    .gp-pct{font-family:var(--ff-m);font-size:.75rem;font-weight:500;color:var(--bright);}
+    .gp-bar{height:5px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden;}
+    .gp-fill{height:100%;background:var(--g);border-radius:99px;box-shadow:0 0 10px rgba(167,139,250,.3);transition:width 1.2s cubic-bezier(.2,0,.1,1);}
+    .gp-fill.warn{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+    .gp-fill.done{background:linear-gradient(90deg,#86efac,#34d399);}
+    .gc-meta{display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap;}
+    .gm-item{display:flex;flex-direction:column;gap:2px;}
+    .gm-label{font-family:var(--ff-m);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);}
+    .gm-val{font-family:var(--ff-m);font-size:.72rem;color:var(--t1);}
 
-    .ai-tip { margin-top: 20px; background: linear-gradient(135deg,rgba(109,40,217,.1),rgba(79,70,229,.05)); border: 1px solid rgba(109,40,217,.22); border-radius: 14px; padding: 16px 18px; }
-    .ai-tip-label { font-family: var(--ff-m); font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; color: var(--bright); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .ai-tip-text { font-size: .82rem; color: var(--t2); line-height: 1.65; font-style: italic; }
-    .ai-tip-text strong { color: var(--t1); font-style: normal; font-weight: 500; }
+    /* ── CARD ACTIONS ── */
+    .gc-actions{display:flex;gap:8px;flex-wrap:wrap;}
+    .act-btn{padding:7px 14px;border-radius:9px;font-family:var(--ff-m);font-size:.6rem;letter-spacing:.06em;cursor:pointer;border:1px solid var(--b);background:transparent;color:var(--t2);transition:all .3s;}
+    .act-btn:hover{border-color:rgba(167,139,250,.38);color:var(--t1);transform:translateY(-2px);box-shadow:0 4px 12px rgba(109,40,217,.2);}
+    .act-btn.primary{background:rgba(109,40,217,.15);border-color:rgba(109,40,217,.3);color:var(--bright);}
+    .act-btn.primary:hover{background:rgba(109,40,217,.3);}
+    .act-btn.danger{border-color:rgba(248,113,113,.15);color:var(--err);}
+    .act-btn.danger:hover{background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.35);}
 
-    /* STATS ROW */
-    .stats-sec { padding: 80px 0; background: rgba(7,5,24,.5); border-top: 1px solid var(--b); border-bottom: 1px solid var(--b); position: relative; z-index: 1; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
-    .stat-card { background: var(--bg-card); border: 1px solid var(--b); border-radius: 18px; padding: 28px 24px; text-align: center; transition: all 0.4s cubic-bezier(.2,0,.1,1.5); cursor: default; }
-    .stat-card:hover { border-color: rgba(167,139,250,.28); transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 55px rgba(109,40,217,.18); }
-    .stat-val { font-family: var(--ff-d); font-size: 2.4rem; font-weight: 400; background: var(--g2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
-    .stat-lbl { font-size: .82rem; color: var(--t2); font-weight: 300; font-style: italic; }
+    /* ── ACHIEVED SECTION ── */
+    .achieved-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:6px;}
+    .achieved-card{background:linear-gradient(135deg,rgba(134,239,172,.06),rgba(52,211,153,.04));border:1px solid rgba(134,239,172,.18);border-radius:16px;padding:20px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;animation:fadeUp .4s cubic-bezier(.4,0,.2,1) both;}
+    .achieved-card:hover{border-color:rgba(134,239,172,.35);transform:translateY(-4px);}
+    .achieved-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(134,239,172,.35),transparent);}
+    .ach-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-m);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ok);background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.2);padding:3px 10px;border-radius:99px;margin-bottom:10px;}
+    .ach-name{font-family:var(--ff-d);font-size:1rem;margin-bottom:6px;}
+    .ach-amount{font-family:var(--ff-m);font-size:.75rem;color:var(--t2);}
+    .ach-amount span{color:var(--ok);}
 
-    /* CTA */
-    .cta-sec { padding: 110px 0; text-align: center; position: relative; z-index: 1; background: var(--bg); }
-    .cta-sec::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 800px; height: 500px; background: radial-gradient(ellipse,rgba(109,40,217,.15) 0%,transparent 65%); pointer-events: none; }
-    .cta-inner { position: relative; z-index: 1; }
-    .cta-inner .s-sub { margin: 0 auto 40px; }
-    .cta-btns { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    /* ── EMPTY STATE ── */
+    .empty-state{text-align:center;padding:52px 20px;}
+    .es-icon{font-size:2.8rem;margin-bottom:14px;opacity:.45;}
+    .es-title{font-family:var(--ff-d);font-size:1.25rem;color:var(--t2);margin-bottom:8px;}
+    .es-sub{font-size:.82rem;color:var(--t3);font-style:italic;}
 
-    /* Footer */
-    footer { background: rgba(7,5,24,.9); border-top: 1px solid var(--b); padding: 28px 0; position: relative; z-index: 1; }
-    .ft-inner { max-width: 1180px; margin: 0 auto; padding: 0 56px; display: flex; justify-content: center; }
-    .ft-copy { font-family: var(--ff-m); font-size: .65rem; color: var(--t3); }
+    /* ── LOADING ── */
+    .loading-state{display:flex;align-items:center;justify-content:center;gap:8px;padding:36px;font-family:var(--ff-m);font-size:.7rem;color:var(--t3);}
+    .ld{width:5px;height:5px;border-radius:50%;background:var(--bright);animation:pulse 1.1s ease-in-out infinite;}
+    .ld:nth-child(2){animation-delay:.18s;}.ld:nth-child(3){animation-delay:.36s;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.6);}}
 
-    /* Reveal */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.in { opacity: 1; transform: none; }
-    .cat-grid .reveal:nth-child(2) { transition-delay: .06s; }
-    .cat-grid .reveal:nth-child(3) { transition-delay: .12s; }
-    .cat-grid .reveal:nth-child(4) { transition-delay: .18s; }
-    .cat-grid .reveal:nth-child(5) { transition-delay: .24s; }
-    .cat-grid .reveal:nth-child(6) { transition-delay: .30s; }
-    .hiw-grid .reveal:nth-child(2) { transition-delay: .08s; }
-    .hiw-grid .reveal:nth-child(3) { transition-delay: .16s; }
-    .hiw-grid .reveal:nth-child(4) { transition-delay: .24s; }
+    /* ── MODAL ── */
+    .modal-bg{position:fixed;inset:0;background:rgba(4,3,15,.88);backdrop-filter:blur(10px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;}
+    .modal-bg.open{display:flex;animation:modalFade .25s ease;}
+    @keyframes modalFade{from{opacity:0;}to{opacity:1;}}
+    .modal{background:var(--bg-card);border:1px solid var(--b);border-radius:22px;padding:32px;max-width:420px;width:100%;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.65);animation:modalSlide .3s cubic-bezier(.4,0,.2,1);}
+    @keyframes modalSlide{from{transform:translateY(20px) scale(.97);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}
+    .modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.55),transparent);}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:1px solid transparent;color:var(--t3);font-size:1rem;cursor:pointer;padding:5px 9px;border-radius:7px;transition:all .3s;}
+    .modal-close:hover{color:var(--t1);background:rgba(255,255,255,.06);border-color:var(--b);transform:rotate(90deg);}
+    .modal-title{font-family:var(--ff-d);font-size:1.25rem;margin-bottom:5px;}
+    .modal-title em{font-style:italic;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .modal-sub{font-size:.8rem;color:var(--t3);margin-bottom:22px;}
+    .modal-goal-name{font-family:var(--ff-m);font-size:.65rem;color:var(--bright);background:rgba(109,40,217,.12);border:1px solid rgba(109,40,217,.22);padding:8px 12px;border-radius:9px;margin-bottom:18px;}
+    .modal-row{display:flex;gap:10px;margin-top:18px;justify-content:flex-end;}
+    .btn-cancel{padding:11px 22px;background:transparent;color:var(--t2);border:1px solid var(--b);font-family:var(--ff-b);font-size:.84rem;border-radius:11px;cursor:pointer;transition:all .3s;}
+    .btn-cancel:hover{border-color:var(--bh);color:var(--t1);transform:translateY(-2px);}
+    .btn-save{padding:11px 26px;background:var(--g);color:#fff;border:none;font-family:var(--ff-b);font-size:.84rem;font-weight:600;border-radius:11px;cursor:pointer;box-shadow:0 4px 18px rgba(109,40,217,.38);transition:transform .3s,box-shadow .3s;display:flex;align-items:center;gap:8px;}
+    .btn-save:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(109,40,217,.6);}
+    .btn-save:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
 
-    @media(max-width:1100px) { .cat-grid { grid-template-columns: repeat(2,1fr); } .stats-grid { grid-template-columns: repeat(2,1fr); } .hiw-grid { grid-template-columns: repeat(2,1fr); } }
-    @media(max-width:900px) { nav { padding: 0 20px; } .container { padding: 0 24px; } .tracker-inner { grid-template-columns: 1fr; gap: 40px; } }
-    @media(max-width:600px) { .nav-links { display: none; } .cat-grid { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr 1fr; } }
+    /* ── TOAST ── */
+    .toast{position:fixed;bottom:28px;right:28px;z-index:500;padding:14px 22px;border-radius:14px;font-family:var(--ff-m);font-size:.72rem;display:flex;align-items:center;gap:10px;box-shadow:0 16px 48px rgba(0,0,0,.5);transform:translateY(20px);opacity:0;pointer-events:none;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .4s;}
+    .toast.show{transform:translateY(0);opacity:1;}
+    .toast.ok{background:rgba(6,20,12,.95);border:1px solid rgba(134,239,172,.3);color:var(--ok);}
+    .toast.err{background:rgba(20,6,6,.95);border:1px solid rgba(248,113,113,.3);color:var(--err);}
+
+    @media(max-width:1100px){.two-col{grid-template-columns:1fr;}.stats-row{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:860px){:root{--sw:0px;}.sidebar{display:none;}.main{margin-left:0;}.content{padding:20px 16px 60px;}}
+    @media(max-width:580px){.stats-row{grid-template-columns:1fr 1fr;}.form-row-2{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/" class="nav-logo">FinTrack AI</a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/features">Features</a></li>
-      <li><a href="/goals">Goals</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/login" class="nl-login">Login</a></li>
-      <li><a href="/signup" class="nl-signup">Get Started</a></li>
-    </ul>
-  </nav>
+<div class="aurora"><div class="aurora-blob"></div><div class="aurora-blob"></div><div class="aurora-blob"></div></div>
+<canvas id="sparkleCanvas"></canvas>
+<div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastText"></span></div>
 
-  <!-- HERO -->
-  <section class="goals-hero">
-    <div class="container">
-      <div class="eyebrow reveal">Savings Goals</div>
-      <h1 class="s-title reveal">Every Dream Deserves a <span class="gt"><em>Savings Plan</em></span></h1>
-      <p class="s-sub reveal">From a laptop to a house, from a vacation to an emergency fund — FinTrack AI helps you set structured, trackable goals so every rupee works with purpose.</p>
-      <div class="hero-btns reveal">
-        <a href="/signup" class="btn-p">Start Tracking Goals →</a>
-        <a href="/login" class="btn-s">Sign In</a>
+<!-- SAVINGS MODAL -->
+<div class="modal-bg" id="savingsModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">Add <em>Savings</em></div>
+    <div class="modal-sub">Record this month's contribution toward your goal</div>
+    <div class="modal-goal-name" id="modalGoalName">—</div>
+    <input type="hidden" id="modalGoalId"/>
+    <div class="field">
+      <label>Amount Saved This Month (₹) <span class="label-req">Required</span></label>
+      <div class="input-wrap">
+        <span class="inp-icon">₹</span>
+        <input type="number" id="saveAmount" class="has-ico" placeholder="e.g. 8000" min="1"/>
       </div>
     </div>
-  </section>
-
-  <!-- GOAL CATEGORIES -->
-  <section class="categories-sec">
-    <div class="container">
-      <div class="s-head reveal">
-        <div class="eyebrow">What You Can Track</div>
-        <h2 class="s-title">Six Goals, <span class="gt"><em>Infinite Possibilities</em></span></h2>
-        <p class="s-sub">FinTrack AI supports every kind of savings goal — from everyday purchases to life-defining milestones.</p>
-      </div>
-      <div class="cat-grid">
-        <!-- Car -->
-        <div class="cat-card reveal">
-          <div class="cat-top"><div class="cat-icon">🚗</div><div class="cat-range">₹3L – ₹30L</div></div>
-          <div class="cat-name">Buy a Car</div>
-          <div class="cat-desc">From a pre-owned hatchback to your dream SUV — set your target and watch your savings build toward it month by month.</div>
-          <div class="cat-progress">
-            <div class="cp-top"><span>Example Progress</span><span class="pct">62%</span></div>
-            <div class="cp-bar"><div class="cp-fill" style="width:62%"></div></div>
-            <div class="cp-saved">₹5,27,000 saved of <span>₹8,50,000</span> target</div>
-          </div>
-        </div>
-        <!-- House -->
-        <div class="cat-card reveal">
-          <div class="cat-top"><div class="cat-icon">🏠</div><div class="cat-range">₹5L – ₹2Cr+</div></div>
-          <div class="cat-name">Buy a House</div>
-          <div class="cat-desc">Your most ambitious financial goal deserves a real plan. Track down-payments and long-term savings with clarity.</div>
-          <div class="cat-progress">
-            <div class="cp-top"><span>Example Progress</span><span class="pct">28%</span></div>
-            <div class="cp-bar"><div class="cp-fill" style="width:28%"></div></div>
-            <div class="cp-saved">₹4,20,000 saved of <span>₹15,00,000</span> target</div>
-          </div>
-        </div>
-        <!-- Emergency -->
-        <div class="cat-card reveal">
-          <div class="cat-top"><div class="cat-icon">🛡️</div><div class="cat-range">₹50K – ₹5L</div></div>
-          <div class="cat-name">Emergency Fund</div>
-          <div class="cat-desc">Financial security starts with 3–6 months of expenses saved. Set your safety net goal and build it systematically.</div>
-          <div class="cat-progress">
-            <div class="cp-top"><span>Example Progress</span><span class="pct">41%</span></div>
-            <div class="cp-bar"><div class="cp-fill" style="width:41%"></div></div>
-            <div class="cp-saved">₹82,000 saved of <span>₹2,00,000</span> target</div>
-          </div>
-        </div>
-        <!-- Vacation -->
-        <div class="cat-card reveal">
-          <div class="cat-top"><div class="cat-icon">✈️</div><div class="cat-range">₹30K – ₹5L</div></div>
-          <div class="cat-name">Dream Vacation</div>
-          <div class="cat-desc">Bali, Europe, Japan — wherever you want to go, a clear savings goal makes it a plan, not just a wish.</div>
-          <div class="cat-progress">
-            <div class="cp-top"><span>Example Progress</span><span class="pct">75%</span></div>
-            <div class="cp-bar"><div class="cp-fill" style="width:75%"></div></div>
-            <div class="cp-saved">₹90,000 saved of <span>₹1,20,000</span> target</div>
-          </div>
-        </div>
-        <!-- Gadget -->
-        <div class="cat-card reveal">
-          <div class="cat-top"><div class="cat-icon">💻</div><div class="cat-range">₹20K – ₹2L</div></div>
-          <div class="cat-name">Gadgets & Tech</div>
-          <div class="cat-desc">New laptop, phone, camera — save for it over time instead of stretching your budget all at once.</div>
-          <div class="cat-progress">
-            <div class="cp-top"><span>Example Progress</span><span class="pct">88%</span></div>
-            <div class="cp-bar"><div class="cp-fill" style="width:88%"></div></div>
-            <div class="cp-saved">₹83,600 saved of <span>₹95,000</span> target</div>
-          </div>
-        </div>
-        <!-- Education -->
-        <div class="cat-card reveal">
-          <div class="cat-top"><div class="cat-icon">🎓</div><div class="cat-range">₹1L – ₹20L+</div></div>
-          <div class="cat-name">Higher Education</div>
-          <div class="cat-desc">PG, MBA, abroad studies — long-horizon goals need the most structure. FinTrack AI makes them manageable.</div>
-          <div class="cat-progress">
-            <div class="cp-top"><span>Example Progress</span><span class="pct">19%</span></div>
-            <div class="cp-bar"><div class="cp-fill" style="width:19%"></div></div>
-            <div class="cp-saved">₹95,000 saved of <span>₹5,00,000</span> target</div>
-          </div>
-        </div>
-      </div>
+    <div class="modal-row">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" id="modalSaveBtn" onclick="saveGoalProgress()">
+        <div class="spinner-sm" id="modalSpinner" style="border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;"></div>
+        <span>Record Savings →</span>
+      </button>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- HOW IT WORKS FOR GOALS -->
-  <section class="how-sec">
-    <div class="container">
-      <div class="s-head reveal">
-        <div class="eyebrow">Goal Lifecycle</div>
-        <h2 class="s-title">From Idea to <span class="gt"><em>Achievement</em></span></h2>
-        <p class="s-sub">Four simple steps that turn a financial wish into a concrete, trackable reality.</p>
-      </div>
-      <div class="hiw-grid">
-        <div class="step-card reveal"><div class="step-n">01</div><div class="step-t">Define Your Goal</div><p class="step-d">Name it, set the target amount, and choose your deadline. FinTrack AI handles the math from there.</p></div>
-        <div class="step-card reveal"><div class="step-n">02</div><div class="step-t">Get a Monthly Plan</div><p class="step-d">The AI calculates exactly how much you need to save per month to reach your goal by your target date.</p></div>
-        <div class="step-card reveal"><div class="step-n">03</div><div class="step-t">Log Monthly Savings</div><p class="step-d">Each month, log what you actually saved. Watch the progress bar grow and get reassured you're on track.</p></div>
-        <div class="step-card reveal"><div class="step-n">04</div><div class="step-t">Achieve & Celebrate</div><p class="step-d">When you hit 100%, your goal is marked Achieved. Then set the next one — the momentum is yours to keep.</p></div>
-      </div>
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="/" class="sb-logo"><div class="logo-gem">✦</div>FinTrack AI</a>
+    <div class="sb-user">
+      <div class="sb-avatar">U</div>
+      <div><div class="sb-name">My Account</div><div class="sb-email">goals tracker</div></div>
     </div>
-  </section>
+    <nav class="sb-nav">
+      <div class="sb-section">Main</div>
+      <a href="/dashboard" class="sb-link"><span class="sb-ico">🏠</span> Overview</a>
+      <a href="/goals" class="sb-link active"><span class="sb-ico">🎯</span> My Goals <span class="sb-badge" id="goalsBadge">0</span></a>
+      <div class="sb-section">Profile</div>
+      <a href="/income" class="sb-link"><span class="sb-ico">💰</span> Income Profile</a>
+      <a href="/expense" class="sb-link"><span class="sb-ico">💸</span> Expenses</a>
+      <div class="sb-section">Insights</div>
+      <a href="/analytics" class="sb-link"><span class="sb-ico">📊</span> Analytics</a>
+      <a href="/ai" class="sb-link"><span class="sb-ico">✨</span> AI Insights</a>
+      <div class="sb-section">Account</div>
+      <a href="/settings" class="sb-link"><span class="sb-ico">⚙️</span> Settings</a>
+    </nav>
+    <div class="sb-bottom"><button class="logout-btn">⬡ &nbsp;Sign Out</button></div>
+  </aside>
 
-  <!-- SMART TRACKER SECTION -->
-  <section class="tracker-sec">
-    <div class="container">
-      <div class="tracker-inner">
-        <div class="tracker-copy reveal">
-          <div class="eyebrow">Smart Tracking</div>
-          <h2 class="s-title">Every Rupee Tells a <span class="gt"><em>Story</em></span></h2>
-          <p class="s-sub">FinTrack AI connects your income and expenses directly to your goals — so you always know what's possible and what's at risk.</p>
-          <div class="tc-points">
-            <div class="tcp"><div class="tcp-dot"></div><div class="tcp-t"><strong>Automatic ETA recalculation</strong> — every time you log a saving, your goal's ETA updates in real time.</div></div>
-            <div class="tcp"><div class="tcp-dot"></div><div class="tcp-t"><strong>Multiple goals in parallel</strong> — manage a car fund, vacation savings, and an emergency fund all at once.</div></div>
-            <div class="tcp"><div class="tcp-dot"></div><div class="tcp-t"><strong>Pause &amp; resume</strong> — life happens. Pause a goal when you need to, and pick it back up later.</div></div>
-            <div class="tcp"><div class="tcp-dot"></div><div class="tcp-t"><strong>AI-driven nudges</strong> — tips that tell you exactly which expense category to trim to reach your goal faster.</div></div>
-          </div>
-        </div>
-        <div class="tracker-visual reveal">
-          <div class="tv-header">
-            <div class="tv-title">Goal Dashboard</div>
-            <div class="tv-badge">LIVE</div>
-          </div>
-          <div class="tv-goal">
-            <div class="tg-top">
-              <div class="tg-name"><div class="tg-ico">🏠</div>Dream House</div>
-              <div class="tg-pct">28%</div>
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <a href="/" class="back-btn">← &nbsp;Dashboard</a>
+        <div class="topbar-title">My Goals</div>
+      </div>
+      <div class="topbar-right"><span class="eyebrow-sm" id="topbarDate"></span></div>
+    </div>
+
+    <div class="content">
+      <div class="page-hero">
+        <div class="page-eyebrow">Financial Goals</div>
+        <h1 class="page-hero-title">Track Your <span>Dreams</span></h1>
+        <p class="page-hero-sub">Set savings goals, track monthly progress, and watch your financial targets become reality.</p>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-mini"><span class="sm-icon">🎯</span><div class="sm-label">Active Goals</div><div class="sm-val" id="statActive">—</div></div>
+        <div class="stat-mini"><span class="sm-icon">🏆</span><div class="sm-label">Achieved</div><div class="sm-val" id="statAchieved">—</div></div>
+        <div class="stat-mini"><span class="sm-icon">💰</span><div class="sm-label">Total Saved</div><div class="sm-val" id="statSaved">—</div></div>
+        <div class="stat-mini"><span class="sm-icon">📅</span><div class="sm-label">Monthly Target</div><div class="sm-val" id="statMonthly">—</div></div>
+      </div>
+
+      <hr class="glow-divider" style="margin-top:0;"/>
+
+      <div class="two-col">
+        <!-- LEFT: CREATE FORM -->
+        <div class="panel">
+          <div class="panel-title"><div class="panel-title-icon">✦</div> Create <em>Goal</em></div>
+          <div class="field">
+            <label>Goal Name <span class="label-req">Required</span></label>
+            <div class="input-wrap">
+              <span class="inp-icon">🎯</span>
+              <input type="text" id="gName" class="has-ico" placeholder="e.g. Emergency Fund…"/>
             </div>
-            <div class="tg-bar"><div class="tg-fill" style="width:28%"></div></div>
-            <div class="tg-meta"><span>₹4,20,000 saved</span><span>₹15,00,000 target</span></div>
           </div>
-          <div class="tv-goal">
-            <div class="tg-top">
-              <div class="tg-name"><div class="tg-ico">🚗</div>Buy a Car</div>
-              <div class="tg-pct" style="color:var(--ok)">62%</div>
+          <div class="field">
+            <label>Target Amount (₹) <span class="label-req">Required</span></label>
+            <div class="input-wrap">
+              <span class="inp-icon">₹</span>
+              <input type="number" id="gAmount" class="has-ico" placeholder="e.g. 200000" min="1" oninput="calcMonthly()"/>
             </div>
-            <div class="tg-bar"><div class="tg-fill" style="width:62%;background:linear-gradient(90deg,#059669,#86efac)"></div></div>
-            <div class="tg-meta"><span>₹5,27,000 saved</span><span>₹8,50,000 target</span></div>
           </div>
-          <div class="tv-goal">
-            <div class="tg-top">
-              <div class="tg-name"><div class="tg-ico">✈️</div>Vacation – Japan</div>
-              <div class="tg-pct" style="color:var(--warn)">75%</div>
+          <div class="field">
+            <label>Monthly Saving Target (₹)</label>
+            <div class="input-wrap">
+              <span class="inp-icon">📈</span>
+              <input type="number" id="gMonthly" class="has-ico" placeholder="Auto-calculated or override" min="1"/>
             </div>
-            <div class="tg-bar"><div class="tg-fill" style="width:75%;background:linear-gradient(90deg,#b45309,#fbbf24)"></div></div>
-            <div class="tg-meta"><span>₹90,000 saved</span><span>₹1,20,000 target</span></div>
+            <span class="field-hint">Leave blank to auto-calculate from dates.</span>
           </div>
-          <div class="tv-divider"></div>
-          <div class="tv-stats">
-            <div class="tvs"><div class="tvs-v">3</div><div class="tvs-l">Active Goals</div></div>
-            <div class="tvs"><div class="tvs-v">₹10.4L</div><div class="tvs-l">Total Saved</div></div>
-            <div class="tvs"><div class="tvs-v">2</div><div class="tvs-l">Achieved</div></div>
+          <div class="form-row-2">
+            <div class="field" style="margin-bottom:0;">
+              <label>Start Date</label>
+              <input type="date" id="gStart" oninput="calcMonthly()"/>
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>End Date <span class="label-req">Required</span></label>
+              <input type="date" id="gEnd" oninput="calcMonthly()"/>
+            </div>
           </div>
-          <div class="ai-tip">
-            <div class="ai-tip-label">✦ AI Insight</div>
-            <div class="ai-tip-text">Reduce dining out by <strong>₹2,500/month</strong> to hit your car goal <strong>3 months earlier</strong>.</div>
+          <div class="calc-box" id="calcBox" style="display:none;">
+            <span class="calc-label">Monthly Needed</span>
+            <span class="calc-val" id="calcVal">₹0</span>
+          </div>
+          <button class="btn-primary" id="createBtn" onclick="createGoal()">
+            <div class="spinner-sm" id="createSpinner"></div>
+            <span class="btn-text">Create Goal</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </div>
+
+        <!-- RIGHT: GOALS LIST -->
+        <div>
+          <div class="panel" style="padding-bottom:20px;">
+            <div class="panel-title"><div class="panel-title-icon">📋</div> <em>Active</em> Goals</div>
+            <div id="activeGoalsWrap">
+              <div class="loading-state"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span style="margin-left:6px;">Loading goals…</span></div>
+            </div>
+          </div>
+
+          <!-- ACHIEVED -->
+          <div class="panel" style="margin-top:20px;" id="achievedPanel">
+            <div class="panel-title"><div class="panel-title-icon">🏆</div> <em>Achieved</em> Goals</div>
+            <div id="achievedWrap">
+              <div class="empty-state" style="padding:24px;"><div class="es-icon">🏆</div><div class="es-title" style="font-size:1rem;">No achievements yet</div><div class="es-sub">Complete a goal to see it here</div></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- STATS -->
-  <section class="stats-sec">
-    <div class="container">
-      <div class="stats-grid reveal">
-        <div class="stat-card"><div class="stat-val">3.2×</div><div class="stat-lbl">Faster goal achievement with structured tracking vs no plan</div></div>
-        <div class="stat-card"><div class="stat-val">₹48K</div><div class="stat-lbl">Average annual savings improvement with AI insights</div></div>
-        <div class="stat-card"><div class="stat-val">91%</div><div class="stat-lbl">Goal completion rate for users who set up tracking in week one</div></div>
-        <div class="stat-card"><div class="stat-val">∞</div><div class="stat-lbl">Goals you can create — no limits, no fees, no confusion</div></div>
-      </div>
     </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-sec">
-    <div class="container">
-      <div class="cta-inner reveal">
-        <div class="eyebrow">Start Today, Free</div>
-        <h2 class="s-title">Your First Goal Takes <span class="gt"><em>Two Minutes</em></span></h2>
-        <p class="s-sub">Create your account, name your first goal, and let FinTrack AI build the plan for you. No credit card, no complexity.</p>
-        <div class="cta-btns">
-          <a href="/signup" class="btn-p">Create Free Account →</a>
-          <a href="/features" class="btn-s">Explore All Features</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="ft-inner">
-      <span class="ft-copy">© 2026 FinTrack AI. All rights reserved.</span>
-    </div>
-  </footer>
+  </main>
+</div>
 
 <script>
-var io = new IntersectionObserver(function(entries){
-  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
-},{threshold:.1});
-document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+/* ── SPARKLES ── */
+(function(){var c=document.getElementById('sparkleCanvas'),ctx=c.getContext('2d'),W,H;function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}r();window.addEventListener('resize',r);var C=['rgba(167,139,250,','rgba(196,181,253,','rgba(129,140,248,','rgba(255,255,255,','rgba(109,40,217,'];function mk(){return{x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.3,a:0,ma:Math.random()*.55+.1,f:Math.random()<.5?1:-1,sp:Math.random()*.008+.003,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22-.05,col:C[Math.floor(Math.random()*C.length)],tw:Math.random()*Math.PI*2,tws:Math.random()*.04+.01,cr:Math.random()<.25?(Math.random()*4+2):0};}var s=[];for(var i=0;i<55;i++){var p=mk();p.a=Math.random()*p.ma;s.push(p);}function dX(x,y,sz,a,col){ctx.save();ctx.strokeStyle=col+a+')';ctx.lineWidth=.8;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x-sz,y);ctx.lineTo(x+sz,y);ctx.moveTo(x,y-sz);ctx.lineTo(x,y+sz);ctx.moveTo(x-sz*.6,y-sz*.6);ctx.lineTo(x+sz*.6,y+sz*.6);ctx.moveTo(x+sz*.6,y-sz*.6);ctx.lineTo(x-sz*.6,y+sz*.6);ctx.stroke();ctx.restore();}function frame(){ctx.clearRect(0,0,W,H);for(var i=0;i<s.length;i++){var p=s[i];p.tw+=p.tws;var tf=.5+.5*Math.sin(p.tw);p.a+=p.sp*p.f;if(p.a>=p.ma)p.f=-1;if(p.a<=0){s[i]=mk();s[i].a=0;continue;}p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;var a=p.a*tf;if(p.cr>0){dX(p.x,p.y,p.cr,a,p.col);}else{var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);g.addColorStop(0,p.col+a+')');g.addColorStop(1,p.col+'0)');ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.col+Math.min(a*1.5,1)+')';ctx.fill();}}requestAnimationFrame(frame);}frame();})();
+
+document.getElementById('topbarDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+var today=new Date().toISOString().split('T')[0];
+document.getElementById('gStart').value=today;
+
+/* ── HELPERS ── */
+function fmt(n){return '₹'+Number(n||0).toLocaleString('en-IN');}
+function goalIcon(name){var n=(name||'').toLowerCase();var m={car:'🚗',house:'🏠',home:'🏠',emergency:'🛡️',vacation:'✈️',laptop:'💻',phone:'📱',education:'🎓',travel:'✈️',bike:'🏍️',wedding:'💍',health:'🏥'};for(var k in m)if(n.includes(k))return m[k];return '🎯';}
+function showToast(type,msg){var t=document.getElementById('toast');t.className='toast '+type;document.getElementById('toastIcon').textContent=type==='ok'?'✓':'✕';document.getElementById('toastText').textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3800);}
+function triggerDashboardRefresh(){try{localStorage.setItem('dashboard_refresh','true');}catch(e){}}
+
+/* ── CALC MONTHLY ── */
+function calcMonthly(){
+  var amt=+document.getElementById('gAmount').value||0;
+  var s=document.getElementById('gStart').value;
+  var e=document.getElementById('gEnd').value;
+  if(amt&&s&&e){
+    var sd=new Date(s),ed=new Date(e);
+    var months=Math.max(1,(ed.getFullYear()-sd.getFullYear())*12+(ed.getMonth()-sd.getMonth()));
+    var monthly=Math.ceil(amt/months);
+    document.getElementById('calcVal').textContent=fmt(monthly);
+    document.getElementById('calcBox').style.display='flex';
+    if(!document.getElementById('gMonthly').value)
+      document.getElementById('gMonthly').placeholder='Auto: '+fmt(monthly);
+  } else {
+    document.getElementById('calcBox').style.display='none';
+  }
+}
+
+/* ── STATE ── */
+var allGoals=[];
+
+/* ── FETCH ── */
+async function fetchGoals(){
+  document.getElementById('activeGoalsWrap').innerHTML='<div class="loading-state"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span style="margin-left:6px;">Loading goals…</span></div>';
+  try{
+    var r=await fetch('/api/goals/list');
+    if(r.status===401){window.location.href='/login';return;}
+    var d=await r.json();
+    allGoals=d.goals||[];
+    renderGoals();
+  }catch(e){
+    document.getElementById('activeGoalsWrap').innerHTML='<div class="empty-state"><div class="es-icon">⚠️</div><div class="es-title">Could not load goals</div><div class="es-sub">Check your connection and refresh.</div></div>';
+  }
+}
+
+/* ── RENDER ── */
+function renderGoals(){
+  var active=allGoals.filter(function(g){return g.GOAL_STATUS==='ACTIVE';});
+  var achieved=allGoals.filter(function(g){return g.GOAL_STATUS==='ACHIEVED';});
+  var totalSaved=allGoals.reduce(function(a,g){return a+(+(g.TOTAL_SAVED||0));},0);
+  var totalMonthly=active.reduce(function(a,g){return a+(+(g.MONTHLY_SAVING_T||0));},0);
+
+  /* stats */
+  document.getElementById('statActive').textContent=active.length;
+  document.getElementById('statAchieved').textContent=achieved.length;
+  document.getElementById('statSaved').textContent=fmt(totalSaved);
+  document.getElementById('statMonthly').textContent=fmt(totalMonthly);
+  document.getElementById('goalsBadge').textContent=active.length;
+
+  /* active goals */
+  var aw=document.getElementById('activeGoalsWrap');
+  if(!active.length){
+    aw.innerHTML='<div class="empty-state"><div class="es-icon">🎯</div><div class="es-title">No active goals</div><div class="es-sub">Create your first goal using the form on the left.</div></div>';
+  } else {
+    aw.innerHTML='<div class="goals-wrap">'+active.map(renderGoalCard).join('')+'</div>';
+    /* animate bars after render */
+    setTimeout(function(){
+      document.querySelectorAll('.gp-fill[data-pct]').forEach(function(el){
+        el.style.width=el.dataset.pct+'%';
+      });
+    },50);
+  }
+
+  /* achieved */
+  var achW=document.getElementById('achievedWrap');
+  if(!achieved.length){
+    achW.innerHTML='<div class="empty-state" style="padding:24px;"><div class="es-icon">🏆</div><div class="es-title" style="font-size:1rem;">No achievements yet</div><div class="es-sub">Complete a goal to see it here</div></div>';
+  } else {
+    achW.innerHTML='<div class="achieved-wrap">'+achieved.map(function(g){
+      return '<div class="achieved-card"><div class="ach-badge">🏆 Achieved</div><div class="ach-name">'+g.GOAL_NAME+'</div><div class="ach-amount">Target: <span>'+fmt(g.GOAL_AMOUNT)+'</span></div></div>';
+    }).join('')+'</div>';
+  }
+}
+
+function renderGoalCard(g){
+  var saved=+(g.TOTAL_SAVED||0);
+  var target=+(g.GOAL_AMOUNT||1);
+  var pct=Math.min(100,Math.round((saved/target)*100));
+  var fillClass=pct>=100?'done':pct>=75?'warn':'';
+  var statusClass=g.GOAL_STATUS==='ACTIVE'?'s-active':g.GOAL_STATUS==='ACHIEVED'?'s-achieved':'s-paused';
+  return '<div class="goal-card">'+
+    '<div class="gc-top">'+
+      '<div class="gc-left">'+
+        '<div class="gc-icon">'+goalIcon(g.GOAL_NAME)+'</div>'+
+        '<div>'+
+          '<div class="gc-name">'+g.GOAL_NAME+'</div>'+
+          '<div class="gc-dates">'+fmtDate(g.START_DATE)+' → '+fmtDate(g.END_DATE)+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="gc-right">'+
+        '<div class="gc-status '+statusClass+'">'+g.GOAL_STATUS+'</div>'+
+        '<div class="gc-amount">'+fmt(g.GOAL_AMOUNT)+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="gc-meta">'+
+      '<div class="gm-item"><div class="gm-label">Saved</div><div class="gm-val">'+fmt(saved)+'</div></div>'+
+      '<div class="gm-item"><div class="gm-label">Remaining</div><div class="gm-val">'+fmt(Math.max(0,target-saved))+'</div></div>'+
+      '<div class="gm-item"><div class="gm-label">Monthly Target</div><div class="gm-val">'+fmt(g.MONTHLY_SAVING_T)+'</div></div>'+
+    '</div>'+
+    '<div class="gc-progress">'+
+      '<div class="gp-row"><span class="gp-saved">'+fmt(saved)+' of '+fmt(target)+'</span><span class="gp-pct">'+pct+'%</span></div>'+
+      '<div class="gp-bar"><div class="gp-fill '+fillClass+'" data-pct="'+pct+'" style="width:0%;"></div></div>'+
+    '</div>'+
+    '<div class="gc-actions">'+
+      '<button class="act-btn primary" onclick="openSavingsModal('+g.GOALID+',\''+g.GOAL_NAME.replace(/'/g,"\\'")+'\')"  >+ Add Savings</button>'+
+      '<button class="act-btn danger" onclick="deleteGoal('+g.GOALID+')">Delete</button>'+
+    '</div>'+
+  '</div>';
+}
+
+function fmtDate(d){if(!d)return '—';return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+
+/* ── CREATE GOAL ── */
+async function createGoal(){
+  var name=document.getElementById('gName').value.trim();
+  var amount=document.getElementById('gAmount').value;
+  var monthly=document.getElementById('gMonthly').value;
+  var start=document.getElementById('gStart').value;
+  var end=document.getElementById('gEnd').value;
+  if(!name||!amount||!end){showToast('err','Please fill in Goal Name, Target Amount, and End Date.');return;}
+
+  /* auto-calc monthly if not given */
+  if(!monthly&&start&&end){
+    var sd=new Date(start),ed=new Date(end);
+    var months=Math.max(1,(ed.getFullYear()-sd.getFullYear())*12+(ed.getMonth()-sd.getMonth()));
+    monthly=Math.ceil(+amount/months);
+  }
+
+  var btn=document.getElementById('createBtn');
+  btn.disabled=true;btn.classList.add('loading');
+
+  try{
+    var r=await fetch('/api/goals/create',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({goal_name:name,goal_amount:+amount,monthly_saving_t:+monthly||0,start_date:start,end_date:end})});
+    var d=await r.json();
+    if(d.success){
+      showToast('ok','Goal "'+name+'" created!');
+      document.getElementById('gName').value='';
+      document.getElementById('gAmount').value='';
+      document.getElementById('gMonthly').value='';
+      document.getElementById('gEnd').value='';
+      document.getElementById('calcBox').style.display='none';
+      triggerDashboardRefresh();
+      await fetchGoals();
+    } else {
+      showToast('err',d.message||'Failed to create goal.');
+    }
+  }catch(e){showToast('err','Network error.');}
+  btn.disabled=false;btn.classList.remove('loading');
+}
+
+/* ── SAVINGS MODAL ── */
+function openSavingsModal(goalId, goalName){
+
+  console.log("Goal ID received:", goalId); // debugging line
+
+  document.getElementById('modalGoalId').value = goalId;
+
+  document.getElementById('modalGoalName').textContent = goalName;
+
+  document.getElementById('saveAmount').value = '';
+
+  document.getElementById('savingsModal').classList.add('open');
+}
+function closeModal(){document.getElementById('savingsModal').classList.remove('open');}
+
+async function saveGoalProgress(){
+
+  const goalIdEl = document.getElementById("modalGoalId");
+  const amountEl = document.getElementById("saveAmount");
+
+  console.log("GoalId element:", goalIdEl);
+  console.log("Amount element:", amountEl);
+
+  const goalId = goalIdEl ? goalIdEl.value : null;
+  const amount = amountEl ? amountEl.value : null;
+
+  console.log("GoalId value:", goalId);
+  console.log("Amount value:", amount);
+
+  if (!goalId || !amount || Number(amount) <= 0){
+    showToast("err","Enter valid amount.");
+    return;
+  }
+
+  try{
+
+    const response = await fetch("/api/goals/save-progress",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        goal_id:Number(goalId),
+        save_month:Number(amount)
+      })
+    });
+
+    const data = await response.json();
+
+    if(data.success){
+
+      showToast("ok","Savings recorded successfully");
+
+      closeModal();
+
+      await fetchGoals();
+
+    }else{
+
+      showToast("err", data.message || "Save failed");
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast("err","Network error");
+
+  }
+}
+
+/* ── DELETE GOAL ── */
+async function deleteGoal(id){
+  if(!confirm('Delete this goal and all its history? This cannot be undone.'))return;
+  try{
+    var r=await fetch('/api/goals/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({goal_id:id})});
+    var d=await r.json();
+    if(d.success){showToast('ok','Goal deleted.');triggerDashboardRefresh();await fetchGoals();}
+    else showToast('err',d.message||'Failed to delete.');
+  }catch(e){showToast('err','Network error.');}
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded',function(){fetchGoals();});
 </script>
 </body>
 </html>

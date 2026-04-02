@@ -273,7 +273,7 @@
     </div>
     <nav class="sb-nav">
       <div class="sb-section">Main</div>
-      <a href="/" class="sb-link"><span class="sb-ico">🏠</span> Overview</a>
+      <a href="/dashboard" class="sb-link"><span class="sb-ico">🏠</span> Overview</a>
       <a href="/goals" class="sb-link"><span class="sb-ico">🎯</span> My Goals <span class="sb-badge">0</span></a>
       <div class="sb-section">Profile</div>
       <a href="/income" class="sb-link active"><span class="sb-ico">💰</span> income</a>
@@ -623,7 +623,7 @@ async function handleSubmit(e){
     var d=await r.json();
     if(d.success){
       showToast('ok','income saved successfully!');
-      setTimeout(function(){window.location.href='/';},1600);
+      setTimeout(function(){window.location.href='/expense';},1600);
     } else {
       showToast('err',d.message||'Something went wrong.');
     }
@@ -633,6 +633,58 @@ async function handleSubmit(e){
 
   btn.disabled=false;btn.classList.remove('loading');
 }
+</script>
+<script>
+
+async function preloadIncome(){
+
+    try{
+
+        const res = await fetch("/api/dashboard");
+
+        if(!res.ok) return;
+
+        const data = await res.json();
+
+        if(!data.success) return;
+
+        const income = data.dashboard.income_profile;
+
+        if(!income) return;
+
+
+        document.getElementById("incomeType").value =
+            income.INCOME_TYPE || "";
+
+        document.getElementById("monthlyIncome").value =
+            income.MONTHLY_INCOME || "";
+
+        document.getElementById("addIncomeType").value =
+            income.ADDITIONAL_TYPE || "";
+
+        document.getElementById("addMonthlyIncome").value =
+            income.ADDITIONAL_MONTHLY_INCOME || "";
+
+        document.getElementById("dependants").value =
+            income.DEPENDANTS || "";
+
+
+        updateSummary();
+
+
+    }
+
+    catch(err){
+
+        console.log("Income preload failed", err);
+
+    }
+
+}
+
+
+document.addEventListener("DOMContentLoaded", preloadIncome);
+
 </script>
 </body>
 </html>
