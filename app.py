@@ -7,6 +7,7 @@ import sqlite3
 import datetime
 import smtplib
 import os
+import ssl
 
 app = Flask(__name__)
 app.secret_key = "fintrack_secret_key"
@@ -145,7 +146,6 @@ def api_me():
 
 @app.route("/send-otp", methods=["POST"])
 def send_otp():
-
     try:
 
         data = request.get_json()
@@ -157,20 +157,16 @@ def send_otp():
         confirm_password = data.get("confirmPassword", "")
 
         if not name or not email or not gender or not password or not confirm_password:
-
             return jsonify({
                 "success": False,
                 "message": "All fields required"
             })
 
-
         if password != confirm_password:
-
             return jsonify({
                 "success": False,
                 "message": "Passwords do not match"
             })
-
 
         conn = sqlite3.connect("fintrackai.db")
         cur = conn.cursor()
@@ -181,65 +177,53 @@ def send_otp():
         conn.close()
 
         if existing:
-
             return jsonify({
                 "success": False,
                 "message": "User already exists"
             })
 
-
         otp = generate_otp()
-
         expires_at = time.time() + OTP_EXPIRY_SECONDS
 
-
         pending_users[email] = {
-
             "name": name,
             "email": email,
             "gender": gender,
             "password": password,
             "otp": otp,
             "expires_at": expires_at
-
         }
-
 
         print("=" * 50)
         print("OTP:", otp)
         print("=" * 50)
 
-
         sender_email = os.getenv("EMAIL_USER")
         app_password = os.getenv("EMAIL_PASS")
 
-
         subject = "OTP Verification"
         body = f"Your OTP is: {otp}"
-
         message = f"Subject:{subject}\n\n{body}"
 
+        import ssl
 
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.starttls()
+        context = ssl.create_default_context()
+
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context)
         server.login(sender_email, app_password)
         server.sendmail(sender_email, email, message)
         server.quit()
-
 
         return jsonify({
             "success": True,
             "message": "OTP sent successfully"
         })
 
-
     except Exception as e:
-
         return jsonify({
             "success": False,
             "message": str(e)
         })
-
 
 # ================= VERIFY OTP =================
 @app.route("/verify-otp", methods=["POST"])
