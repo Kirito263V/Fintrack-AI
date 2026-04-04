@@ -198,18 +198,16 @@ def send_otp():
         print("OTP:", otp)
         print("=" * 50)
 
-        sender_email = os.getenv("EMAIL_USER")
-        app_password = os.getenv("EMAIL_PASS")
+        sender_email = "smurfgaming263@gmail.com"
+        app_password = "ieds eixf qlxz beml"
 
         subject = "OTP Verification"
         body = f"Your OTP is: {otp}"
-        message = f"Subject:{subject}\n\n{body}"
 
-        import ssl
+        message = f"Subject: {subject}\nTo: {email}\nFrom: {sender_email}\n\n{body}"
 
-        context = ssl.create_default_context()
-
-        server = smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context)
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
         server.login(sender_email, app_password)
         server.sendmail(sender_email, email, message)
         server.quit()
