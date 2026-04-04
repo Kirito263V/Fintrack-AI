@@ -6,6 +6,7 @@ import time
 import sqlite3
 import datetime
 import smtplib
+import os
 
 app = Flask(__name__)
 app.secret_key = "fintrack_secret_key"
@@ -209,8 +210,8 @@ def send_otp():
         print("=" * 50)
 
 
-        sender_email = "smurfgaming263@gmail.com"
-        app_password = "lyspeollzyqombvw"
+        sender_email = os.getenv("EMAIL_USER")
+        app_password = os.getenv("EMAIL_PASS")
 
 
         subject = "OTP Verification"
