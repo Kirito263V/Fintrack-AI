@@ -144,84 +144,79 @@ def api_me():
 
 # ================= SEND OTP =================
 
+from flask import request, jsonify
+import random
+import smtplib
+from email.mime.text import MIMEText
+
+
 @app.route("/send-otp", methods=["POST"])
 def send_otp():
-    try:
 
+    try:
         data = request.get_json()
 
         name = data.get("name", "").strip()
-        email = data.get("email", "").strip().lower()
-        gender = data.get("gender", "").strip()
-        password = data.get("password", "")
-        confirm_password = data.get("confirmPassword", "")
+        email = data.get("email", "").strip()
 
-        if not name or not email or not gender or not password or not confirm_password:
-            return jsonify({
-                "success": False,
-                "message": "All fields required"
-            })
+        if not name or not email:
+            return jsonify({"error": "Name and email required"}), 400
 
-        if password != confirm_password:
-            return jsonify({
-                "success": False,
-                "message": "Passwords do not match"
-            })
 
-        conn = sqlite3.connect("fintrackai.db")
-        cur = conn.cursor()
+        # Generate OTP
+        otp = str(random.randint(1000, 9999))
 
-        cur.execute("SELECT EMAIL FROM USER WHERE EMAIL=?", (email,))
-        existing = cur.fetchone()
-
-        conn.close()
-
-        if existing:
-            return jsonify({
-                "success": False,
-                "message": "User already exists"
-            })
-
-        otp = generate_otp()
-        expires_at = time.time() + OTP_EXPIRY_SECONDS
-
-        pending_users[email] = {
-            "name": name,
-            "email": email,
-            "gender": gender,
-            "password": password,
-            "otp": otp,
-            "expires_at": expires_at
-        }
-
-        print("=" * 50)
         print("OTP:", otp)
-        print("=" * 50)
 
+
+        # Gmail credentials (use your NEW app password)
         sender_email = "smurfgaming263@gmail.com"
-        app_password = "ieds eixf qlxz beml"
+        sender_password = "gdqy becl iymd bicx"
 
-        subject = "OTP Verification"
-        body = f"Your OTP is: {otp}"
 
-        message = f"Subject: {subject}\nTo: {email}\nFrom: {sender_email}\n\n{body}"
+        subject = "Your OTP Code"
+        body = f"Hello {name}, your OTP is {otp}"
 
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.starttls()
-        server.login(sender_email, app_password)
-        server.sendmail(sender_email, email, message)
-        server.quit()
+        msg = MIMEText(body)
+        msg["Subject"] = subject
+        msg["From"] = sender_email
+        msg["To"] = email
 
-        return jsonify({
-            "success": True,
-            "message": "OTP sent successfully"
-        })
+
+        try:
+            # SSL connection (best for Render)
+            server = smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=10)
+
+            server.login(sender_email, sender_password)
+
+            server.sendmail(sender_email, email, msg.as_string())
+
+            server.quit()
+
+            print("Email sent successfully")
+
+            return jsonify({
+                "message": "OTP sent successfully",
+                "otp": otp
+            })
+
+
+        except Exception as smtp_error:
+
+            print("SMTP ERROR:", smtp_error)
+
+            return jsonify({
+                "error": "Email service unavailable"
+            }), 500
+
 
     except Exception as e:
+
+        print("SERVER ERROR:", e)
+
         return jsonify({
-            "success": False,
-            "message": str(e)
-        })
+            "error": "Failed to process request"
+        }), 500
 
 # ================= VERIFY OTP =================
 @app.route("/verify-otp", methods=["POST"])
