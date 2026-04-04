@@ -5,23 +5,20 @@ class target:
         self.email = email
         pass
 
-    def monthly_target(self):
+    def monthly_target(self,GA):
         conn = sqlite3.connect("fintrackai.db")
         cur = conn.cursor()
-        ami = 0
-        mi = 0
-        g = 0
-        t = 0
-        mf = 0
-        lep = 0
-        r = 0
-        b = 0
-        f = 0
-        en = 0
-        ed = 0
-        es = 0
-        m = 0
-        d = 0
+        cur = cur.execute(f'''
+            SELECT ADDITIONAL_MONTHLY_INCOME,MONTHLY_INCOME,GROCERIES,TRAVEL,MEDFIT,LEP,
+            MONTHLY_RENT,M_BILLS,FASHION,ENTERTAINMENT,EDUCATION,EMSAVING,MISCELLANEOUS,DEPENDANTS
+            FROM USER JOIN INCOME_PROFILEs USING(USER_ID) JOIN EXPENSEPROFILE USING(USER_ID)
+            WHERE EMAIL = '{self.email}'
+                          
+            ''')
+        dt = cur.fetchall()
+        print(dt)
+
+        ami, mi, g, t, mf, lep, r, b, f, en, ed, es, m, d = np.mean(dt,axis=0)
 
         i = mi + ami
         e = g + t + mf + lep + r + b + f + en + ed + es + m
@@ -38,7 +35,7 @@ class target:
         else:
             b = 0.1
 
-        S0 = Nd(1-b)
+        S0 = Nd*(1-b)
 
         Ef = lep + r + b + mf + ed
 
@@ -55,7 +52,7 @@ class target:
         cur.execute(f'''select created_at, groceries+travel+medfit+LeP+monthly_rent+m_bills+
             fashion+entertainment+education+emsaving+MISCELLANEOUS from expenseprofile
             where user_id = 
-            (Select user_id from user where email = {self.email})
+            (Select user_id from user where email = '{self.email}')
             order by created_at asc''')
         x = cur.fetchall()
         monthly_expense = []
@@ -66,13 +63,32 @@ class target:
         std = np.std(monthly_expense)
         v = std/mn
         fv = max(0.8,1-0.5*v)
-        cur.execute('''
-            SELECT 
-                GOAL_AMOUNT,SAVE_MONTH,
-                    CEIL((JULIANDAY(END_DATE)-JULIANDAY(START_DATE))/30.0)
-            ''')
+        s2 = S1*fv
+        print(s2)
         rt = self.goal_tracker()
-        c = sum(rt[0])/sum(rt[1])
+        if type(rt)==int:
+            fc = 1
+        else:
+            c = sum(rt[1])/sum(rt[0])
+            print(c)
+            if c>=1.0:
+                fc = 1.05
+            elif c>=0.85 and c<1.0:
+                fc = 1.0
+            elif c>=0.6 and c<0.85:
+                fc = 0.9
+            else:
+                fc = 0.8
+        print(fc)
+        s3 = s2*fc
+        print(s3)
+        Trec = max(0,s3)
+        if Trec==0:
+            return "Expense is higher than Income","Cant Save Much"
+        Mrec = np.ceil(GA/Trec)
+        print(Trec,Mrec)
+        return Trec,Mrec
+
         
 
 
@@ -84,9 +100,9 @@ class target:
                         GOAL_AMOUNT,SAVE_MONTH,
                             CEIL((JULIANDAY(END_DATE)-JULIANDAY(START_DATE))/30.0)
                     FROM GOALS JOIN GOAL_HISTORY USING(GOALID) 
-                    WHERE GOALS.USER_ID = (Select user_id from user where email = {self.email})
+                    WHERE GOALS.USER_ID = (Select user_id from user where email = '{self.email}')
                     AND GOALID = (Select MAX(GOALID) from  USER JOIN GOALS USING(USER_ID)
-                    where email = "yadavbeauty74@gmail.com")
+                    where email = '{self.email}')
                     ''')
         x = cur.fetchall()
         actualdm = [ i[1] for i in x]
@@ -103,3 +119,7 @@ class target:
             targetedmn.append(mntarget)
         
         return targetedmn,actualdm
+
+
+ob = target('carryminati069v@gmail.com')
+print(ob.monthly_target(120000))
