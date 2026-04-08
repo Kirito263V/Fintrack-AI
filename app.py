@@ -47,6 +47,23 @@ def generate_otp():
 def home():
     return render_template("index.html")
 
+@app.route("/about")
+def about_page():
+    return render_template("about.html")
+
+
+@app.route("/contact")
+def contact_page():
+    return render_template("contact.html")
+
+@app.route("/features")
+def features_page():
+    return render_template("features.html")
+
+@app.route("/privacy")
+def privacy_page():
+    return render_template("privacy.html")
+
 
 # ================= SIGNUP PAGE =================
 
@@ -60,6 +77,7 @@ def signup_page():
 @app.route("/login", methods=["GET"])
 def login_page():
     return render_template("login.html")
+
 
 
 # ================= DASHBOARD PAGE =================
