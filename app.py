@@ -154,28 +154,39 @@ from email.mime.text import MIMEText
 def send_otp():
 
     try:
+
         data = request.get_json()
 
         name = data.get("name", "").strip()
         email = data.get("email", "").strip()
+        gender = data.get("gender")
+        password = data.get("password")
 
         if not name or not email:
-            return jsonify({"error": "Name and email required"}), 400
+            return jsonify({"message": "Name and email required"}), 400
 
 
-        # Generate OTP
         otp = str(random.randint(1000, 9999))
 
-        print("OTP:", otp)
+
+        # store pending user
+        pending_users[email] = {
+            "name": name,
+            "gender": gender,
+            "password": password,
+            "email": email,
+            "otp": otp,
+            "expires_at": time.time() + OTP_EXPIRY_SECONDS
+        }
 
 
-        # Gmail credentials (use your NEW app password)
         sender_email = "smurfgaming263@gmail.com"
         sender_password = "gdqy becl iymd bicx"
 
 
         subject = "Your OTP Code"
         body = f"Hello {name}, your OTP is {otp}"
+
 
         msg = MIMEText(body)
         msg["Subject"] = subject
@@ -184,29 +195,27 @@ def send_otp():
 
 
         try:
-            # SSL connection (best for Render)
-            server = smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=10)
+
+            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+            server.ehlo()
 
             server.login(sender_email, sender_password)
-
             server.sendmail(sender_email, email, msg.as_string())
 
-            server.quit()
+            server.close()
 
-            print("Email sent successfully")
+            print("EMAIL SENT SUCCESSFULLY")
 
             return jsonify({
-                "message": "OTP sent successfully",
-                "otp": otp
+                "message": "OTP sent successfully"
             })
-
 
         except Exception as smtp_error:
 
             print("SMTP ERROR:", smtp_error)
 
             return jsonify({
-                "error": "Email service unavailable"
+                "message": "Failed to send OTP"
             }), 500
 
 
@@ -215,131 +224,76 @@ def send_otp():
         print("SERVER ERROR:", e)
 
         return jsonify({
-            "error": "Failed to process request"
+            "message": "Server error while sending OTP"
         }), 500
 
 # ================= VERIFY OTP =================
 @app.route("/verify-otp", methods=["POST"])
 def verify_otp():
-
     try:
-
         data = request.get_json()
 
         email = data.get("email", "").strip().lower()
         otp = data.get("otp", "").strip()
 
+        if not email or not otp:
+            return jsonify({"success": False, "message": "Email and OTP are required."}), 400
+
         if email not in pending_users:
+            return jsonify({"success": False, "message": "No pending signup found for this email."}), 400
 
-            return jsonify({
-                "success": False,
-                "message": "Signup session expired"
-            })
+        user_data = pending_users[email]
 
-
-        stored_data = pending_users[email]
-
-
-        if time.time() > stored_data["expires_at"]:
-
+        if time.time() > user_data["expires_at"]:
             del pending_users[email]
+            return jsonify({"success": False, "message": "OTP expired. Please sign up again."}), 400
 
-            return jsonify({
-                "success": False,
-                "message": "OTP expired"
-            })
+        if otp != user_data["otp"]:
+            return jsonify({"success": False, "message": "Incorrect OTP. User not registered."}), 400
 
+        hashed_password = generate_password_hash(user_data["password"])
 
-        if otp != stored_data["otp"]:
-
-            return jsonify({
-                "success": False,
-                "message": "Incorrect OTP"
-            })
-
-
-        hashed_password = generate_password_hash(
-            stored_data["password"]
-        )
-
-
+        registered_users[email] = {
+            "name": user_data["name"],
+            "email": user_data["email"],
+            "gender": user_data["gender"],
+            "password": hashed_password,
+            "registered_at": time.strftime("%Y-%m-%d %H:%M:%S")
+        }
+        print(registered_users)
         conn = sqlite3.connect("fintrackai.db")
         cur = conn.cursor()
-
-
-        # ================= INSERT INTO USER =================
-
-        cur.execute("SELECT MAX(USER_ID) FROM USER")
-
-        last_user_id = cur.fetchone()[0]
-
-        user_id = 1 if last_user_id is None else last_user_id + 1
-
-
-        cur.execute("""
-
-            INSERT INTO USER
-
-            VALUES (?, ?, ?, ?, ?, ?)
-
-        """, (
-
-            user_id,
-            stored_data["name"],
-            stored_data["gender"],
-            stored_data["email"],
-            hashed_password,
-            datetime.datetime.now()
-
-        ))
-
-
-        # ================= INSERT INTO VERIFICATION =================
-
-        cur.execute("SELECT MAX(OTP_ID) FROM VERIFICATION")
-
-        last_otp_id = cur.fetchone()[0]
-
-        otp_id = 1 if last_otp_id is None else last_otp_id + 1
-
-
-        cur.execute("""
-
-            INSERT INTO VERIFICATION
-
-            VALUES (?, ?, ?, ?, ?, ?)
-
-        """, (
-
-            otp_id,
-            user_id,
-            stored_data["otp"],
-            stored_data["expires_at"],
-            datetime.datetime.now(),
-            "VERIFIED"
-
-        ))
-
-
+        cur.execute("select max(user_id) from user")
+        x1 = cur.fetchall()
+        cur.execute(f'''
+            INSERT INTO USER VALUES({x1[0][0]+1},"{registered_users[email]['name']}",
+            "{registered_users[email]['gender']}","{registered_users[email]['email']}",
+            "{registered_users[email]['password']}","{datetime.datetime.now()}")
+            ''')
         conn.commit()
-        conn.close()
 
+        print(pending_users)
+        cur.execute("select max(otp_id) from VERIFICATION")
+        x2 = cur.fetchall()
+        cur.execute(f'''
+            INSERT INTO VERIFICATION VALUES({x2[0][0]+1},{x1[0][0]+1},
+            {pending_users[email]['otp']},"{pending_users[email]['expires_at']}",
+            "{datetime.datetime.now()}","VERIFIED")
+            ''')
+        conn.commit()        
+                    
+        
+        
 
         del pending_users[email]
-
-
+        
         return jsonify({
             "success": True,
-            "message": "Signup completed successfully"
-        })
-
+            "message": "User registered successfully."
+        }), 200
 
     except Exception as e:
-
-        return jsonify({
-            "success": False,
-            "message": str(e)
-        })
+        return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
 
 # ================= INCOME PAGE =================
 
