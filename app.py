@@ -144,16 +144,13 @@ def api_me():
 
 # ================= SEND OTP =================
 
-from flask import request, jsonify
-import random
-import smtplib
-from email.mime.text import MIMEText
-
-
 @app.route("/send-otp", methods=["POST"])
 def send_otp():
 
     try:
+
+        import resend
+        import os
 
         data = request.get_json()
 
@@ -166,67 +163,64 @@ def send_otp():
             return jsonify({"message": "Name and email required"}), 400
 
 
+        # Generate OTP
         otp = str(random.randint(1000, 9999))
 
 
-        # store pending user
+        # Store pending signup session
         pending_users[email] = {
             "name": name,
             "gender": gender,
-            "password": password,
             "email": email,
+            "password": password,
             "otp": otp,
             "expires_at": time.time() + OTP_EXPIRY_SECONDS
         }
 
 
-        sender_email = "smurfgaming263@gmail.com"
-        sender_password = "gdqy becl iymd bicx"
+        # Load API key from Render environment variables
+        resend.api_key = os.environ.get("RESEND_API_KEY")
 
 
-        subject = "Your OTP Code"
-        body = f"Hello {name}, your OTP is {otp}"
+        # Send email using Resend
+        resend.Emails.send({
+
+            "from": "FinTrack AI <onboarding@resend.dev>",
+
+            "to": [email],
+
+            "subject": "Your OTP Code",
+
+            "html": f"""
+                <h2>FinTrack AI Email Verification</h2>
+                <p>Hello {name},</p>
+                <p>Your OTP is:</p>
+                <h1>{otp}</h1>
+                <p>This code expires in 5 minutes.</p>
+            """
+
+        })
 
 
-        msg = MIMEText(body)
-        msg["Subject"] = subject
-        msg["From"] = sender_email
-        msg["To"] = email
+        print("OTP EMAIL SENT SUCCESSFULLY")
 
 
-        try:
+        return jsonify({
 
-            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-            server.ehlo()
+            "message": "OTP sent successfully"
 
-            server.login(sender_email, sender_password)
-            server.sendmail(sender_email, email, msg.as_string())
-
-            server.close()
-
-            print("EMAIL SENT SUCCESSFULLY")
-
-            return jsonify({
-                "message": "OTP sent successfully"
-            })
-
-        except Exception as smtp_error:
-
-            print("SMTP ERROR:", smtp_error)
-
-            return jsonify({
-                "message": "Failed to send OTP"
-            }), 500
+        })
 
 
     except Exception as e:
 
-        print("SERVER ERROR:", e)
+        print("RESEND ERROR:", e)
 
         return jsonify({
-            "message": "Server error while sending OTP"
-        }), 500
 
+            "message": "Failed to send OTP"
+
+        }), 500
 # ================= VERIFY OTP =================
 @app.route("/verify-otp", methods=["POST"])
 def verify_otp():
