@@ -149,8 +149,12 @@ def send_otp():
 
     try:
 
-        import resend
+        import smtplib
         import os
+        import random
+        import time
+        from email.mime.text import MIMEText
+
 
         data = request.get_json()
 
@@ -159,8 +163,12 @@ def send_otp():
         gender = data.get("gender")
         password = data.get("password")
 
+
         if not name or not email:
-            return jsonify({"message": "Name and email required"}), 400
+
+            return jsonify({
+                "message": "Name and email required"
+            }), 400
 
 
         # Generate OTP
@@ -169,37 +177,61 @@ def send_otp():
 
         # Store pending signup session
         pending_users[email] = {
+
             "name": name,
             "gender": gender,
             "email": email,
             "password": password,
             "otp": otp,
             "expires_at": time.time() + OTP_EXPIRY_SECONDS
+
         }
 
 
-        # Load API key from Render environment variables
-        resend.api_key = os.environ.get("RESEND_API_KEY")
+        sender_email = "smurfgaming263@gmail.com"
 
 
-        # Send email using Resend
-        resend.Emails.send({
+        smtp_login = "a774c0001@smtp-brevo.com"
 
-            "from": "FinTrack AI <onboarding@resend.dev>",
 
-            "to": [email],
+        smtp_password = os.environ.get("BREVO_SMTP_KEY")
 
-            "subject": "Your OTP Code",
 
-            "html": f"""
-                <h2>FinTrack AI Email Verification</h2>
-                <p>Hello {name},</p>
-                <p>Your OTP is:</p>
-                <h1>{otp}</h1>
-                <p>This code expires in 5 minutes.</p>
-            """
+        if not smtp_password:
 
-        })
+            return jsonify({
+                "message": "Email service not configured"
+            }), 500
+
+
+        msg = MIMEText(
+
+            f"""
+Hello {name},
+
+Your FinTrack AI OTP is:
+
+{otp}
+
+This OTP expires in 5 minutes.
+"""
+        )
+
+
+        msg["Subject"] = "Your OTP Code"
+        msg["From"] = sender_email
+        msg["To"] = email
+
+
+        server = smtplib.SMTP("smtp-relay.brevo.com", 587)
+
+        server.starttls()
+
+        server.login(smtp_login, smtp_password)
+
+        server.sendmail(sender_email, email, msg.as_string())
+
+        server.quit()
 
 
         print("OTP EMAIL SENT SUCCESSFULLY")
@@ -214,7 +246,7 @@ def send_otp():
 
     except Exception as e:
 
-        print("RESEND ERROR:", e)
+        print("BREVO ERROR:", e)
 
         return jsonify({
 
