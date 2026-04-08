@@ -209,7 +209,7 @@ def send_otp():
             f"""
 Hello {name},
 
-Your FinTrack AI OTP is:
+Your FinTrack AI OTP is:  
 
 {otp}
 
