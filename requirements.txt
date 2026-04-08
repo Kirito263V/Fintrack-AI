@@ -1,5 +1,6 @@
-gunicorn
+
 flask
-pandas
-resend
+gunicorn
+requests
 werkzeug
+pandas

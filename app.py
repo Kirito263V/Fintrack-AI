@@ -162,115 +162,73 @@ def api_me():
 
 # ================= SEND OTP =================
 
+# ================= SEND OTP =================
+
 @app.route("/send-otp", methods=["POST"])
 def send_otp():
-
     try:
-
-        import smtplib
-        import os
-        import random
-        import time
-        from email.mime.text import MIMEText
-
+        import requests as http_requests
+        import random, time
 
         data = request.get_json()
-
-        name = data.get("name", "").strip()
-        email = data.get("email", "").strip()
-        gender = data.get("gender")
+        name     = data.get("name", "").strip()
+        email    = data.get("email", "").strip()
+        gender   = data.get("gender")
         password = data.get("password")
 
-
         if not name or not email:
+            return jsonify({"message": "Name and email required"}), 400
 
-            return jsonify({
-                "message": "Name and email required"
-            }), 400
-
-
-        # Generate OTP
         otp = str(random.randint(1000, 9999))
 
-
-        # Store pending signup session
         pending_users[email] = {
-
             "name": name,
             "gender": gender,
             "email": email,
             "password": password,
             "otp": otp,
             "expires_at": time.time() + OTP_EXPIRY_SECONDS
-
         }
 
+        api_key = os.environ.get("BREVO_API_KEY")
+        if not api_key:
+            return jsonify({"message": "Email service not configured"}), 500
 
-        sender_email = "smurfgaming263@gmail.com"
-
-
-        smtp_login = "a774c0001@smtp-brevo.com"
-
-
-        smtp_password = os.environ.get("BREVO_SMTP_KEY")
-
-
-        if not smtp_password:
-
-            return jsonify({
-                "message": "Email service not configured"
-            }), 500
-
-
-        msg = MIMEText(
-
-            f"""
-Hello {name},
-
-Your FinTrack AI OTP is:  
-
-{otp}
-
-This OTP expires in 5 minutes.
-"""
+        response = http_requests.post(
+            "https://api.brevo.com/v3/smtp/email",
+            headers={
+                "api-key": api_key,
+                "Content-Type": "application/json"
+            },
+            json={
+                "sender": {"name": "FinTrack AI", "email": "smurfgaming263@gmail.com"},
+                "to": [{"email": email, "name": name}],
+                "subject": "Your FinTrack AI OTP Code",
+                "htmlContent": f"""
+                    <div style="font-family:sans-serif;max-width:400px;margin:auto;padding:32px;
+                                background:#0a0820;color:#ede8ff;border-radius:16px;">
+                        <h2 style="color:#a78bfa">FinTrack AI</h2>
+                        <p>Hi <strong>{name}</strong>, your OTP verification code is:</p>
+                        <h1 style="font-size:3rem;letter-spacing:12px;color:#7c3aed;
+                                   text-align:center;padding:16px 0">{otp}</h1>
+                        <p style="color:#9d8ec4">This code expires in 5 minutes.<br/>
+                        If you did not request this, ignore this email.</p>
+                    </div>
+                """
+            },
+            timeout=10
         )
 
+        if response.status_code not in [200, 201]:
+            print("BREVO API ERROR:", response.text)
+            return jsonify({"message": "Failed to send OTP. Try again."}), 500
 
-        msg["Subject"] = "Your OTP Code"
-        msg["From"] = sender_email
-        msg["To"] = email
-
-
-        server = smtplib.SMTP("smtp-relay.brevo.com", 587)
-
-        server.starttls()
-
-        server.login(smtp_login, smtp_password)
-
-        server.sendmail(sender_email, email, msg.as_string())
-
-        server.quit()
-
-
-        print("OTP EMAIL SENT SUCCESSFULLY")
-
-
-        return jsonify({
-
-            "message": "OTP sent successfully"
-
-        })
-
+        print("OTP EMAIL SENT SUCCESSFULLY via Brevo API")
+        return jsonify({"message": "OTP sent successfully"}), 200
 
     except Exception as e:
-
-        print("BREVO ERROR:", e)
-
-        return jsonify({
-
-            "message": "Failed to send OTP"
-
-        }), 500
+        print("SEND-OTP ERROR:", str(e))
+        return jsonify({"message": f"Error: {str(e)}"}), 500
 # ================= VERIFY OTP =================
 @app.route("/verify-otp", methods=["POST"])
 def verify_otp():
