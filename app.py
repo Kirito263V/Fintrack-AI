@@ -90,6 +90,21 @@ def dashboard():
 
     return render_template("dashboard.html")
 
+# ================= SETTINGS PAGE =================
+
+@app.route("/settings")
+@login_required
+def settings_page():
+
+    return render_template("settings.html")
+
+# ================= ANALYTICS PAGE =================
+
+@app.route("/analytics")
+@login_required
+def analytics_page():
+
+    return render_template("analytics.html")
 
 # ================= LOGIN =================
 
@@ -141,94 +156,94 @@ def logout():
     session.clear()
     return jsonify({"success": True})
 
+# ================= API LOGOUT =================
 
-# ================= SESSION CHECK =================
+@app.route("/api/logout", methods=["POST"])
+def api_logout():
 
-@app.route("/api/me")
-def api_me():
-
-    if "user_email" in session:
-
-        return jsonify({
-            "success": True,
-            "email": session["user_email"]
-        })
+    session.clear()
 
     return jsonify({
-        "success": False
+        "success": True
     })
 
 
+# ================= SESSION CHECK =================
 
-# ================= SEND OTP =================
+@app.route("/api/me", methods=["GET", "PATCH"])
+def api_me():
 
-# ================= SEND OTP =================
+    if "user_email" not in session:
+        return jsonify({"success": False})
 
-@app.route("/send-otp", methods=["POST"])
-def send_otp():
-    try:
-        import requests as http_requests
-        import random, time
+    email = session["user_email"]
+
+    conn = sqlite3.connect("fintrackai.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+    # ================= LOAD USER DATA =================
+
+    if request.method == "GET":
+
+        cur.execute("""
+            SELECT USER_NAME, EMAIL, GENDER
+            FROM USER
+            WHERE LOWER(EMAIL)=LOWER(?)
+        """, (email,))
+
+        user = cur.fetchone()
+
+        conn.close()
+
+        if not user:
+            return jsonify({"success": False})
+
+        return jsonify({
+            "success": True,
+            "user": dict(user)
+        })
+
+
+    # ================= UPDATE USER NAME =================
+
+    if request.method == "PATCH":
 
         data = request.get_json()
-        name     = data.get("name", "").strip()
-        email    = data.get("email", "").strip()
-        gender   = data.get("gender")
-        password = data.get("password")
 
-        if not name or not email:
-            return jsonify({"message": "Name and email required"}), 400
+        new_name = data.get("name")
+        gender = data.get("gender")
 
-        otp = str(random.randint(1000, 9999))
+        if new_name:
 
-        pending_users[email] = {
-            "name": name,
-            "gender": gender,
-            "email": email,
-            "password": password,
-            "otp": otp,
-            "expires_at": time.time() + OTP_EXPIRY_SECONDS
-        }
+            cur.execute("""
+                UPDATE USER
+                SET USER_NAME=?
+                WHERE LOWER(EMAIL)=LOWER(?)
+            """, (new_name, email))
 
-        api_key = os.environ.get("BREVO_API_KEY")
-        if not api_key:
-            return jsonify({"message": "Email service not configured"}), 500
+        if gender:
 
-        response = http_requests.post(
-            "https://api.brevo.com/v3/smtp/email",
-            headers={
-                "api-key": api_key,
-                "Content-Type": "application/json"
-            },
-            json={
-                "sender": {"name": "FinTrack AI", "email": "smurfgaming263@gmail.com"},
-                "to": [{"email": email, "name": name}],
-                "subject": "Your FinTrack AI OTP Code",
-                "htmlContent": f"""
-                    <div style="font-family:sans-serif;max-width:400px;margin:auto;padding:32px;
-                                background:#0a0820;color:#ede8ff;border-radius:16px;">
-                        <h2 style="color:#a78bfa">FinTrack AI</h2>
-                        <p>Hi <strong>{name}</strong>, your OTP verification code is:</p>
-                        <h1 style="font-size:3rem;letter-spacing:12px;color:#7c3aed;
-                                   text-align:center;padding:16px 0">{otp}</h1>
-                        <p style="color:#9d8ec4">This code expires in 5 minutes.<br/>
-                        If you did not request this, ignore this email.</p>
-                    </div>
-                """
-            },
-            timeout=10
-        )
+            cur.execute("""
+                UPDATE USER
+                SET GENDER=?
+                WHERE LOWER(EMAIL)=LOWER(?)
+            """, (gender, email))
 
-        if response.status_code not in [200, 201]:
-            print("BREVO API ERROR:", response.text)
-            return jsonify({"message": "Failed to send OTP. Try again."}), 500
+        conn.commit()
+        conn.close()
 
-        print("OTP EMAIL SENT SUCCESSFULLY via Brevo API")
-        return jsonify({"message": "OTP sent successfully"}), 200
+        return jsonify({
+            "success": True
+        })
 
-    except Exception as e:
-        print("SEND-OTP ERROR:", str(e))
-        return jsonify({"message": f"Error: {str(e)}"}), 500
+
+
+# ================= SEND OTP =================
+
+# ================= SEND OTP =================
+
+
 # ================= VERIFY OTP =================
 @app.route("/verify-otp", methods=["POST"])
 def verify_otp():
@@ -447,7 +462,7 @@ def api_dashboard():
     # ================= USER =================
 
     cur.execute("""
-        SELECT USER_NAME, EMAIL
+        SELECT USER_NAME, EMAIL , GENDER
         FROM USER
         WHERE LOWER(EMAIL)=LOWER(?)
     """, (email,))
@@ -533,14 +548,393 @@ def api_dashboard():
         }
 
     })
+    
+    
+# ================= ANALYTICS DATA =================
+
+@app.route("/api/analytics")
+@login_required
+def api_analytics():
+
+    email = session["user_email"]
+
+    conn = get_db_connection()
+
+    user = conn.execute(
+        "SELECT USER_ID FROM USER WHERE EMAIL=?",
+        (email,)
+    ).fetchone()
+
+    user_id = user["USER_ID"]
 
 
+    # ================= INCOME =================
+
+    income_row = conn.execute("""
+        SELECT MONTHLY_INCOME,
+               ADDITIONAL_MONTHLY_INCOME,
+               INCOME_TYPE
+        FROM INCOME_PROFILES
+        WHERE USER_ID=?
+        ORDER BY PROFILE_ID DESC
+        LIMIT 1
+    """, (user_id,)).fetchone()
+
+
+    monthly_income = income_row["MONTHLY_INCOME"] if income_row else 0
+    additional_income = income_row["ADDITIONAL_MONTHLY_INCOME"] if income_row else 0
+
+    total_income = (monthly_income or 0) + (additional_income or 0)
+
+
+    # ================= EXPENSE =================
+
+    expense_row = conn.execute("""
+        SELECT *
+        FROM EXPENSEPROFILE
+        WHERE USER_ID=?
+        ORDER BY EXPENSE_ID DESC
+        LIMIT 1
+    """, (user_id,)).fetchone()
+
+
+    expense_dict = {}
+    total_expense = 0
+
+    if expense_row:
+
+        expense_dict = dict(expense_row)
+
+        for key, value in expense_dict.items():
+
+            if key not in ["EXPENSE_ID", "USER_ID", "CREATED_AT"]:
+
+                total_expense += value or 0
+
+
+    # ================= NET BALANCE =================
+
+    net_balance = total_income - total_expense
+
+
+    # ================= SAVINGS RATE =================
+
+    savings_rate = round((net_balance / total_income) * 100, 2) if total_income else 0
+
+
+    # ================= TOP CATEGORY =================
+
+    top_category = None
+
+    if expense_dict:
+
+        filtered = {
+            k: v for k, v in expense_dict.items()
+            if k not in ["EXPENSE_ID", "USER_ID", "CREATED_AT"]
+        }
+
+        if filtered:
+
+            top_category = max(filtered, key=filtered.get)
+
+
+    # ================= GOAL FEASIBILITY =================
+
+    goal_row = conn.execute("""
+        SELECT GOAL_AMOUNT
+        FROM GOALS
+        WHERE USER_ID=?
+        AND GOAL_STATUS='ACTIVE'
+        ORDER BY CREATED_AT DESC
+        LIMIT 1
+    """, (user_id,)).fetchone()
+
+
+    goal_feasible = None
+    goal_probability = 0
+
+    if goal_row and net_balance > 0:
+
+        goal_amount = goal_row["GOAL_AMOUNT"]
+
+        months_needed = round(goal_amount / net_balance, 1)
+
+        goal_feasible = f"Achievable in ~{months_needed} months"
+
+        required_monthly = goal_amount / 12
+
+        if required_monthly > 0:
+
+            goal_probability = min(1, round(net_balance / required_monthly, 2))
+
+    elif goal_row:
+
+        goal_feasible = "Not feasible with current savings"
+
+
+    # ================= OVERSPENDING =================
+
+    overspending = total_expense > total_income
+
+
+    # ================= EXPENSE VOLATILITY =================
+
+    expense_values = [
+        v for k, v in expense_dict.items()
+        if k not in ["EXPENSE_ID", "USER_ID", "CREATED_AT"]
+    ]
+
+    if expense_values and total_expense > 0:
+
+        avg_expense = sum(expense_values) / len(expense_values)
+
+        variance = sum((x - avg_expense) ** 2 for x in expense_values) / len(expense_values)
+
+        expense_volatility = round((variance ** 0.5) / avg_expense, 3)
+
+    else:
+
+        expense_volatility = 0
+
+
+    # ================= INCOME STABILITY =================
+
+    income_stability = "unknown"
+
+    if income_row:
+
+        income_type = income_row["INCOME_TYPE"]
+
+        if income_type == "SALARIED" and additional_income == 0:
+
+            income_stability = "stable"
+
+        elif income_type == "SALARIED":
+
+            income_stability = "moderate"
+
+        else:
+
+            income_stability = "variable"
+
+
+    # ================= BENCHMARK SCORE =================
+
+    benchmark_score = 0
+
+    if total_income > 0:
+
+        rent_ratio = expense_dict.get("MONTHLY_RENT", 0) / total_income * 100
+        entertainment_ratio = expense_dict.get("ENTERTAINMENT", 0) / total_income * 100
+        emergency_ratio = expense_dict.get("EMSAVING", 0) / total_income * 100
+
+        if savings_rate >= 20:
+            benchmark_score += 25
+
+        if rent_ratio <= 30:
+            benchmark_score += 25
+
+        if entertainment_ratio <= 10:
+            benchmark_score += 25
+
+        if emergency_ratio >= 5:
+            benchmark_score += 25
+
+
+    # ================= BEHAVIOR PROFILE =================
+
+    if savings_rate >= 30:
+
+        behavior_profile = "Saver"
+
+    elif savings_rate >= 20:
+
+        behavior_profile = "Balanced Planner"
+
+    elif savings_rate >= 10:
+
+        behavior_profile = "Growth Builder"
+
+    else:
+
+        behavior_profile = "Risk Spender"
+
+
+    # ================= MOMENTUM SCORE =================
+
+    expense_ratio = (total_expense / total_income * 100) if total_income else 0
+
+    momentum_score = round(max(0, min(100, savings_rate - (expense_ratio / 2))), 2)
+
+
+    # ================= SURVIVAL MONTHS =================
+
+    survival_months = round(net_balance / total_expense, 2) if total_expense else 0
+
+
+    conn.close()
+
+
+    return jsonify({
+
+        "success": True,
+
+        "analytics": {
+
+            "total_income": total_income,
+            "total_expense": total_expense,
+            "net_balance": net_balance,
+            "savings_rate": savings_rate,
+            "top_category": top_category,
+            "goal_feasible": goal_feasible,
+            "overspending": overspending,
+            "expense_breakdown": expense_dict,
+
+            "expense_volatility": expense_volatility,
+            "income_stability": income_stability,
+            "benchmark_score": benchmark_score,
+            "goal_probability": goal_probability,
+            "behavior_profile": behavior_profile,
+            "momentum_score": momentum_score,
+            "survival_months": survival_months
+        }
+    })
+
+
+from flask import send_file
+import pandas as pd
+import io
+
+@app.route("/api/export-excel")
+def export_excel():
+
+    if "user_email" not in session:
+        return jsonify({"success": False}), 401
+
+    email = session["user_email"]
+
+    conn = sqlite3.connect("fintrackai.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+    # USER
+    user = cur.execute("""
+        SELECT USER_NAME, EMAIL, GENDER
+        FROM USER
+        WHERE LOWER(EMAIL)=LOWER(?)
+    """, (email,)).fetchone()
+
+    # INCOME
+    income = cur.execute("""
+        SELECT *
+        FROM INCOME_PROFILES
+        WHERE USER_ID = (
+            SELECT USER_ID FROM USER WHERE LOWER(EMAIL)=LOWER(?)
+        )
+    """, (email,)).fetchall()
+
+    # EXPENSE
+    expense = cur.execute("""
+        SELECT *
+        FROM EXPENSEPROFILE
+        WHERE USER_ID = (
+            SELECT USER_ID FROM USER WHERE LOWER(EMAIL)=LOWER(?)
+        )
+    """, (email,)).fetchall()
+
+    # GOALS
+    goals = cur.execute("""
+        SELECT *
+        FROM GOALS
+        WHERE USER_ID = (
+            SELECT USER_ID FROM USER WHERE LOWER(EMAIL)=LOWER(?)
+        )
+    """, (email,)).fetchall()
+
+    conn.close()
+
+    output = io.BytesIO()
+
+    with pd.ExcelWriter(output, engine="openpyxl") as writer:
+
+        pd.DataFrame([dict(user)]).to_excel(
+            writer,
+            sheet_name="User Profile",
+            index=False
+        )
+
+        pd.DataFrame([dict(row) for row in income]).to_excel(
+            writer,
+            sheet_name="Income",
+            index=False
+        )
+
+        pd.DataFrame([dict(row) for row in expense]).to_excel(
+            writer,
+            sheet_name="Expenses",
+            index=False
+        )
+
+        pd.DataFrame([dict(row) for row in goals]).to_excel(
+            writer,
+            sheet_name="Goals",
+            index=False
+        )
+
+    output.seek(0)
+
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name="fintrack_dataset.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 # ================= GOALS =================
 
 @app.route("/goals")
 @login_required
 def goals_page():
     return render_template("goals.html")
+
+# ================= GOALS COUNT =================
+
+@app.route("/api/goals")
+@login_required
+def goals_count():
+
+    status = request.args.get("status")
+
+    conn = get_db_connection()
+
+    user = conn.execute(
+        "SELECT USER_ID FROM USER WHERE EMAIL=?",
+        (session["user_email"],)
+    ).fetchone()
+
+    user_id = user["USER_ID"]
+
+    if status == "ACTIVE":
+
+        result = conn.execute("""
+            SELECT COUNT(*)
+            FROM GOALS
+            WHERE USER_ID=? AND GOAL_STATUS='ACTIVE'
+        """, (user_id,)).fetchone()[0]
+
+    else:
+
+        result = conn.execute("""
+            SELECT COUNT(*)
+            FROM GOALS
+            WHERE USER_ID=?
+        """, (user_id,)).fetchone()[0]
+
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "count": result
+    })
 
 
 @app.route("/api/goals/create", methods=["POST"])
@@ -748,6 +1142,69 @@ def delete_goal():
         "success": True
     })   
     
+    
+    
+    # ================= CHANGE PASSWORD =================
+
+@app.route("/api/change-password", methods=["POST"])
+def api_change_password():
+
+    if "user_email" not in session:
+        return jsonify({
+            "success": False,
+            "message": "User not logged in"
+        })
+
+    data = request.get_json()
+
+    current_password = data.get("current_password")
+    new_password = data.get("new_password")
+
+    email = session["user_email"]
+
+    conn = sqlite3.connect("fintrackai.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT PASSWORD_HASH
+        FROM USER
+        WHERE LOWER(EMAIL)=LOWER(?)
+    """, (email,))
+
+    user = cur.fetchone()
+
+    if not user:
+        conn.close()
+        return jsonify({
+            "success": False,
+            "message": "User not found"
+        })
+
+    if not check_password_hash(
+        user["PASSWORD_HASH"],
+        current_password
+    ):
+        conn.close()
+        return jsonify({
+            "success": False,
+            "message": "Current password incorrect"
+        })
+
+    hashed_password = generate_password_hash(new_password)
+
+    cur.execute("""
+        UPDATE USER
+        SET PASSWORD_HASH=?
+        WHERE LOWER(EMAIL)=LOWER(?)
+    """, (hashed_password, email))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "success": True
+    })
 # ================= RUN SERVER =================
 
 if __name__ == "__main__":
