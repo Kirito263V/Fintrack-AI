@@ -117,7 +117,7 @@
     /* CONTENT */
     .content{padding:30px 36px 60px;flex:1;position:relative;z-index:1;}
 
-    /* INNER LAYOUT */
+    /* INNER LAYOUT: left tabs + right panels */
     .analytics-layout{display:grid;grid-template-columns:190px 1fr;gap:20px;align-items:start;}
 
     /* PAGE HERO */
@@ -169,7 +169,8 @@
     .kpi-card:hover::after{opacity:1;}
     .kpi-card:nth-child(1){animation-delay:.05s;}.kpi-card:nth-child(2){animation-delay:.1s;}
     .kpi-card:nth-child(3){animation-delay:.15s;}.kpi-card:nth-child(4){animation-delay:.2s;}
-    .kpi-ico{font-size:1.3rem;margin-bottom:10px;display:block;transition:transform .3s,filter .3s;}
+    .kpi-ico{font-size:1.3rem;margin-bottom:10px;display:block;
+      transition:transform .3s,filter .3s;}
     .kpi-card:hover .kpi-ico{transform:scale(1.15) rotate(-6deg);filter:drop-shadow(0 0 6px rgba(167,139,250,.4));}
     .kpi-label{font-family:var(--ff-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:7px;}
     .kpi-val{font-family:var(--ff-d);font-size:1.6rem;letter-spacing:-.02em;margin-bottom:4px;
@@ -192,7 +193,6 @@
 
     /* CHART PANELS */
     .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px;}
-    .charts-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:20px;}
     .chart-card{background:var(--bg-card);border:1px solid var(--b);border-radius:18px;
       padding:22px;position:relative;overflow:hidden;
       transition:border-color .3s,box-shadow .3s;}
@@ -247,6 +247,8 @@
     .ic-body.warn{color:var(--warn);}
     .ic-body.ok{color:var(--ok);}
     .ic-body.err{color:var(--err);}
+
+    /* INSIGHT FULL */
     .insight-card.full{grid-column:1/-1;}
 
     /* SAVINGS BAR */
@@ -258,251 +260,6 @@
     .sb-fill.mid{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
     .sb-fill.good{background:linear-gradient(90deg,#6d28d9,#7c3aed);}
     .sb-fill.great{background:linear-gradient(90deg,#86efac,#34d399);}
-
-    /* HEALTH SCORE RADIAL */
-    .health-score-card{background:var(--bg-card);border:1px solid var(--b);border-radius:18px;padding:22px;
-      position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
-    .health-score-card:hover{border-color:rgba(124,58,237,.25);box-shadow:0 8px 28px rgba(109,40,217,.1);}
-    .health-score-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-      background:linear-gradient(90deg,transparent,rgba(167,139,250,.2),transparent);}
-    .hs-inner{display:flex;align-items:center;gap:28px;}
-    .hs-radial-wrap{position:relative;width:140px;height:140px;flex-shrink:0;}
-    #healthScoreCanvas{width:140px!important;height:140px!important;}
-    .hs-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
-    .hs-score-val{font-family:var(--ff-d);font-size:2.4rem;line-height:1;background:var(--g2);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .hs-score-label{font-family:var(--ff-m);font-size:.52rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-top:3px;}
-    .hs-details{flex:1;}
-    .hs-status{font-family:var(--ff-d);font-size:1.5rem;margin-bottom:6px;}
-    .hs-status.excellent{background:linear-gradient(90deg,#86efac,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .hs-status.strong{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .hs-status.moderate{color:var(--warn);}
-    .hs-status.risk{color:var(--err);}
-    .hs-desc{font-size:.82rem;color:var(--t3);line-height:1.6;margin-bottom:12px;}
-    .hs-factors{display:flex;flex-direction:column;gap:6px;}
-    .hs-factor{display:flex;align-items:center;gap:8px;font-family:var(--ff-m);font-size:.62rem;color:var(--t3);}
-    .hs-factor-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-    .hs-factor-dot.pos{background:var(--ok);}
-    .hs-factor-dot.neg{background:var(--err);}
-    .hs-factor-dot.neu{background:var(--warn);}
-    .hs-factor-val{margin-left:auto;font-weight:500;}
-    .hs-factor-val.pos{color:var(--ok);}
-    .hs-factor-val.neg{color:var(--err);}
-    .hs-factor-val.neu{color:var(--warn);}
-
-    /* DEPENDENCY RISK CARD */
-    .dep-risk-card{background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.18);
-      border-radius:14px;padding:16px 20px;margin-bottom:18px;display:none;
-      animation:fadeUp .4s ease;}
-    .dep-risk-card.show{display:flex;align-items:flex-start;gap:14px;}
-    .dep-risk-ico{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
-    .dep-risk-title{font-family:var(--ff-m);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--err);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
-    .severity-badge{font-family:var(--ff-m);font-size:.52rem;padding:2px 8px;border-radius:99px;
-      background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.3);color:var(--err);}
-    .dep-risk-body{font-size:.84rem;color:var(--t2);line-height:1.6;}
-    .dep-risk-body strong{color:var(--err);}
-    .dep-risk-bar{margin-top:10px;height:6px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden;}
-    .dep-risk-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#f87171,#ef4444);transition:width 1s ease;}
-
-    /* SURVIVAL INDICATOR */
-    .survival-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
-    .survival-badge-big{display:flex;flex-direction:column;align-items:center;justify-content:center;
-      width:100px;height:100px;border-radius:50%;flex-shrink:0;position:relative;}
-    .survival-badge-big.low{background:rgba(248,113,113,.1);border:2px solid rgba(248,113,113,.3);box-shadow:0 0 24px rgba(248,113,113,.15);}
-    .survival-badge-big.moderate{background:rgba(251,191,36,.08);border:2px solid rgba(251,191,36,.25);box-shadow:0 0 24px rgba(251,191,36,.12);}
-    .survival-badge-big.strong{background:rgba(134,239,172,.08);border:2px solid rgba(134,239,172,.25);box-shadow:0 0 24px rgba(134,239,172,.12);}
-    .survival-months{font-family:var(--ff-d);font-size:2rem;line-height:1;}
-    .survival-months.low{color:var(--err);}
-    .survival-months.moderate{color:var(--warn);}
-    .survival-months.strong{color:var(--ok);}
-    .survival-label{font-family:var(--ff-m);font-size:.5rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-top:3px;}
-    .survival-info{flex:1;}
-    .survival-title{font-family:var(--ff-d);font-size:1.1rem;margin-bottom:6px;}
-    .survival-desc{font-size:.82rem;color:var(--t3);line-height:1.65;}
-
-    /* STABILITY GAUGE */
-    .stability-gauge-wrap{position:relative;display:flex;flex-direction:column;align-items:center;}
-    .stability-center{position:absolute;bottom:10%;display:flex;flex-direction:column;align-items:center;pointer-events:none;}
-    .stability-label-big{font-family:var(--ff-d);font-size:1.2rem;text-align:center;}
-    .stability-label-sub{font-family:var(--ff-m);font-size:.56rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-top:3px;}
-    .stability-zones{display:flex;justify-content:space-between;margin-top:10px;font-family:var(--ff-m);font-size:.58rem;color:var(--t3);}
-
-    /* SIMULATOR */
-    .simulator-controls{display:flex;flex-direction:column;gap:14px;margin-bottom:18px;}
-    .sim-slider-wrap{display:flex;flex-direction:column;gap:8px;}
-    .sim-slider-label{display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:.62rem;color:var(--t3);}
-    .sim-slider-val{color:var(--bright);font-weight:500;}
-    input[type=range].sim-slider{-webkit-appearance:none;width:100%;height:6px;border-radius:99px;
-      background:rgba(124,58,237,.15);outline:none;border:none;cursor:pointer;}
-    input[type=range].sim-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;
-      border-radius:50%;background:var(--g);box-shadow:0 0 10px rgba(124,58,237,.5);cursor:pointer;transition:transform .2s;}
-    input[type=range].sim-slider::-webkit-slider-thumb:hover{transform:scale(1.2);}
-    .sim-projection-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
-    .sim-stat{background:rgba(124,58,237,.07);border:1px solid rgba(124,58,237,.15);border-radius:10px;
-      padding:12px;text-align:center;}
-    .sim-stat-val{font-family:var(--ff-d);font-size:1.3rem;background:var(--g2);-webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;background-clip:text;}
-    .sim-stat-label{font-family:var(--ff-m);font-size:.55rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;}
-
-    /* OPTIMIZATION CARDS */
-    .opt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;}
-    .opt-card{background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.15);
-      border-radius:13px;padding:16px;position:relative;overflow:hidden;
-      transition:border-color .3s,transform .3s;}
-    .opt-card:hover{border-color:rgba(167,139,250,.3);transform:translateY(-2px);}
-    .opt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
-      background:var(--g);opacity:.6;}
-    .opt-ico{font-size:1.2rem;margin-bottom:8px;display:block;}
-    .opt-title{font-family:var(--ff-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--bright);margin-bottom:6px;}
-    .opt-body{font-size:.81rem;color:var(--t2);line-height:1.6;}
-    .opt-body strong{color:var(--t1);}
-    .opt-card.warn-card::before{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
-    .opt-card.ok-card::before{background:linear-gradient(90deg,#34d399,#86efac);}
-
-    /* TREEMAP SIMULATION */
-    .treemap-grid{display:grid;gap:4px;grid-template-columns:repeat(5,1fr);margin-top:14px;}
-    .treemap-cell{border-radius:8px;padding:10px 8px;position:relative;overflow:hidden;cursor:pointer;
-      transition:transform .2s,box-shadow .2s;}
-    .treemap-cell:hover{transform:scale(1.04);box-shadow:0 4px 20px rgba(0,0,0,.4);}
-    .treemap-cell-name{font-family:var(--ff-m);font-size:.56rem;text-transform:uppercase;letter-spacing:.06em;
-      opacity:.8;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .treemap-cell-val{font-family:var(--ff-d);font-size:.9rem;font-weight:400;}
-    .treemap-cell-pct{font-family:var(--ff-m);font-size:.52rem;opacity:.65;margin-top:2px;}
-    .treemap-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
-    .tl-item{display:flex;align-items:center;gap:5px;font-family:var(--ff-m);font-size:.6rem;color:var(--t3);}
-    .tl-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-
-    /* BEHAVIORAL INSIGHTS */
-    .behavior-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-    .beh-card{border-radius:13px;padding:15px;position:relative;overflow:hidden;border:1px solid transparent;}
-    .beh-card.ok-beh{background:rgba(134,239,172,.05);border-color:rgba(134,239,172,.15);}
-    .beh-card.warn-beh{background:rgba(251,191,36,.05);border-color:rgba(251,191,36,.15);}
-    .beh-card.err-beh{background:rgba(248,113,113,.05);border-color:rgba(248,113,113,.15);}
-    .beh-card.info-beh{background:rgba(167,139,250,.05);border-color:rgba(167,139,250,.15);}
-    .beh-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-    .beh-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-    .beh-dot.ok-beh{background:var(--ok);}
-    .beh-dot.warn-beh{background:var(--warn);}
-    .beh-dot.err-beh{background:var(--err);}
-    .beh-dot.info-beh{background:var(--bright);}
-    .beh-title{font-family:var(--ff-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;}
-    .beh-title.ok-beh{color:var(--ok);}
-    .beh-title.warn-beh{color:var(--warn);}
-    .beh-title.err-beh{color:var(--err);}
-    .beh-title.info-beh{color:var(--bright);}
-    .beh-body{font-size:.81rem;color:var(--t2);line-height:1.6;}
-    .beh-range{font-family:var(--ff-m);font-size:.58rem;color:var(--t3);margin-top:6px;}
-
-    /* ══ NEW: SAVINGS TREND ENGINE ══ */
-    .trend-arrow{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-m);font-size:.7rem;
-      padding:4px 10px;border-radius:99px;margin-bottom:14px;}
-    .trend-arrow.up{background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.25);color:var(--ok);}
-    .trend-arrow.stable{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);color:var(--bright);}
-    .trend-arrow.down{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--err);}
-    .trend-insights{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
-    .trend-chip{font-family:var(--ff-m);font-size:.6rem;padding:5px 12px;border-radius:99px;
-      border:1px solid var(--b);color:var(--t3);}
-    .trend-chip.active-chip{background:rgba(124,58,237,.12);border-color:rgba(124,58,237,.3);color:var(--bright);}
-
-    /* ══ NEW: VOLATILITY SCORE ══ */
-    .vol-gauge-wrap{position:relative;display:flex;flex-direction:column;align-items:center;}
-    .vol-center{position:absolute;bottom:8%;display:flex;flex-direction:column;align-items:center;pointer-events:none;}
-    .vol-label-big{font-family:var(--ff-d);font-size:1.1rem;text-align:center;}
-    .vol-label-sub{font-family:var(--ff-m);font-size:.55rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
-    .vol-explain{font-size:.8rem;color:var(--t3);line-height:1.6;margin-top:14px;
-      padding:10px 12px;background:rgba(124,58,237,.05);border-radius:8px;border:1px solid var(--b);}
-
-    /* ══ NEW: INCOME STABILITY INDEX ══ */
-    .income-stability-card{border-radius:14px;padding:18px;border:1px solid var(--b);}
-    .radial-indicator{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-      flex-shrink:0;position:relative;font-size:1.6rem;}
-    .radial-indicator.stable{background:rgba(134,239,172,.1);border:2px solid rgba(134,239,172,.35);
-      box-shadow:0 0 20px rgba(134,239,172,.15);animation:radialPulse 2.5s ease-in-out infinite;}
-    .radial-indicator.moderate{background:rgba(251,191,36,.08);border:2px solid rgba(251,191,36,.35);
-      box-shadow:0 0 20px rgba(251,191,36,.12);animation:radialPulse 2.5s ease-in-out infinite;}
-    .radial-indicator.variable{background:rgba(248,113,113,.08);border:2px solid rgba(248,113,113,.35);
-      box-shadow:0 0 20px rgba(248,113,113,.12);animation:radialPulse 2.5s ease-in-out infinite;}
-    @keyframes radialPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
-    .stability-badge{display:inline-block;font-family:var(--ff-m);font-size:.6rem;padding:3px 10px;border-radius:99px;
-      text-transform:uppercase;letter-spacing:.08em;margin-top:6px;}
-    .stability-badge.stable{background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.3);color:var(--ok);}
-    .stability-badge.moderate{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);color:var(--warn);}
-    .stability-badge.variable{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--err);}
-
-    /* ══ NEW: BENCHMARK COMPLIANCE ══ */
-    .benchmark-score-display{text-align:center;padding:16px 0;}
-    .benchmark-score-num{font-family:var(--ff-d);font-size:3rem;background:var(--g2);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
-    .benchmark-score-label{font-family:var(--ff-m);font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-top:4px;}
-    .benchmark-items{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
-    .benchmark-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:9px;
-      background:rgba(255,255,255,.02);border:1px solid var(--b);}
-    .benchmark-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-    .benchmark-name{font-size:.8rem;color:var(--t2);flex:1;}
-    .benchmark-status{font-family:var(--ff-m);font-size:.58rem;padding:2px 8px;border-radius:99px;}
-    .bench-pass{background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.2);color:var(--ok);}
-    .bench-fail{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);color:var(--err);}
-    .bench-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.18);color:var(--warn);}
-    .benchmark-deviation{font-family:var(--ff-m);font-size:.58rem;color:var(--t3);margin-left:4px;}
-
-    /* ══ NEW: GOAL PROBABILITY FORECAST ══ */
-    .prob-meter-wrap{position:relative;display:flex;flex-direction:column;align-items:center;}
-    .prob-center{position:absolute;bottom:6%;display:flex;flex-direction:column;align-items:center;pointer-events:none;}
-    .prob-label-big{font-family:var(--ff-d);font-size:1.4rem;text-align:center;}
-    .prob-label-sub{font-family:var(--ff-m);font-size:.55rem;text-transform:uppercase;letter-spacing:.08em;margin-top:2px;}
-    .prob-confidence-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-m);font-size:.64rem;
-      padding:5px 14px;border-radius:99px;margin-top:10px;}
-    .prob-high{background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.28);color:var(--ok);}
-    .prob-medium{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.22);color:var(--warn);}
-    .prob-low{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.24);color:var(--err);}
-
-    /* ══ NEW: BEHAVIOR SEGMENTATION ══ */
-    .segment-card{background:linear-gradient(135deg,rgba(109,40,217,.12),rgba(79,70,229,.08));
-      border:1px solid rgba(124,58,237,.25);border-radius:16px;padding:22px;
-      display:flex;align-items:flex-start;gap:18px;margin-bottom:18px;}
-    .segment-icon{width:56px;height:56px;border-radius:14px;background:var(--g);
-      display:flex;align-items:center;justify-content:center;font-size:1.6rem;
-      box-shadow:0 6px 20px rgba(109,40,217,.5);flex-shrink:0;animation:aiPulse 3s ease-in-out infinite;}
-    .segment-title{font-family:var(--ff-d);font-size:1.4rem;margin-bottom:4px;}
-    .segment-badge{display:inline-block;font-family:var(--ff-m);font-size:.58rem;padding:3px 10px;border-radius:99px;
-      background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.28);color:var(--bright);
-      text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
-    .segment-desc{font-size:.83rem;color:var(--t2);line-height:1.65;}
-
-    /* ══ NEW: ALLOCATION OPTIMIZER ══ */
-    .allocation-plan{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
-    .alloc-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;
-      background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.14);
-      transition:border-color .3s,background .3s;}
-    .alloc-row:hover{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.26);}
-    .alloc-ico{font-size:1.1rem;flex-shrink:0;}
-    .alloc-action{font-size:.83rem;color:var(--t2);flex:1;}
-    .alloc-action strong{color:var(--t1);}
-    .alloc-tag{font-family:var(--ff-m);font-size:.56rem;padding:2px 8px;border-radius:99px;flex-shrink:0;}
-    .alloc-reduce{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);color:var(--err);}
-    .alloc-increase{background:rgba(134,239,172,.08);border:1px solid rgba(134,239,172,.2);color:var(--ok);}
-    .impact-preview{margin-top:16px;padding:14px;background:rgba(134,239,172,.05);
-      border:1px solid rgba(134,239,172,.15);border-radius:10px;}
-    .impact-title{font-family:var(--ff-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ok);margin-bottom:8px;}
-    .impact-val{font-family:var(--ff-d);font-size:1.8rem;background:linear-gradient(90deg,#86efac,#34d399);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .impact-label{font-family:var(--ff-m);font-size:.6rem;color:var(--t3);}
-
-    /* ══ NEW: MOMENTUM SCORE ══ */
-    .momentum-bar-wrap{margin-top:16px;}
-    .momentum-bar-track{height:10px;border-radius:99px;background:rgba(255,255,255,.04);overflow:hidden;position:relative;}
-    .momentum-bar-fill{height:100%;border-radius:99px;transition:width 1.4s cubic-bezier(.2,0,.1,1);position:relative;}
-    .momentum-bar-fill.improving{background:linear-gradient(90deg,#6d28d9,#86efac);box-shadow:0 0 14px rgba(134,239,172,.3);}
-    .momentum-bar-fill.stable{background:linear-gradient(90deg,#6d28d9,#a78bfa);box-shadow:0 0 14px rgba(167,139,250,.3);}
-    .momentum-bar-fill.declining{background:linear-gradient(90deg,#6d28d9,#f87171);box-shadow:0 0 14px rgba(248,113,113,.3);}
-    .momentum-score-val{font-family:var(--ff-d);font-size:2.8rem;line-height:1;}
-    .momentum-score-val.improving{background:linear-gradient(90deg,#86efac,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .momentum-score-val.stable{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .momentum-score-val.declining{color:var(--err);}
-    .momentum-trajectory{font-family:var(--ff-m);font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;margin-top:4px;}
-    .momentum-trajectory.improving{color:var(--ok);}
-    .momentum-trajectory.stable{color:var(--bright);}
-    .momentum-trajectory.declining{color:var(--err);}
 
     /* LOADING */
     .loading-overlay{display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -522,15 +279,10 @@
       font-size:.84rem;font-weight:600;border-radius:10px;cursor:pointer;transition:transform .3s,box-shadow .3s;}
     .retry-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(109,40,217,.5);}
 
-    /* SECTION HEADERS */
-    .section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;margin-top:6px;}
-    .section-header-line{flex:1;height:1px;background:linear-gradient(to right,rgba(124,58,237,.2),transparent);}
-    .section-label{font-family:var(--ff-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.14em;color:var(--t3);}
-
-    @media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.opt-grid{grid-template-columns:1fr 1fr;}.charts-row-3{grid-template-columns:1fr 1fr;}}
-    @media(max-width:1050px){.analytics-layout{grid-template-columns:1fr;}.tab-nav{position:static;display:flex;flex-wrap:wrap;gap:4px;padding:8px;}.tab-item{flex:0;white-space:nowrap;}.tab-divider{display:none;}.charts-row{grid-template-columns:1fr;}.insight-grid{grid-template-columns:1fr;}.hs-inner{flex-direction:column;}.behavior-grid{grid-template-columns:1fr;}.opt-grid{grid-template-columns:1fr;}.charts-row-3{grid-template-columns:1fr;}}
+    @media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:1050px){.analytics-layout{grid-template-columns:1fr;}.tab-nav{position:static;display:flex;flex-wrap:wrap;gap:4px;padding:8px;}.tab-item{flex:0;white-space:nowrap;}.tab-divider{display:none;}.charts-row{grid-template-columns:1fr;}.insight-grid{grid-template-columns:1fr;}}
     @media(max-width:860px){:root{--sw:0px;}.sidebar{display:none;}.main{margin-left:0;}.content{padding:20px 16px 60px;}}
-    @media(max-width:580px){.kpi-grid{grid-template-columns:1fr 1fr;}.sim-projection-stats{grid-template-columns:1fr 1fr;}}
+    @media(max-width:580px){.kpi-grid{grid-template-columns:1fr 1fr;}}
   </style>
 </head>
 <body>
@@ -540,14 +292,18 @@
 
 <div class="layout">
 
-  <!-- SIDEBAR -->
+  <!-- ══ SIDEBAR ══ -->
   <aside class="sidebar">
     <a href="/" class="sb-logo"><div class="logo-gem">✦</div>FinTrack AI</a>
     <div class="sb-user">
-      <div class="sb-avatar" id="sbAvatar">U</div>
+      
       <div>
-        <div class="sb-name">FinTrack User</div>
-        <div class="sb-email">{{ session['user_email'] }}</div>
+        <div class="sb-avatar" id="sbAvatar">U</div>
+
+<div>
+    <div class="sb-name">FinTrack User</div>
+    <div class="sb-email">{{ session['user_email'] }}</div>
+</div>
       </div>
     </div>
     <nav class="sb-nav">
@@ -568,11 +324,11 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
+  <!-- ══ MAIN ══ -->
   <main class="main">
     <div class="topbar">
       <div class="topbar-left">
-        <a href="/" class="back-btn">← &nbsp;Dashboard</a>
+        <a href="/dashboard" class="back-btn">← &nbsp;Dashboard</a>
         <div class="topbar-title">Analytics</div>
       </div>
       <div class="topbar-right">
@@ -584,13 +340,14 @@
     <div class="content">
 
       <div class="page-hero">
-        <div class="page-eyebrow">Financial Decision Intelligence</div>
-        <h1 class="page-hero-title">Your <span>Analytics</span></h1>
-        <p class="page-hero-sub">Deep analysis of income, spending behaviour, predictive scoring, and goal trajectory.</p>
+        <div class="page-eyebrow">Financial Analytics</div>
+        <h1 class="page-hero-title">Your <span>Insights</span></h1>
+        <p class="page-hero-sub">Deep analysis of your income, spending behaviour, and goal trajectory.</p>
       </div>
 
       <hr class="glow-divider" style="margin-top:0;"/>
 
+      <!-- INNER LAYOUT -->
       <div class="analytics-layout">
 
         <!-- LEFT: TAB NAV -->
@@ -604,13 +361,6 @@
           <div class="tab-divider"></div>
           <div class="tab-item" onclick="switchTab('goals',this)">
             <span class="tab-ico">🎯</span> Goals
-          </div>
-          <div class="tab-divider"></div>
-          <div class="tab-item" onclick="switchTab('intelligence',this)">
-            <span class="tab-ico">🧠</span> Intel
-          </div>
-          <div class="tab-item" onclick="switchTab('simulator',this)">
-            <span class="tab-ico">🔮</span> Simulator
           </div>
         </nav>
 
@@ -643,36 +393,7 @@
               </div>
             </div>
 
-            <!-- FINANCIAL HEALTH SCORE -->
-            <div class="section-header">
-              <div class="section-label">Financial Health Score</div>
-              <div class="section-header-line"></div>
-            </div>
-
-            <div class="health-score-card" style="margin-bottom:22px;">
-              <div class="chart-title">Financial <em>Health Score</em></div>
-              <div class="chart-sub">Composite intelligence engine — 0 to 100</div>
-              <div class="hs-inner">
-                <div class="hs-radial-wrap">
-                  <canvas id="healthScoreCanvas"></canvas>
-                  <div class="hs-center">
-                    <div class="hs-score-val" id="hsScoreVal">—</div>
-                    <div class="hs-score-label">Score</div>
-                  </div>
-                </div>
-                <div class="hs-details">
-                  <div class="hs-status" id="hsStatus">Calculating…</div>
-                  <div class="hs-desc" id="hsDesc">Computing your financial health based on savings rate, net balance, spending ratio, and overspending patterns.</div>
-                  <div class="hs-factors" id="hsFactors"></div>
-                </div>
-              </div>
-            </div>
-
             <!-- KPIs -->
-            <div class="section-header">
-              <div class="section-label">Key Metrics</div>
-              <div class="section-header-line"></div>
-            </div>
             <div class="kpi-grid">
               <div class="kpi-card">
                 <span class="kpi-ico">📈</span>
@@ -708,7 +429,7 @@
               <!-- GAUGE -->
               <div class="chart-card">
                 <div class="chart-title">Savings Rate <em>Gauge</em></div>
-                <div class="chart-sub">Current month savings efficiency · <span style="color:var(--bright)">Target: 20%+</span></div>
+                <div class="chart-sub">Current month savings efficiency</div>
                 <div class="gauge-wrap">
                   <div class="chart-wrap" style="width:100%;max-width:280px;margin:0 auto;">
                     <canvas id="gaugeChart"></canvas>
@@ -735,169 +456,42 @@
               <!-- STACKED BAR -->
               <div class="chart-card">
                 <div class="chart-title">Income vs <em>Expenses</em></div>
-                <div class="chart-sub">Monthly financial flow breakdown · Surplus flows to goals</div>
+                <div class="chart-sub">Monthly financial flow breakdown</div>
                 <div class="chart-wrap">
                   <canvas id="stackedBar"></canvas>
                 </div>
               </div>
             </div>
-
-            <!-- STABILITY & RESILIENCE -->
-            <div class="section-header">
-              <div class="section-label">Stability & Resilience</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div class="charts-row">
-              <div class="chart-card">
-                <div class="chart-title">Financial <em>Stability</em> Indicator</div>
-                <div class="chart-sub">Risk assessment based on balance, savings & overspending</div>
-                <div class="stability-gauge-wrap">
-                  <div class="chart-wrap" style="width:100%;max-width:280px;margin:0 auto;">
-                    <canvas id="stabilityGauge"></canvas>
-                  </div>
-                  <div class="stability-center">
-                    <div class="stability-label-big" id="stabilityLabel">—</div>
-                    <div class="stability-label-sub">Stability Zone</div>
-                  </div>
-                </div>
-                <div class="stability-zones">
-                  <span style="color:var(--ok)">● Stable</span>
-                  <span style="color:var(--warn)">● Moderate Risk</span>
-                  <span style="color:var(--err)">● High Risk</span>
-                </div>
-              </div>
-
-              <!-- SURVIVAL — badge only, no mini chart (STEP 1 removes survival mini chart) -->
-              <div class="chart-card">
-                <div class="chart-title">Monthly <em>Sustainability</em></div>
-                <div class="chart-sub">Months of financial runway if income stops · 6+ months is ideal</div>
-                <div class="survival-wrap" id="survivalWrap" style="margin-top:10px;">
-                  <div class="survival-badge-big" id="survivalBadge">
-                    <div class="survival-months" id="survivalMonths">—</div>
-                    <div class="survival-label">months</div>
-                  </div>
-                  <div class="survival-info">
-                    <div class="survival-title" id="survivalTitle">—</div>
-                    <div class="survival-desc" id="survivalDesc">Calculating survival buffer…</div>
-                  </div>
-                </div>
-                <!-- STEP 1: survival mini chart removed — badge only retained -->
-              </div>
-            </div>
-
-            <!-- FINANCIAL MOMENTUM SCORE (STEP 10) -->
-            <div class="section-header">
-              <div class="section-label">Financial Momentum</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div class="chart-card" style="margin-bottom:20px;" id="momentumCard">
-              <div class="chart-title">Financial <em>Momentum Score</em></div>
-              <div class="chart-sub">Measures direction of improvement vs stagnation or decline</div>
-              <div style="display:flex;align-items:center;gap:24px;margin-top:14px;">
-                <div>
-                  <div class="momentum-score-val" id="momentumScoreVal">—</div>
-                  <div class="momentum-trajectory" id="momentumTrajectory">—</div>
-                </div>
-                <div style="flex:1;">
-                  <div class="momentum-bar-wrap">
-                    <div style="display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:.58rem;color:var(--t3);margin-bottom:8px;">
-                      <span>Momentum Score</span>
-                      <span id="momentumPctLabel">0 / 100</span>
-                    </div>
-                    <div class="momentum-bar-track">
-                      <div class="momentum-bar-fill" id="momentumBar" style="width:0%;"></div>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;margin-top:6px;font-family:var(--ff-m);font-size:.52rem;color:var(--t3);">
-                      <span>Declining</span><span>Stable</span><span>Improving</span>
-                    </div>
-                  </div>
-                  <div style="margin-top:12px;font-size:.81rem;color:var(--t2);line-height:1.6;" id="momentumDesc"></div>
-                </div>
-              </div>
-            </div>
-
-          </div><!-- /panel-overview -->
+          </div>
 
           <!-- ══ PANEL 2: SPENDING ANALYSIS ══ -->
           <div class="panel" id="panel-spending" style="display:none;">
-
-            <!-- DEPENDENCY RISK -->
-            <div id="depRiskCard" class="dep-risk-card">
-              <div class="dep-risk-ico">⚠️</div>
-              <div class="dep-risk-content">
-                <div class="dep-risk-title">
-                  High Dependency Detected <span class="severity-badge" id="depSeverity">Warning</span>
-                </div>
-                <div class="dep-risk-body" id="depRiskBody">Analysing…</div>
-                <div class="dep-risk-bar"><div class="dep-risk-bar-fill" id="depRiskBarFill" style="width:0%"></div></div>
-              </div>
-            </div>
-
-            <!-- EXPENSE VOLATILITY SCORE (STEP 3) -->
-            <div class="section-header">
-              <div class="section-label">Expense Volatility</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div class="charts-row" style="margin-bottom:20px;">
+            <div class="charts-row">
+              <!-- DONUT -->
               <div class="chart-card">
-                <div class="chart-title">Expense <em>Volatility Index</em></div>
-                <div class="chart-sub">Variance of category spending — normalized 0–100</div>
-                <div class="vol-gauge-wrap">
-                  <div class="chart-wrap" style="width:100%;max-width:260px;margin:0 auto;">
-                    <canvas id="volatilityGauge"></canvas>
-                  </div>
-                  <div class="vol-center">
-                    <div class="vol-label-big" id="volLabel">—</div>
-                    <div class="vol-label-sub">Volatility</div>
-                  </div>
-                </div>
-                <div class="vol-explain" id="volExplain">Low volatility means stable spending behaviour across categories.</div>
-              </div>
-
-              <!-- INCOME STABILITY INDEX (STEP 4) -->
-              <div class="chart-card">
-                <div class="chart-title">Income <em>Stability Index</em></div>
-                <div class="chart-sub">Classification based on income composition · Stability = predictability</div>
-                <div style="display:flex;align-items:center;gap:20px;margin-top:16px;">
-                  <div class="radial-indicator" id="incomeStabilityIndicator">💼</div>
-                  <div>
-                    <div style="font-family:var(--ff-d);font-size:1.3rem;margin-bottom:4px;" id="incomeStabilityTitle">—</div>
-                    <div class="stability-badge" id="incomeStabilityBadge">—</div>
-                    <div style="font-size:.81rem;color:var(--t2);line-height:1.65;margin-top:10px;" id="incomeStabilityDesc">Analysing income composition…</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- DONUT + TREEMAP -->
-            <div class="section-header">
-              <div class="section-label">Spending Breakdown</div>
-              <div class="section-header-line"></div>
-            </div>
-            <!-- STEP 1: Horizontal spending ranking chart removed. Donut remains. -->
-            <div class="chart-card" style="margin-bottom:18px;">
-              <div class="chart-title">Expense <em>Breakdown</em></div>
-              <div class="chart-sub">Category distribution of monthly spending · Hover for details</div>
-              <div style="display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:center;">
-                <div class="chart-wrap" style="max-width:260px;">
+                <div class="chart-title">Expense <em>Breakdown</em></div>
+                <div class="chart-sub">Category distribution of monthly spending</div>
+                <div class="chart-wrap" style="max-width:260px;margin:0 auto;">
                   <canvas id="donutChart"></canvas>
                 </div>
-                <div class="donut-legend" id="categoryLegend"></div>
+              </div>
+
+              <!-- HORIZONTAL BAR RANKING -->
+              <div class="chart-card">
+                <div class="chart-title">Spending <em>Ranking</em></div>
+                <div class="chart-sub">Top categories by monthly amount</div>
+                <div class="chart-wrap">
+                  <canvas id="hBarChart"></canvas>
+                </div>
               </div>
             </div>
 
-            <!-- EXPENSE CONCENTRATION TREEMAP -->
-            <div class="chart-card" style="margin-bottom:18px;">
-              <div class="chart-title">Expense <em>Concentration Map</em></div>
-              <div class="chart-sub">Top 5 expense contributors — proportional treemap</div>
-              <div class="treemap-grid" id="treemapGrid"></div>
-              <div class="treemap-legend" id="treemapLegend"></div>
-            </div>
-
+            <!-- LEGEND TABLE -->
             <div class="chart-card">
-              <div class="chart-title">Spending <em>Intelligence</em></div>
-              <div class="chart-sub">AI-generated context on your spending pattern</div>
-              <div style="margin-top:10px;padding:12px 14px;background:rgba(109,40,217,.07);border:1px solid rgba(109,40,217,.18);border-radius:10px;">
+              <div class="chart-title">Category <em>Detail</em></div>
+              <div class="chart-sub">Percentage share of total spending</div>
+              <div class="donut-legend" id="categoryLegend"></div>
+              <div style="margin-top:14px;padding:12px 14px;background:rgba(109,40,217,.07);border:1px solid rgba(109,40,217,.18);border-radius:10px;">
                 <div id="spendInsight" style="font-size:.84rem;color:var(--t2);line-height:1.65;"></div>
               </div>
             </div>
@@ -905,64 +499,6 @@
 
           <!-- ══ PANEL 3: GOAL INTELLIGENCE ══ -->
           <div class="panel" id="panel-goals" style="display:none;">
-
-            <!-- BENCHMARK COMPLIANCE ENGINE (STEP 5) -->
-            <div class="section-header">
-              <div class="section-label">Benchmark Compliance</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div class="charts-row" style="margin-bottom:20px;">
-              <div class="chart-card">
-                <div class="chart-title">Benchmark <em>Compliance Score</em></div>
-                <div class="chart-sub">Your spending vs recommended financial ratios · 0–100</div>
-                <div class="benchmark-score-display">
-                  <div class="benchmark-score-num" id="benchmarkScore">—</div>
-                  <div class="benchmark-score-label">Compliance Score</div>
-                </div>
-                <div class="benchmark-items" id="benchmarkItems"></div>
-              </div>
-              <div class="chart-card">
-                <div class="chart-title">Benchmark <em>Compliance Radar</em></div>
-                <div class="chart-sub">Your ratios vs recommended thresholds</div>
-                <div class="chart-wrap" style="max-width:280px;margin:0 auto;">
-                  <canvas id="benchmarkRadar" style="max-height:240px;"></canvas>
-                </div>
-              </div>
-            </div>
-
-            <!-- GOAL PROBABILITY FORECAST (STEP 6) -->
-            <div class="section-header">
-              <div class="section-label">Goal Probability Forecast</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div class="charts-row" style="margin-bottom:20px;">
-              <div class="chart-card">
-                <div class="chart-title">Goal Completion <em>Probability</em></div>
-                <div class="chart-sub">Confidence level based on monthly saving pace vs required</div>
-                <div class="prob-meter-wrap">
-                  <div class="chart-wrap" style="width:100%;max-width:260px;margin:0 auto;">
-                    <canvas id="goalProbGauge"></canvas>
-                  </div>
-                  <div class="prob-center">
-                    <div class="prob-label-big" id="goalProbPct">—%</div>
-                    <div class="prob-label-sub" id="goalProbLabel">Probability</div>
-                  </div>
-                </div>
-                <div style="text-align:center;">
-                  <div class="prob-confidence-badge" id="goalConfBadge">Analysing…</div>
-                </div>
-                <div style="font-size:.8rem;color:var(--t2);line-height:1.6;margin-top:12px;" id="goalProbDesc"></div>
-              </div>
-              <div class="chart-card">
-                <div class="chart-title">Allocation <em>Balance Profile</em></div>
-                <div class="chart-sub">Income allocation radar — normalized percentage distribution</div>
-                <div class="chart-wrap" style="max-width:280px;margin:0 auto;">
-                  <canvas id="radarChart" style="max-height:240px;"></canvas>
-                </div>
-                <div style="margin-top:10px;" id="radarInsight"></div>
-              </div>
-            </div>
-
             <div class="insight-grid">
               <div class="insight-card">
                 <div class="ic-header"><div class="ic-icon">🎯</div><div class="ic-title">Goal Feasibility</div></div>
@@ -986,132 +522,14 @@
               </div>
             </div>
 
-          </div>
-
-          <!-- ══ PANEL 4: INTELLIGENCE ══ -->
-          <div class="panel" id="panel-intelligence" style="display:none;">
-
-            <!-- SAVINGS TREND ENGINE (STEP 2) -->
-            <div class="section-header">
-              <div class="section-label">Savings Trend Engine</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div class="chart-card" style="margin-bottom:18px;">
-              <div class="chart-title">Savings Rate <em>Trend Intelligence</em></div>
-              <div class="chart-sub">3-month trend projection · Weighted from current savings ratio</div>
-              <div id="trendArrow" class="trend-arrow stable">→ Calculating trend…</div>
-              <div class="chart-wrap">
-                <canvas id="savingsTrendChart" style="max-height:220px;"></canvas>
-              </div>
-              <div class="trend-insights" id="trendInsights"></div>
-            </div>
-
-            <!-- BEHAVIOR SEGMENTATION (STEP 7) -->
-            <div class="section-header">
-              <div class="section-label">Financial Behavior Profile</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div id="segmentCard" class="segment-card">
-              <div class="segment-icon" id="segmentIcon">💼</div>
-              <div>
-                <div class="segment-title" id="segmentTitle">—</div>
-                <div class="segment-badge" id="segmentBadge">Profile</div>
-                <div class="segment-desc" id="segmentDesc">Classifying your financial behavior pattern…</div>
-              </div>
-            </div>
-
-            <!-- OPTIMIZATION ENGINE (STEP 8 upgraded) -->
-            <div class="section-header">
-              <div class="section-label">Smart Allocation Optimizer</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div class="chart-card" style="margin-bottom:18px;">
-              <div class="chart-title">Expense <em>Optimization</em> Recommendations</div>
-              <div class="chart-sub">AI-powered actionable spending reduction + reallocation plan</div>
-              <div class="opt-grid" id="optGrid" style="margin-top:14px;"></div>
-              <!-- Allocation Plan + Impact Preview -->
-              <div style="margin-top:18px;">
-                <div style="font-family:var(--ff-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:10px;">Suggested Reallocation Plan</div>
-                <div class="allocation-plan" id="allocationPlan"></div>
-                <div class="impact-preview" id="impactPreview" style="display:none;">
-                  <div class="impact-title">Impact Preview — New Projected Savings Rate</div>
-                  <div class="impact-val" id="impactSavRate">—</div>
-                  <div class="impact-label" id="impactSavLabel">after implementing reallocation</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- BEHAVIORAL INSIGHTS -->
-            <div class="section-header">
-              <div class="section-label">Behavioral Insight Engine</div>
-              <div class="section-header-line"></div>
-            </div>
+            <!-- CAPACITY VISUAL -->
             <div class="chart-card">
-              <div class="chart-title">Behavioral <em>Pattern Analysis</em></div>
-              <div class="chart-sub">Category allocation vs recommended financial benchmarks</div>
-              <div class="behavior-grid" id="behaviorGrid" style="margin-top:14px;"></div>
-            </div>
-
-          </div>
-
-          <!-- ══ PANEL 5: SIMULATOR ══ -->
-          <div class="panel" id="panel-simulator" style="display:none;">
-
-            <!-- ALLOCATION PROJECTION TIMELINE (STEP 9, replaces capacity bar) -->
-            <div class="section-header">
-              <div class="section-label">Income Allocation Projection</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div class="chart-card" style="margin-bottom:18px;">
-              <div class="chart-title">Income Allocation <em>Projection Timeline</em></div>
-              <div class="chart-sub">Savings growth · Expense trajectory · Goal completion forecast</div>
+              <div class="chart-title">Financial <em>Capacity</em> Overview</div>
+              <div class="chart-sub">Income allocation at a glance</div>
               <div class="chart-wrap">
-                <canvas id="allocationProjectionChart" style="max-height:260px;"></canvas>
+                <canvas id="capacityBar" style="max-height:180px;"></canvas>
               </div>
             </div>
-
-            <!-- SAVINGS ACCELERATION SIMULATOR -->
-            <div class="section-header">
-              <div class="section-label">Savings Acceleration Simulator</div>
-              <div class="section-header-line"></div>
-            </div>
-            <div class="chart-card" style="margin-bottom:18px;">
-              <div class="chart-title">Goal Completion <em>Timeline Optimization</em></div>
-              <div class="chart-sub">Adjust monthly savings boost to recalculate goal completion</div>
-
-              <div class="simulator-controls" style="margin-top:16px;">
-                <div class="sim-slider-wrap">
-                  <div class="sim-slider-label">
-                    <span>Increase monthly savings by:</span>
-                    <span class="sim-slider-val" id="simSliderVal">₹0</span>
-                  </div>
-                  <input type="range" class="sim-slider" id="simSlider" min="0" max="10000" step="500" value="0" oninput="updateSimulator(this.value)">
-                  <div style="display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:.54rem;color:var(--t3);margin-top:4px;">
-                    <span>₹0</span><span>₹1,000</span><span>₹3,000</span><span>₹5,000</span><span>₹10,000</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="sim-projection-stats" id="simStats">
-                <div class="sim-stat">
-                  <div class="sim-stat-val" id="simCurrentMonths">—</div>
-                  <div class="sim-stat-label">Current Timeline</div>
-                </div>
-                <div class="sim-stat">
-                  <div class="sim-stat-val" id="simNewMonths">—</div>
-                  <div class="sim-stat-label">New Timeline</div>
-                </div>
-                <div class="sim-stat">
-                  <div class="sim-stat-val" id="simTimeSaved">—</div>
-                  <div class="sim-stat-label">Months Saved</div>
-                </div>
-              </div>
-
-              <div class="chart-wrap">
-                <canvas id="simulatorChart" style="max-height:240px;"></canvas>
-              </div>
-            </div>
-
           </div>
 
         </div><!-- /panel wrap -->
@@ -1171,14 +589,6 @@ var CHART_COLORS = [
   '#c4b5fd','#5b21b6','#8b5cf6','#6366f1','#4338ca','#7e22ce'
 ];
 
-var TREEMAP_COLORS = [
-  {bg:'rgba(167,139,250,0.18)',border:'rgba(167,139,250,0.6)',text:'#c4b5fd'},
-  {bg:'rgba(99,102,241,0.18)',border:'rgba(99,102,241,0.6)',text:'#a5b4fc'},
-  {bg:'rgba(109,40,217,0.22)',border:'rgba(124,58,237,0.6)',text:'#d8b4fe'},
-  {bg:'rgba(79,70,229,0.18)',border:'rgba(79,70,229,0.6)',text:'#a5b4fc'},
-  {bg:'rgba(139,92,246,0.18)',border:'rgba(139,92,246,0.6)',text:'#c4b5fd'}
-];
-
 var CAT_LABELS = {
   GROCERIES:'Groceries', TRAVEL:'Travel', MEDFIT:'Medical & Fitness',
   LEP:'Light & Electricity', MONTHLY_RENT:'Monthly Rent', M_BILLS:'Mobile Bills',
@@ -1186,24 +596,15 @@ var CAT_LABELS = {
   EMSAVING:'Emergency Saving', MISCELLANEOUS:'Miscellaneous'
 };
 
-var _analyticsData = null;
+/* Chart instances — store for destroy/redraw */
 var chartInstances = {};
 
 function destroyChart(id){
-  if(chartInstances[id]){ chartInstances[id].destroy(); delete chartInstances[id]; }
+  if(chartInstances[id]){
+    chartInstances[id].destroy();
+    delete chartInstances[id];
+  }
 }
-
-var darkTooltip = {
-  backgroundColor:'rgba(10,8,32,.96)',
-  borderColor:'rgba(120,80,255,.25)',
-  borderWidth:1,
-  titleColor:'rgba(237,232,255,.9)',
-  bodyColor:'rgba(157,142,196,.85)',
-  titleFont:{family:'DM Mono',size:11},
-  bodyFont:{family:'DM Mono',size:11},
-  padding:10,
-  cornerRadius:8
-};
 
 /* ══════════════════════════════════
    TAB SWITCHING
@@ -1225,14 +626,15 @@ async function loadAnalytics(){
   document.getElementById('loadingState').style.display='flex';
   document.getElementById('errorState').style.display='none';
   document.querySelectorAll('.panel').forEach(function(p){p.style.display='none';});
+
   try{
     var r = await fetch('/api/analytics');
     if(r.status===401){ window.location.href='/login'; return; }
     var d = await r.json();
     if(!d.success) throw new Error(d.message||'API error');
     document.getElementById('loadingState').style.display='none';
-    _analyticsData = d.analytics;
     renderAll(d.analytics);
+    /* show active panel */
     var ap = document.getElementById('panel-'+currentTab);
     if(ap) ap.style.display='block';
   }catch(e){
@@ -1244,588 +646,8 @@ async function loadAnalytics(){
 
 function renderAll(a){
   renderOverview(a);
-  renderHealthScore(a);
-  renderStabilityGauge(a);
-  renderSurvivalIndicator(a);
   renderSpending(a);
-  renderDependencyRisk(a);
-  renderTreemapExpenses(a);
   renderGoalIntelligence(a);
-  renderRadarProfile(a);
-  renderOptimizationEngine(a);
-  renderBehaviorInsights(a);
-  renderSavingsSimulator(a, 0);
-  // NEW STEP FUNCTIONS
-  renderSavingsTrendEngine(a);
-  renderVolatilityScore(a);
-  renderIncomeStabilityIndex(a);
-  renderBenchmarkCompliance(a);
-  renderGoalProbabilityForecast(a);
-  renderBehaviorSegmentation(a);
-  renderAllocationProjectionChart(a);
-  renderMomentumScore(a);
-}
-
-/* ══════════════════════════════════
-   SECTION 1 — FINANCIAL HEALTH SCORE
-══════════════════════════════════ */
-function renderHealthScore(a){
-  var sr  = +(a.savings_rate||0);
-  var nb  = +(a.net_balance||0);
-  var inc = +(a.total_income||0);
-  var exp = +(a.total_expense||0);
-  var ov  = !!a.overspending;
-
-  var score = 0;
-  var factors = [];
-
-  if(sr >= 30){
-    score += 40;
-    factors.push({label:'Savings Rate ≥ 30%', val:'+40', cls:'pos'});
-  } else if(sr >= 20){
-    score += 25;
-    factors.push({label:'Savings Rate ≥ 20%', val:'+25', cls:'pos'});
-  } else {
-    factors.push({label:'Savings Rate < 20%', val:'+0', cls:'neg'});
-  }
-
-  if(inc > 0 && exp < inc * 0.7){
-    score += 30;
-    factors.push({label:'Expenses < 70% income', val:'+30', cls:'pos'});
-  } else {
-    factors.push({label:'Expenses ≥ 70% income', val:'+0', cls:'neg'});
-  }
-
-  if(nb > 0){
-    score += 20;
-    factors.push({label:'Positive net balance', val:'+20', cls:'pos'});
-  } else {
-    factors.push({label:'Negative net balance', val:'+0', cls:'neg'});
-  }
-
-  if(ov){
-    score -= 20;
-    factors.push({label:'Overspending detected', val:'−20', cls:'neg'});
-  } else {
-    factors.push({label:'No overspending', val:'+0', cls:'neu'});
-  }
-
-  score = Math.max(0, Math.min(100, score));
-
-  var status, statusClass, desc;
-  if(score >= 80){
-    status='Excellent'; statusClass='excellent';
-    desc='Your financial health is outstanding. Maintain these habits for long-term wealth building.';
-  } else if(score >= 60){
-    status='Strong'; statusClass='strong';
-    desc='Your finances are in good shape. A few optimisations can push you into the Excellent zone.';
-  } else if(score >= 40){
-    status='Moderate'; statusClass='moderate';
-    desc='Room for improvement. Focus on increasing savings rate and reducing expense ratio.';
-  } else {
-    status='Risk Zone'; statusClass='risk';
-    desc='Your financial position needs immediate attention. Overspending and low savings are the primary concerns.';
-  }
-
-  document.getElementById('hsScoreVal').textContent = score;
-  var statusEl = document.getElementById('hsStatus');
-  statusEl.textContent = status;
-  statusEl.className = 'hs-status ' + statusClass;
-  document.getElementById('hsDesc').textContent = desc;
-
-  var fHtml = factors.map(function(f){
-    return '<div class="hs-factor">'
-      +'<div class="hs-factor-dot '+f.cls+'"></div>'
-      +'<span>'+f.label+'</span>'
-      +'<span class="hs-factor-val '+f.cls+'">'+f.val+'</span>'
-      +'</div>';
-  }).join('');
-  document.getElementById('hsFactors').innerHTML = fHtml;
-
-  destroyChart('healthScore');
-  var hsColor = score>=80?'rgba(134,239,172,.85)':score>=60?'rgba(167,139,250,.85)':score>=40?'rgba(251,191,36,.85)':'rgba(248,113,113,.85)';
-  var hsCtx = document.getElementById('healthScoreCanvas').getContext('2d');
-  chartInstances['healthScore'] = new Chart(hsCtx,{
-    type:'doughnut',
-    data:{datasets:[{
-      data:[score, 100-score],
-      backgroundColor:[hsColor,'rgba(255,255,255,.03)'],
-      borderWidth:0,
-      borderRadius:[6,0]
-    }]},
-    options:{
-      responsive:true,cutout:'78%',
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          ...darkTooltip,
-          callbacks:{label:function(ctx){
-            if(ctx.dataIndex===0) return ' Health Score: '+score+'/100 — '+status;
-            return ' Remaining capacity: '+(100-score)+' pts';
-          }}
-        }
-      },
-      animation:{duration:1400,easing:'easeInOutQuart'}
-    }
-  });
-}
-
-/* ══════════════════════════════════
-   SECTION 2 — DEPENDENCY RISK
-══════════════════════════════════ */
-function renderDependencyRisk(a){
-  var bd = a.expense_breakdown || {};
-  var total = Object.values(bd).reduce(function(s,v){return s+(+v||0);},0)||1;
-  var card = document.getElementById('depRiskCard');
-  var riskFound = false;
-
-  Object.entries(bd).forEach(function(entry){
-    var key = entry[0], val = +(entry[1]||0);
-    var share = (val/total)*100;
-    if(share > 35 && !riskFound){
-      riskFound = true;
-      var catName = CAT_LABELS[key]||key;
-      document.getElementById('depRiskBody').innerHTML =
-        'High dependency detected on <strong>'+catName+'</strong>. '
-        +'This category consumes <strong>'+share.toFixed(1)+'%</strong> of total monthly spending. '
-        +'Recommended maximum for any single category is 35%.';
-      document.getElementById('depSeverity').textContent = share > 50 ? 'Critical' : 'Warning';
-      setTimeout(function(){
-        document.getElementById('depRiskBarFill').style.width = Math.min(100,share)+'%';
-      },200);
-    }
-  });
-  card.className = 'dep-risk-card' + (riskFound ? ' show' : '');
-}
-
-/* ══════════════════════════════════
-   SECTION 3 — INCOME ALLOCATION RADAR
-══════════════════════════════════ */
-function renderRadarProfile(a){
-  var inc = +(a.total_income||0)||1;
-  var exp = +(a.total_expense||0);
-  var nb  = +(a.net_balance||0);
-  var sav = Math.max(0,nb);
-  var bd  = a.expense_breakdown || {};
-  var emBuf = +(bd['EMSAVING']||0) || sav*0.1;
-
-  var expPct   = Math.min(100, (exp/inc)*100);
-  var savPct   = Math.min(100, (sav/inc)*100);
-  var emPct    = Math.min(100, (emBuf/inc)*100);
-
-  destroyChart('radar');
-  var rCtx = document.getElementById('radarChart').getContext('2d');
-  chartInstances['radar'] = new Chart(rCtx,{
-    type:'radar',
-    data:{
-      labels:['Income Capacity','Expense Load','Savings Ratio','Emergency Buffer'],
-      datasets:[{
-        label:'Your Profile',
-        data:[100, expPct, savPct, emPct],
-        backgroundColor:'rgba(124,58,237,.15)',
-        borderColor:'rgba(167,139,250,.7)',
-        borderWidth:2,
-        pointBackgroundColor:'rgba(167,139,250,1)',
-        pointBorderColor:'rgba(167,139,250,.4)',
-        pointRadius:5,
-        pointHoverRadius:7
-      },{
-        label:'Benchmark',
-        data:[100, 70, 20, 10],
-        backgroundColor:'rgba(134,239,172,.06)',
-        borderColor:'rgba(134,239,172,.35)',
-        borderWidth:1.5,
-        borderDash:[4,4],
-        pointBackgroundColor:'rgba(134,239,172,.6)',
-        pointRadius:3
-      }]
-    },
-    options:{
-      responsive:true,
-      scales:{
-        r:{
-          min:0,max:100,
-          ticks:{display:false,stepSize:25},
-          grid:{color:'rgba(120,80,255,.1)'},
-          angleLines:{color:'rgba(120,80,255,.1)'},
-          pointLabels:{color:'rgba(157,142,196,.8)',font:{family:'DM Mono',size:10}}
-        }
-      },
-      plugins:{
-        legend:{labels:{color:'rgba(237,232,255,.65)',font:{family:'DM Mono',size:10},boxWidth:10,padding:12}},
-        tooltip:{...darkTooltip,callbacks:{label:function(ctx){return ' '+ctx.dataset.label+': '+ctx.raw.toFixed(1)+'%';}}}
-      },
-      animation:{duration:1000,easing:'easeInOutQuart'}
-    }
-  });
-
-  var insEl = document.getElementById('radarInsight');
-  var insHTML = '';
-  if(expPct > 80) insHTML += '<span style="font-size:.8rem;color:var(--t2);">⚠️ Expense load at <strong>'+expPct.toFixed(0)+'%</strong> — above the 70% threshold.<br>';
-  if(savPct >= 20) insHTML += '✅ Savings ratio <strong>'+savPct.toFixed(0)+'%</strong> meets benchmark.<br>';
-  else insHTML += '🔴 Savings at <strong>'+savPct.toFixed(0)+'%</strong> — target 20%+.</span>';
-  insEl.innerHTML = insHTML;
-}
-
-/* ══════════════════════════════════
-   SECTION 4 — SAVINGS SIMULATOR
-══════════════════════════════════ */
-function renderSavingsSimulator(a, boost){
-  var nb   = +(a.net_balance||0);
-  var gf   = a.goal_feasible || '';
-  var moMatch = gf.match(/([\d.]+)\s*months?/i);
-  var currentMonths = moMatch ? +moMatch[1] : 24;
-  var currentSavings = Math.max(1, nb);
-  var newSavings = currentSavings + (+boost||0);
- var goalAmount = currentSavings * currentMonths;
-
-var newMonths = newSavings > 0
-  ? Math.ceil(goalAmount / newSavings)
-  : currentMonths;
-
-var saved = Math.max(
-  0,
-  Math.round(currentMonths - newMonths)
-);
-
-function formatMonths(m){
-return m === 1 ? '1 month' : `${m} months`;
-}
-
-document.getElementById('simCurrentMonths').textContent =
-formatMonths(Math.round(currentMonths));
-
-document.getElementById('simNewMonths').textContent =
-formatMonths(newMonths);
-
-document.getElementById('simTimeSaved').textContent =
-saved > 0
-? `⏱ ${formatMonths(saved)} saved`
-: '0 months saved';
-
-  var maxMonths = Math.max(currentMonths, 1);
-  var labels  = [];
-  var current = [];
-  var boosted = [];
-  var goalAmount = currentSavings > 0 ? currentSavings * currentMonths : 50000;
-
-  for(var m=0; m<=maxMonths; m++){
-    labels.push('M'+m);
-    current.push(Math.min(goalAmount, currentSavings * m));
-    boosted.push(Math.min(goalAmount, newSavings * m));
-  }
-
-  destroyChart('simulator');
-  var sCtx = document.getElementById('simulatorChart').getContext('2d');
-  chartInstances['simulator'] = new Chart(sCtx,{
-    type:'line',
-    data:{
-      labels:labels,
-      datasets:[
-        {
-          label:'Current Savings Path',
-          data:current,
-          borderColor:'rgba(167,139,250,.7)',
-          backgroundColor:'rgba(124,58,237,.06)',
-          fill:true,tension:.4,pointRadius:0,pointHoverRadius:4,borderWidth:2
-        },
-        {
-          label:'Boosted Savings Path',
-          data:boosted,
-          borderColor:'rgba(134,239,172,.8)',
-          backgroundColor:'rgba(134,239,172,.06)',
-          fill:true,tension:.4,pointRadius:0,pointHoverRadius:4,borderWidth:2,
-          borderDash: boost > 0 ? [] : [5,5]
-        }
-      ]
-    },
-    options:{
-      responsive:true,
-      plugins:{
-        legend:{labels:{color:'rgba(237,232,255,.65)',font:{family:'DM Mono',size:10},boxWidth:10,padding:12}},
-        tooltip:{...darkTooltip,callbacks:{
-          label:function(ctx){return ' '+ctx.dataset.label+': '+fmt(ctx.raw);},
-          afterBody:function(){return ['','Savings rate above 20% is considered financially healthy'];}
-        }}
-      },
-      scales:{
-        x:{ticks:{color:'rgba(92,80,128,.7)',font:{family:'DM Mono',size:9},maxTicksLimit:8},grid:{color:'rgba(120,80,255,.05)'}},
-        y:{ticks:{color:'rgba(92,80,128,.8)',callback:function(v){return '₹'+Number(v).toLocaleString('en-IN');}},grid:{color:'rgba(120,80,255,.05)'}}
-      },
-      animation:{duration:600,easing:'easeInOutQuart'}
-    }
-  });
-}
-
-function updateSimulator(val){
-  var snapVal = [0,500,1000,1500,2000,2500,3000,4000,5000,7500,10000].reduce(function(prev,curr){
-    return Math.abs(curr-val)<Math.abs(prev-val)?curr:prev;
-  });
-  document.getElementById('simSliderVal').textContent = snapVal > 0 ? fmt(snapVal) : '₹0';
-  if(_analyticsData) renderSavingsSimulator(_analyticsData, snapVal);
-}
-
-/* ══════════════════════════════════
-   SECTION 5 — OPTIMIZATION ENGINE
-══════════════════════════════════ */
-function renderOptimizationEngine(a){
-  var bd    = a.expense_breakdown || {};
-  var total = Object.values(bd).reduce(function(s,v){return s+(+v||0);},0)||1;
-  var sr    = +(a.savings_rate||0);
-  var inc   = +(a.total_income||0);
-  var recs  = [];
-  var reallocs = [];
-  var totalSaving = 0;
-
-  var ent = +(bd['ENTERTAINMENT']||0);
-  var entPct = (ent/total)*100;
-  if(entPct > 10){
-    var entTarget = total * 0.10;
-    var entReduce = ent - entTarget;
-    recs.push({ico:'🎬',title:'Reduce Entertainment',
-      body:'Entertainment at <strong>'+entPct.toFixed(0)+'%</strong>. Reducing by <strong>'+fmt(entReduce)+'</strong>/month reaches the 10% benchmark.',cls:'warn-card'});
-    reallocs.push({ico:'🎬',action:'Reduce <strong>Entertainment</strong> by <strong>'+fmt(entReduce)+'</strong>/month',tag:'reduce',amount:entReduce});
-    totalSaving += entReduce;
-  }
-
-  var fash = +(bd['FASHION']||0);
-  var fashPct = (fash/total)*100;
-  if(fashPct > 8){
-    var fashTarget = total * 0.08;
-    var fashReduce = fash - fashTarget;
-    recs.push({ico:'👗',title:'Reduce Fashion Spend',
-      body:'Fashion at <strong>'+fashPct.toFixed(0)+'%</strong>. Cut by <strong>'+fmt(fashReduce)+'</strong>/month.',cls:'warn-card'});
-    reallocs.push({ico:'👗',action:'Reduce <strong>Fashion</strong> by <strong>'+fmt(fashReduce)+'</strong>/month',tag:'reduce',amount:fashReduce});
-    totalSaving += fashReduce;
-  }
-
-  var misc = +(bd['MISCELLANEOUS']||0);
-  var miscPct = (misc/total)*100;
-  if(miscPct > 12){
-    var miscReduce = misc - total*0.12;
-    recs.push({ico:'🔍',title:'Audit Miscellaneous',
-      body:'Miscellaneous at <strong>'+miscPct.toFixed(0)+'%</strong> — unusually high.',cls:''});
-    reallocs.push({ico:'🔍',action:'Audit <strong>Miscellaneous</strong> — potential saving of <strong>'+fmt(miscReduce)+'</strong>/month',tag:'reduce',amount:miscReduce});
-    totalSaving += miscReduce;
-  }
-
-  if(totalSaving > 0){
-    var emIncrease = totalSaving * 0.6;
-    var sipIncrease = totalSaving * 0.4;
-    reallocs.push({ico:'🛡️',action:'Increase <strong>Emergency Savings</strong> by <strong>'+fmt(emIncrease)+'</strong>/month',tag:'increase',amount:emIncrease});
-    reallocs.push({ico:'📈',action:'Direct <strong>'+fmt(sipIncrease)+'</strong>/month into SIP or investment fund',tag:'increase',amount:sipIncrease});
-  }
-
-  if(sr < 20){
-    var need = Math.max(0, inc * 0.20 - Math.max(0,+(a.net_balance||0)));
-    recs.push({ico:'💰',title:'Boost Savings Rate',
-      body:'Savings at <strong>'+pct(sr)+'</strong>. Redirect <strong>'+fmt(need)+'</strong>/month to reach 20% target.',cls:'ok-card'});
-  }
-
-  if(!recs.length){
-    recs.push({ico:'✅',title:'Spending Optimised',
-      body:'No critical spending anomalies. Category allocations are within recommended ranges.',cls:'ok-card'});
-  }
-
-  document.getElementById('optGrid').innerHTML = recs.map(function(r){
-    return '<div class="opt-card '+r.cls+'">'
-      +'<span class="opt-ico">'+r.ico+'</span>'
-      +'<div class="opt-title">'+r.title+'</div>'
-      +'<div class="opt-body">'+r.body+'</div>'
-      +'</div>';
-  }).join('');
-
-  // Allocation plan
-  var planEl = document.getElementById('allocationPlan');
-  if(reallocs.length){
-    planEl.innerHTML = reallocs.map(function(r){
-      return '<div class="alloc-row">'
-        +'<span class="alloc-ico">'+r.ico+'</span>'
-        +'<div class="alloc-action">'+r.action+'</div>'
-        +'<span class="alloc-tag '+(r.tag==='reduce'?'alloc-reduce':'alloc-increase')+'">'+(r.tag==='reduce'?'↓ Reduce':'↑ Increase')+'</span>'
-        +'</div>';
-    }).join('');
-
-    if(totalSaving > 0){
-      var newSavRate = Math.min(100, sr + (totalSaving/inc*100));
-      var impactEl = document.getElementById('impactPreview');
-      impactEl.style.display = 'block';
-      document.getElementById('impactSavRate').textContent = newSavRate.toFixed(1)+'%';
-      document.getElementById('impactSavLabel').textContent = 'projected savings rate after reallocation (was '+pct(sr)+')';
-    }
-  } else {
-    planEl.innerHTML = '<div style="font-size:.82rem;color:var(--t3);padding:8px 0;">No reallocation required — spending is well-balanced.</div>';
-  }
-}
-
-/* ══════════════════════════════════
-   SECTION 6 — TREEMAP EXPENSES
-══════════════════════════════════ */
-function renderTreemapExpenses(a){
-  var bd = a.expense_breakdown || {};
-  var entries = Object.entries(bd).filter(function(e){return e[1]>0;});
-  entries.sort(function(a,b){return b[1]-a[1];});
-  var top5 = entries.slice(0,5);
-  var total = top5.reduce(function(s,e){return s+(+e[1]);},0)||1;
-
-  document.getElementById('treemapGrid').innerHTML = top5.map(function(e,i){
-    var share = ((+e[1])/total*100).toFixed(0);
-    var name  = CAT_LABELS[e[0]]||e[0];
-    var col   = TREEMAP_COLORS[i];
-    var size  = Math.max(80, (+e[1]/total)*300);
-    return '<div class="treemap-cell" title="'+name+': '+fmt(+e[1])+' ('+share+'%)" style="background:'+col.bg+';border:1px solid '+col.border+';color:'+col.text+';min-height:'+Math.min(120,size)+'px;">'
-      +'<div class="treemap-cell-name">'+name+'</div>'
-      +'<div class="treemap-cell-val">'+fmt(+e[1])+'</div>'
-      +'<div class="treemap-cell-pct">'+share+'%</div>'
-      +'</div>';
-  }).join('');
-
-  document.getElementById('treemapLegend').innerHTML = top5.map(function(e,i){
-    return '<div class="tl-item"><div class="tl-dot" style="background:'+TREEMAP_COLORS[i].border+'"></div>'+(CAT_LABELS[e[0]]||e[0])+'</div>';
-  }).join('');
-}
-
-/* ══════════════════════════════════
-   SECTION 7 — BEHAVIORAL INSIGHTS
-══════════════════════════════════ */
-function renderBehaviorInsights(a){
-  var bd    = a.expense_breakdown || {};
-  var total = Object.values(bd).reduce(function(s,v){return s+(+v||0);},0)||1;
-  var inc   = +(a.total_income||0)||1;
-  var sr    = +(a.savings_rate||0);
-
-  var insights = [
-    (function(){
-      var rent = +(bd['MONTHLY_RENT']||0);
-      var rPct = (rent/inc)*100;
-      if(rPct>0){
-        var ok = rPct>=25&&rPct<=30;
-        return {cls:ok?'ok-beh':'warn-beh',
-          title:ok?'Housing Normal':'Housing Review',
-          body:'You allocate <strong>'+rPct.toFixed(0)+'%</strong> of income to housing. Recommended: 25–30%.',
-          range:'Ideal: 25%–30% of income'};
-      }
-      return null;
-    })(),
-    (function(){
-      var med = ((+(bd['MEDFIT']||0))/inc*100);
-      var ok = med<=8;
-      return {cls:ok?'ok-beh':'err-beh',
-        title:ok?'Medical Spend Normal':'Medical Elevated',
-        body:'Medical & Fitness at <strong>'+med.toFixed(0)+'%</strong> of income. '+(ok?'Within safe range.':'Above 8% max.'),
-        range:'Recommended: < 8% of income'};
-    })(),
-    (function(){
-      var savOk = sr>=20;
-      return {cls:savOk?'ok-beh':'warn-beh',
-        title:savOk?'Savings On Benchmark':'Savings Below Benchmark',
-        body:'Savings rate <strong>'+pct(sr)+'</strong> is '+(savOk?'above':'below')+' the 20% national benchmark.',
-        range:'National benchmark: 20%+'};
-    })(),
-    (function(){
-      var ent = ((+(bd['ENTERTAINMENT']||0))/total*100);
-      var ok = ent<=10;
-      return {cls:ok?'info-beh':'warn-beh',
-        title:ok?'Entertainment In Range':'Entertainment Elevated',
-        body:'Entertainment at <strong>'+ent.toFixed(0)+'%</strong> of spend. '+(ok?'Healthy.':'Consider reducing to < 10%.'),
-        range:'Recommended: < 10% of expenses'};
-    })(),
-    (function(){
-      var groc = ((+(bd['GROCERIES']||0))/total*100);
-      var ok = groc>=10&&groc<=25;
-      return {cls:ok?'ok-beh':'warn-beh',
-        title:ok?'Grocery Spend Healthy':'Grocery Spend Review',
-        body:'Groceries at <strong>'+groc.toFixed(0)+'%</strong> of spending. '+(ok?'Normal household allocation.':'Unusually high or low.'),
-        range:'Typical: 10%–25% of expenses'};
-    })(),
-    (function(){
-      var trav = ((+(bd['TRAVEL']||0))/total*100);
-      var ok = trav<=15;
-      return {cls:ok?'info-beh':'warn-beh',
-        title:ok?'Travel Moderate':'Travel Spend High',
-        body:'Travel at <strong>'+trav.toFixed(0)+'%</strong>. '+(ok?'Within reasonable budget.':'Consider reducing non-essential travel.'),
-        range:'Recommended: < 15% of expenses'};
-    })()
-  ].filter(Boolean);
-
-  document.getElementById('behaviorGrid').innerHTML = insights.map(function(ins){
-    return '<div class="beh-card '+ins.cls+'">'
-      +'<div class="beh-header"><div class="beh-dot '+ins.cls+'"></div><div class="beh-title '+ins.cls+'">'+ins.title+'</div></div>'
-      +'<div class="beh-body">'+ins.body+'</div>'
-      +(ins.range?'<div class="beh-range">'+ins.range+'</div>':'')
-      +'</div>';
-  }).join('');
-}
-
-/* ══════════════════════════════════
-   SECTION 8 — STABILITY GAUGE
-══════════════════════════════════ */
-function renderStabilityGauge(a){
-  var sr = +(a.savings_rate||0);
-  var nb = +(a.net_balance||0);
-  var ov = !!a.overspending;
-
-  var stab = 50;
-  if(nb > 0) stab += 20; else stab -= 20;
-  stab += Math.min(30, sr);
-  if(ov) stab -= 25;
-  stab = Math.max(0, Math.min(100,stab));
-
-  var label, color;
-  if(stab >= 65){ label='Stable'; color='rgba(134,239,172,.85)'; }
-  else if(stab >= 35){ label='Moderate Risk'; color='rgba(251,191,36,.85)'; }
-  else { label='High Risk'; color='rgba(248,113,113,.85)'; }
-
-  document.getElementById('stabilityLabel').textContent = label;
-  document.getElementById('stabilityLabel').style.color =
-    stab>=65?'var(--ok)':stab>=35?'var(--warn)':'var(--err)';
-
-  destroyChart('stability');
-  var sCtx = document.getElementById('stabilityGauge').getContext('2d');
-  chartInstances['stability'] = new Chart(sCtx,{
-    type:'doughnut',
-    data:{datasets:[{
-      data:[stab,100-stab],
-      backgroundColor:[color,'rgba(255,255,255,.03)'],
-      borderWidth:0,
-      circumference:180,rotation:270
-    }]},
-    options:{
-      responsive:true,cutout:'75%',
-      plugins:{
-        legend:{display:false},
-        tooltip:{...darkTooltip,callbacks:{label:function(ctx){
-          if(ctx.dataIndex===0) return ' Stability Score: '+stab.toFixed(0)+'/100 — '+label;
-          return ' Below stable zone: '+(100-stab).toFixed(0)+' pts';
-        }}}
-      },
-      animation:{duration:1200,easing:'easeInOutQuart'}
-    }
-  });
-}
-
-/* ══════════════════════════════════
-   SECTION 9 — SURVIVAL INDICATOR (badge only, no mini chart per STEP 1)
-══════════════════════════════════ */
-function renderSurvivalIndicator(a){
-  var nb  = +(a.net_balance||0);
-  var exp = +(a.total_expense||0)||1;
-
-  var savingsPool = Math.max(0, nb) * 6;
-  var survivalMonths = savingsPool > 0 ? (savingsPool / exp) : 0;
-  survivalMonths = Math.min(36, Math.round(survivalMonths * 10) / 10);
-
-  var tier, title, desc;
-  if(survivalMonths >= 6){ tier='strong'; title='Strong Resilience'; desc='You can sustain '+survivalMonths.toFixed(0)+' months without income. Exceeds the 3–6 month emergency benchmark.'; }
-  else if(survivalMonths >= 3){ tier='moderate'; title='Moderate Buffer'; desc='Estimated '+survivalMonths.toFixed(1)+' month buffer. Build toward 6 months for full resilience.'; }
-  else { tier='low'; title='Low Safety Net'; desc='Survival buffer under 3 months. Priority: build an emergency fund covering 3–6 months of expenses.'; }
-
-  var badge = document.getElementById('survivalBadge');
-  badge.className = 'survival-badge-big '+tier;
-  document.getElementById('survivalMonths').textContent = survivalMonths.toFixed(1);
-  document.getElementById('survivalMonths').className   = 'survival-months '+tier;
-  document.getElementById('survivalTitle').textContent  = title;
-  document.getElementById('survivalDesc').textContent   = desc;
 }
 
 /* ══════════════════════════════════
@@ -1835,74 +657,72 @@ function renderOverview(a){
   var sr = +(a.savings_rate||0);
   var nb = +(a.net_balance||0);
 
+  /* KPI: Savings Rate */
   document.getElementById('kpiSavRate').textContent = pct(sr);
   var srBadge = document.getElementById('kpiSavBadge');
-  if(sr>=30){srBadge.textContent='Excellent';srBadge.className='kpi-badge badge-ok';}
-  else if(sr>=20){srBadge.textContent='On Track';srBadge.className='kpi-badge badge-info';}
-  else if(sr>=10){srBadge.textContent='Below Target';srBadge.className='kpi-badge badge-warn';}
-  else{srBadge.textContent='Critical';srBadge.className='kpi-badge badge-err';}
+  if(sr >= 30){ srBadge.textContent='Excellent'; srBadge.className='kpi-badge badge-ok'; }
+  else if(sr >= 20){ srBadge.textContent='On Track'; srBadge.className='kpi-badge badge-info'; }
+  else if(sr >= 10){ srBadge.textContent='Below Target'; srBadge.className='kpi-badge badge-warn'; }
+  else { srBadge.textContent='Critical'; srBadge.className='kpi-badge badge-err'; }
 
+  /* KPI: Net Balance */
   document.getElementById('kpiNetBal').textContent = fmt(nb);
   var balBadge = document.getElementById('kpiBalBadge');
-  if(nb>0){balBadge.textContent='Surplus';balBadge.className='kpi-badge badge-ok';}
-  else if(nb===0){balBadge.textContent='Break-even';balBadge.className='kpi-badge badge-warn';}
-  else{balBadge.textContent='Deficit';balBadge.className='kpi-badge badge-err';}
+  if(nb > 0){ balBadge.textContent='Surplus'; balBadge.className='kpi-badge badge-ok'; }
+  else if(nb===0){ balBadge.textContent='Break-even'; balBadge.className='kpi-badge badge-warn'; }
+  else { balBadge.textContent='Deficit'; balBadge.className='kpi-badge badge-err'; }
 
-  var topLabel = CAT_LABELS[a.top_category]||a.top_category||'—';
+  /* KPI: Top Category */
+  var topLabel = CAT_LABELS[a.top_category] || a.top_category || '—';
   document.getElementById('kpiTopCat').textContent = topLabel;
   if(a.expense_breakdown && a.expense_breakdown[a.top_category]){
-    document.getElementById('kpiTopSub').textContent = fmt(a.expense_breakdown[a.top_category])+' / month';
+    document.getElementById('kpiTopSub').textContent = fmt(a.expense_breakdown[a.top_category]) + ' / month';
   }
 
-  var gf = a.goal_feasible||'—';
+  /* KPI: Goal Feasibility */
+  var gf = a.goal_feasible || '—';
   var monthsMatch = gf.match(/[\d.]+/);
-  document.getElementById('kpiGoalShort').textContent = monthsMatch?'~'+Math.round(+monthsMatch[0])+' mo':'—';
+  document.getElementById('kpiGoalShort').textContent = monthsMatch ? '~'+Math.round(+monthsMatch[0])+' mo' : '—';
   document.getElementById('kpiGoalSub').textContent = gf;
   var goalBadge = document.getElementById('kpiGoalBadge');
   if(monthsMatch){
-    var mo=+monthsMatch[0];
-    if(mo<=12){goalBadge.textContent='Within 1yr';goalBadge.className='kpi-badge badge-ok';}
-    else if(mo<=36){goalBadge.textContent='1–3 yrs';goalBadge.className='kpi-badge badge-info';}
-    else{goalBadge.textContent='Long-term';goalBadge.className='kpi-badge badge-warn';}
+    var mo = +monthsMatch[0];
+    if(mo <= 12){ goalBadge.textContent='Within 1yr'; goalBadge.className='kpi-badge badge-ok'; }
+    else if(mo <= 36){ goalBadge.textContent='1–3 yrs'; goalBadge.className='kpi-badge badge-info'; }
+    else { goalBadge.textContent='Long-term'; goalBadge.className='kpi-badge badge-warn'; }
   }
 
-  document.getElementById('warnBanner').style.display = a.overspending?'block':'none';
+  /* Overspending banner */
+  document.getElementById('warnBanner').style.display = a.overspending ? 'block' : 'none';
 
+  /* Savings rate bar */
   var barEl = document.getElementById('srBar');
-  var clamp = Math.min(100,sr);
+  var clamp = Math.min(100, sr);
   setTimeout(function(){barEl.style.width=clamp+'%';},100);
-  barEl.className='sb-fill'+(sr<10?' low':sr<20?' mid':sr<30?' good':' great');
-  document.getElementById('srLabel').textContent=sr>=30?'Excellent savings discipline':sr>=20?'On track':sr>=10?'Below recommended 20%':'Critical — needs immediate action';
-  document.getElementById('srPctLabel').textContent=pct(sr);
+  barEl.className = 'sb-fill' + (sr<10?' low':sr<20?' mid':sr<30?' good':' great');
+  document.getElementById('srLabel').textContent = sr>=30?'Excellent savings discipline':sr>=20?'On track':sr>=10?'Below recommended 20%':'Critical — needs immediate action';
+  document.getElementById('srPctLabel').textContent = pct(sr);
 
+  /* GAUGE */
   destroyChart('gauge');
-  var gaugeVal=Math.min(100,sr);
-  var gaugeRemain=100-gaugeVal;
-  var gaugeCtx=document.getElementById('gaugeChart').getContext('2d');
-  var gaugeColor=sr>=30?'rgba(134,239,172,.9)':sr>=20?'rgba(167,139,250,.9)':sr>=10?'rgba(251,191,36,.9)':'rgba(248,113,113,.9)';
-  chartInstances['gauge']=new Chart(gaugeCtx,{
+  var gaugeVal = Math.min(100, sr);
+  var gaugeRemain = 100 - gaugeVal;
+  var gaugeCtx = document.getElementById('gaugeChart').getContext('2d');
+  var gaugeColor = sr>=30?'rgba(134,239,172,.9)':sr>=20?'rgba(167,139,250,.9)':sr>=10?'rgba(251,191,36,.9)':'rgba(248,113,113,.9)';
+  chartInstances['gauge'] = new Chart(gaugeCtx,{
     type:'doughnut',
     data:{datasets:[{data:[gaugeVal,gaugeRemain],backgroundColor:[gaugeColor,'rgba(255,255,255,.04)'],borderWidth:0,circumference:180,rotation:270}]},
-    options:{
-      responsive:true,cutout:'78%',
-      plugins:{
-        legend:{display:false},
-        tooltip:{...darkTooltip,callbacks:{label:function(ctx){
-          if(ctx.dataIndex===0) return ' Savings Rate: '+pct(sr)+' — Savings rate above 20% is considered financially healthy';
-          return ' Remaining: '+(100-gaugeVal).toFixed(1)+'% to full';
-        }}}
-      },
-      animation:{duration:1200,easing:'easeInOutQuart'}
-    }
+    options:{responsive:true,cutout:'78%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{duration:1200,easing:'easeInOutQuart'}}
   });
-  document.getElementById('gaugePct').textContent=pct(sr);
+  document.getElementById('gaugePct').textContent = pct(sr);
 
+  /* STACKED BAR */
   destroyChart('stacked');
-  var sCtx=document.getElementById('stackedBar').getContext('2d');
-  var inc=+(a.total_income||0);
-  var exp=+(a.total_expense||0);
-  var sav=Math.max(0,inc-exp);
-  chartInstances['stacked']=new Chart(sCtx,{
+  var sCtx = document.getElementById('stackedBar').getContext('2d');
+  var inc = +(a.total_income||0);
+  var exp = +(a.total_expense||0);
+  var sav = Math.max(0, inc-exp);
+  chartInstances['stacked'] = new Chart(sCtx,{
     type:'bar',
     data:{
       labels:['This Month'],
@@ -1914,17 +734,7 @@ function renderOverview(a){
     },
     options:{
       responsive:true,
-      plugins:{
-        legend:{labels:{color:'rgba(237,232,255,.65)',font:{family:'DM Mono',size:11},boxWidth:12,padding:16}},
-        tooltip:{...darkTooltip,callbacks:{
-          label:function(ctx){return ' '+ctx.dataset.label+': '+fmt(ctx.raw);},
-          afterBody:function(items){
-            if(items[0]&&items[0].dataset.label==='Savings')
-              return ['','Savings flowing into this should be directed to goals or emergency fund'];
-            return [];
-          }
-        }}
-      },
+      plugins:{legend:{labels:{color:'rgba(237,232,255,.65)',font:{family:'DM Mono',size:11},boxWidth:12,padding:16}}},
       scales:{
         x:{ticks:{color:'rgba(92,80,128,.8)'},grid:{color:'rgba(120,80,255,.06)'}},
         y:{ticks:{color:'rgba(92,80,128,.8)',callback:function(v){return '₹'+Number(v).toLocaleString('en-IN');}},grid:{color:'rgba(120,80,255,.06)'}}
@@ -1938,361 +748,178 @@ function renderOverview(a){
    SPENDING ANALYSIS
 ══════════════════════════════════ */
 function renderSpending(a){
-  var bd=a.expense_breakdown||{};
-  var entries=Object.entries(bd).filter(function(e){return e[1]>0;});
+  var bd = a.expense_breakdown || {};
+  var entries = Object.entries(bd).filter(function(e){return e[1]>0;});
   entries.sort(function(a,b){return b[1]-a[1];});
-  var total=entries.reduce(function(s,e){return s+e[1];},0)||1;
-  var labels=entries.map(function(e){return CAT_LABELS[e[0]]||e[0];});
-  var values=entries.map(function(e){return e[1];});
-  var pcts=entries.map(function(e){return ((e[1]/total)*100).toFixed(1);});
-  var colors=CHART_COLORS.slice(0,entries.length);
 
+  var total = entries.reduce(function(s,e){return s+e[1];},0)||1;
+  var labels = entries.map(function(e){return CAT_LABELS[e[0]]||e[0];});
+  var values = entries.map(function(e){return e[1];});
+  var pcts   = entries.map(function(e){return ((e[1]/total)*100).toFixed(1);});
+  var colors = CHART_COLORS.slice(0,entries.length);
+
+  /* DONUT */
   destroyChart('donut');
-  var dCtx=document.getElementById('donutChart').getContext('2d');
-  chartInstances['donut']=new Chart(dCtx,{
+  var dCtx = document.getElementById('donutChart').getContext('2d');
+  chartInstances['donut'] = new Chart(dCtx,{
     type:'doughnut',
     data:{labels:labels,datasets:[{data:values,backgroundColor:colors.map(function(c){return c+'cc';}),borderColor:colors,borderWidth:1}]},
     options:{
       responsive:true,cutout:'68%',
       plugins:{
         legend:{display:false},
-        tooltip:{...darkTooltip,callbacks:{label:function(ctx){
-          var v=ctx.raw;
-          var p=((v/total)*100).toFixed(1);
-          var note = p > 30 ? ' — High concentration' : p > 20 ? ' — Significant share' : '';
-          return ' '+ctx.label+': '+fmt(v)+' ('+p+'%)'+note;
-        }}}
+        tooltip:{callbacks:{label:function(ctx){
+          var v=ctx.raw;var p=((v/total)*100).toFixed(1);
+          return ' '+ctx.label+': '+fmt(v)+' ('+p+'%)';
+        }},backgroundColor:'rgba(10,8,32,.95)',borderColor:'rgba(120,80,255,.2)',borderWidth:1,titleFont:{family:'DM Mono'},bodyFont:{family:'DM Mono',size:11}}
       },
       animation:{duration:1000}
     }
   });
 
-  var lgEl=document.getElementById('categoryLegend');
-  lgEl.innerHTML=entries.map(function(e,i){
-    return '<div class="dl-row">'
-      +'<div class="dl-left"><div class="dl-dot" style="background:'+colors[i]+'"></div><div class="dl-name">'+(CAT_LABELS[e[0]]||e[0])+'</div></div>'
-      +'<div class="dl-right"><div class="dl-pct">'+pcts[i]+'%</div><div class="dl-amt">'+fmt(e[1])+'</div></div>'
-      +'</div>';
+  /* HORIZONTAL BAR */
+  destroyChart('hbar');
+  var hCtx = document.getElementById('hBarChart').getContext('2d');
+  chartInstances['hbar'] = new Chart(hCtx,{
+    type:'bar',
+    data:{
+      labels:labels.slice(0,8),
+      datasets:[{data:values.slice(0,8),backgroundColor:colors.slice(0,8).map(function(c){return c+'88';}),borderColor:colors.slice(0,8),borderWidth:1,borderRadius:4}]
+    },
+    options:{
+      indexAxis:'y',responsive:true,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+fmt(ctx.raw);}},backgroundColor:'rgba(10,8,32,.95)',borderColor:'rgba(120,80,255,.2)',borderWidth:1}},
+      scales:{
+        x:{ticks:{color:'rgba(92,80,128,.8)',callback:function(v){return '₹'+Number(v).toLocaleString('en-IN');}},grid:{color:'rgba(120,80,255,.06)'}},
+        y:{ticks:{color:'rgba(196,181,253,.75)',font:{family:'DM Mono',size:10}},grid:{color:'rgba(120,80,255,.04)'}}
+      },
+      animation:{duration:1000}
+    }
+  });
+
+  /* LEGEND TABLE */
+  var lgEl = document.getElementById('categoryLegend');
+  lgEl.innerHTML = entries.map(function(e,i){
+    return '<div class="dl-row">'+
+      '<div class="dl-left">'+
+        '<div class="dl-dot" style="background:'+colors[i]+'"></div>'+
+        '<div class="dl-name">'+(CAT_LABELS[e[0]]||e[0])+'</div>'+
+      '</div>'+
+      '<div class="dl-right">'+
+        '<div class="dl-pct">'+pcts[i]+'%</div>'+
+        '<div class="dl-amt">'+fmt(e[1])+'</div>'+
+      '</div>'+
+    '</div>';
   }).join('');
 
-  var topEntry=entries[0];
-  var topName=topEntry?(CAT_LABELS[topEntry[0]]||topEntry[0]):'—';
-  var topPct=topEntry?((topEntry[1]/total)*100).toFixed(0):'0';
-  var insText='<strong>'+topName+'</strong> is your largest category at <strong>'+topPct+'%</strong>.';
+  /* Insight text */
+  var topEntry = entries[0];
+  var topName = topEntry ? (CAT_LABELS[topEntry[0]]||topEntry[0]) : '—';
+  var topPct  = topEntry ? ((topEntry[1]/total)*100).toFixed(0) : '0';
+  var insText = '"<strong>'+topName+'</strong> consumes the largest share of monthly expenses at <strong>'+topPct+'%</strong>.';
   if(entries.length>1){
-    var top2Name=CAT_LABELS[entries[1][0]]||entries[1][0];
-    var top2Pct=((entries[1][1]/total)*100).toFixed(0);
-    insText+=' <strong>'+top2Name+'</strong> follows at <strong>'+top2Pct+'%</strong>.';
+    var top2Name = CAT_LABELS[entries[1][0]]||entries[1][0];
+    var top2Pct = ((entries[1][1]/total)*100).toFixed(0);
+    insText += ' <strong>'+top2Name+'</strong> is the second biggest category at <strong>'+top2Pct+'%</strong>.';
   }
-  if(+topPct > 35) insText += ' <span style="color:var(--warn)">⚠️ Single category exceeds 35% — high concentration risk.</span>';
-  document.getElementById('spendInsight').innerHTML=insText;
+  insText += '"';
+  document.getElementById('spendInsight').innerHTML = insText;
 }
 
 /* ══════════════════════════════════
    GOAL INTELLIGENCE
 ══════════════════════════════════ */
 function renderGoalIntelligence(a){
-  var sr=+(a.savings_rate||0);
-  var nb=+(a.net_balance||0);
-  var gf=a.goal_feasible||'';
-
-  var feaEl=document.getElementById('insGoalFeasibility');
-  if(gf.toLowerCase().includes('achievable')){
-    feaEl.innerHTML='✅ <strong>Goal is achievable</strong> — '+gf+'. Your current savings rate is sufficient.';
-    feaEl.className='ic-body ok';
-  } else {
-    feaEl.innerHTML='⚠️ '+gf;
-    feaEl.className='ic-body warn';
-  }
-
-  var tlEl=document.getElementById('insTimeline');
-  var mo=null;
-  var moMatch=gf.match(/([\d.]+)\s*months?/i);
-  if(moMatch){mo=+moMatch[1];}
-  if(mo!==null){
-    var yrs=(mo/12).toFixed(1);
-    tlEl.innerHTML='Estimated completion: <strong>~'+Math.round(mo)+' months</strong> (~<strong>'+yrs+' years</strong>).';
-  } else {
-    tlEl.innerHTML='Set a savings goal to see your completion timeline here.';
-  }
-  tlEl.className='ic-body';
-
-  var scEl=document.getElementById('insSavingsCapacity');
-  if(nb>0){scEl.innerHTML='Monthly surplus of <strong>'+fmt(nb)+'</strong>. Direct this toward goals or investments.';scEl.className='ic-body ok';}
-  else if(nb===0){scEl.innerHTML='Income and expenses balanced. <strong>No surplus</strong> available.';scEl.className='ic-body warn';}
-  else{scEl.innerHTML='⚠️ Monthly deficit of <strong>'+fmt(Math.abs(nb))+'</strong>. Reduce expenses to free up capacity.';scEl.className='ic-body err';}
-
-  var raEl=document.getElementById('insRateAssess');
-  if(sr>=30){raEl.innerHTML='🚀 Rate <strong>'+pct(sr)+'</strong> — excellent. Above 30% benchmark.';raEl.className='ic-body ok';}
-  else if(sr>=20){raEl.innerHTML='✅ Rate <strong>'+pct(sr)+'</strong> — meets 20% threshold. Aim for 30%+.';raEl.className='ic-body ok';}
-  else if(sr>=10){raEl.innerHTML='⚠️ Rate <strong>'+pct(sr)+'</strong> — below 20% threshold.';raEl.className='ic-body warn';}
-  else{raEl.innerHTML='🔴 Rate <strong>'+pct(sr)+'</strong> — critically low.';raEl.className='ic-body err';}
-
-  var recEl=document.getElementById('insRecommendation');
-  var recs=[];
-  if(sr<20) recs.push('Increase savings to at least <strong>20%</strong> by reducing entertainment and fashion spend.');
-  if(nb<0)  recs.push('Eliminate monthly deficit of <strong>'+fmt(Math.abs(nb))+'</strong> by auditing top expense categories.');
-  if(a.overspending) recs.push('Address <strong>overspending</strong> urgently — expenses exceed income.');
-  if(nb>0&&sr>=20) recs.push('Allocate surplus of <strong>'+fmt(nb)+'</strong> into a high-yield savings account or SIP.');
-  if(mo&&mo>24) recs.push('Reduce timeline below <strong>24 months</strong> by increasing your monthly saving target via the Simulator tab.');
-  if(!recs.length) recs.push('Finances in good shape. <strong>Stay consistent</strong> and review goals quarterly.');
-  recEl.innerHTML=recs.map(function(r){return '→ '+r;}).join('<br/><br/>');
-  recEl.className='ic-body';
-}
-
-/* ══════════════════════════════════
-   STEP 2 — SAVINGS TREND ENGINE
-══════════════════════════════════ */
-function renderSavingsTrendEngine(a){
   var sr = +(a.savings_rate||0);
   var nb = +(a.net_balance||0);
-  var inc = +(a.total_income||0)||1;
-
-  // Simulate 3-month weighted projection from current savings ratio
-  var m0 = Math.max(0, sr * 0.85);
-  var m1 = Math.max(0, sr * 0.92);
-  var m2 = sr;
-  var m3 = sr * 1.05; // slight projection growth
-  var m4 = sr * 1.08;
-  var m5 = sr * 1.12;
-
-  // Determine trend direction
-  var slope = m5 - m2;
-  var trendDir = slope > 1.5 ? 'up' : slope < -1.5 ? 'down' : 'stable';
-  var trendLabel = trendDir==='up' ? '↑ Savings Momentum Increasing' : trendDir==='down' ? '↓ Savings Momentum Declining' : '→ Savings Momentum Stable';
-
-  var trendEl = document.getElementById('trendArrow');
-  trendEl.className = 'trend-arrow '+trendDir;
-  trendEl.textContent = trendLabel;
-
-  var chips = [
-    {label:'Momentum Increasing', cls: trendDir==='up' ? 'active-chip' : ''},
-    {label:'Momentum Stable', cls: trendDir==='stable' ? 'active-chip' : ''},
-    {label:'Momentum Declining', cls: trendDir==='down' ? 'active-chip' : ''},
-    {label:'Target: 20%+', cls: sr>=20 ? 'active-chip' : ''}
-  ];
-  document.getElementById('trendInsights').innerHTML = chips.map(function(c){
-    return '<div class="trend-chip '+c.cls+'">'+c.label+'</div>';
-  }).join('');
-
-  destroyChart('savingsTrend');
-  var tCtx = document.getElementById('savingsTrendChart').getContext('2d');
-  var trendColor = trendDir==='up' ? 'rgba(134,239,172,.8)' : trendDir==='down' ? 'rgba(248,113,113,.8)' : 'rgba(167,139,250,.8)';
-  var trendFill  = trendDir==='up' ? 'rgba(134,239,172,.06)' : trendDir==='down' ? 'rgba(248,113,113,.06)' : 'rgba(124,58,237,.06)';
-  chartInstances['savingsTrend'] = new Chart(tCtx, {
-    type:'line',
-    data:{
-      labels:['3mo ago','2mo ago','Last month','Current','Month+1','Month+2','Month+3'],
-      datasets:[
-        {
-          label:'Savings Rate (%)',
-          data:[m0,m1,m2,sr,m3,m4,m5],
-          borderColor:trendColor,
-          backgroundColor:trendFill,
-          fill:true,tension:.4,
-          pointRadius:[3,3,3,6,4,4,4],
-          pointHoverRadius:7,
-          borderWidth:2,
-          segment:{
-            borderDash:function(ctx){return ctx.p0DataIndex >= 3 ? [5,5] : [];}
-          }
-        },
-        {
-          label:'Target (20%)',
-          data:[20,20,20,20,20,20,20],
-          borderColor:'rgba(134,239,172,.35)',
-          borderDash:[6,4],
-          borderWidth:1.5,
-          pointRadius:0,
-          fill:false
-        }
-      ]
-    },
-    options:{
-      responsive:true,
-      plugins:{
-        legend:{labels:{color:'rgba(237,232,255,.65)',font:{family:'DM Mono',size:10},boxWidth:10,padding:12}},
-        tooltip:{...darkTooltip,callbacks:{
-          label:function(ctx){return ' '+ctx.dataset.label+': '+ctx.raw.toFixed(1)+'%';},
-          afterBody:function(){return ['','Savings rate above 20% is considered financially healthy'];}
-        }}
-      },
-      scales:{
-        x:{ticks:{color:'rgba(92,80,128,.8)',font:{family:'DM Mono',size:9}},grid:{color:'rgba(120,80,255,.05)'}},
-        y:{
-          ticks:{color:'rgba(92,80,128,.8)',callback:function(v){return v+'%';},font:{family:'DM Mono',size:9}},
-          grid:{color:'rgba(120,80,255,.05)'}
-        }
-      },
-      animation:{duration:1000,easing:'easeInOutQuart'}
-    }
-  });
-}
-
-/* ══════════════════════════════════
-   STEP 3 — EXPENSE VOLATILITY SCORE
-══════════════════════════════════ */
-function renderVolatilityScore(a){
-  var bd = a.expense_breakdown || {};
-  var values = Object.values(bd).filter(function(v){return v>0;}).map(Number);
-  if(!values.length){
-    document.getElementById('volLabel').textContent = 'N/A';
-    return;
-  }
-
-  var mean = values.reduce(function(s,v){return s+v;},0) / values.length;
-  var variance = values.reduce(function(s,v){return s+Math.pow(v-mean,2);},0) / values.length;
-  var stdDev = Math.sqrt(variance);
-  var cv = mean > 0 ? (stdDev/mean)*100 : 0; // coefficient of variation
-
-  // Normalize to 0-100 scale
-  var volScore = Math.min(100, cv);
-  var tier, color, explanation;
-  if(volScore < 30){
-    tier='Low'; color='rgba(134,239,172,.85)';
-    explanation='Low volatility means stable spending behaviour across categories. Your expenses are well-distributed and predictable.';
-  } else if(volScore < 60){
-    tier='Moderate'; color='rgba(251,191,36,.85)';
-    explanation='Moderate volatility indicates some concentration in spending categories. Consider spreading discretionary spend more evenly.';
-  } else {
-    tier='High'; color='rgba(248,113,113,.85)';
-    explanation='High volatility indicates heavy reliance on a few categories with irregular spending. This can destabilise your budget.';
-  }
-
-  document.getElementById('volLabel').textContent = tier;
-  document.getElementById('volLabel').style.color =
-    tier==='Low'?'var(--ok)':tier==='Moderate'?'var(--warn)':'var(--err)';
-  document.getElementById('volExplain').textContent = explanation;
-
-  destroyChart('volatility');
-  var vCtx = document.getElementById('volatilityGauge').getContext('2d');
-  chartInstances['volatility'] = new Chart(vCtx,{
-    type:'doughnut',
-    data:{datasets:[{
-      data:[volScore, 100-volScore],
-      backgroundColor:[color,'rgba(255,255,255,.03)'],
-      borderWidth:0,
-      circumference:180,rotation:270
-    }]},
-    options:{
-      responsive:true,cutout:'75%',
-      plugins:{
-        legend:{display:false},
-        tooltip:{...darkTooltip,callbacks:{label:function(ctx){
-          if(ctx.dataIndex===0) return ' Volatility Index: '+volScore.toFixed(0)+'/100 — '+tier;
-          return ' Stability buffer: '+(100-volScore).toFixed(0)+' pts';
-        }}}
-      },
-      animation:{duration:1100,easing:'easeInOutQuart'}
-    }
-  });
-}
-
-/* ══════════════════════════════════
-   STEP 4 — INCOME STABILITY INDEX
-══════════════════════════════════ */
-function renderIncomeStabilityIndex(a){
+  var gf = a.goal_feasible || '';
   var inc = +(a.total_income||0);
-  var additionalIncome = +(a.additional_income||0) || 0;
-  var salaryIncome = +(a.salary_income||0) || 0;
-  var businessIncome = +(a.business_income||0) || 0;
+  var exp = +(a.total_expense||0);
 
-  var tier, icon, title, desc;
-  if(businessIncome > 0 && salaryIncome === 0){
-    tier='variable'; icon='📊'; title='Variable Income';
-    desc='Business-only income carries medium-high variance risk. Cash flow can fluctuate significantly month to month. Build a larger emergency fund (6–9 months) to buffer irregular periods.';
-  } else if(additionalIncome > 0 || (salaryIncome > 0 && businessIncome > 0)){
-    tier='moderate'; icon='⚖️'; title='Moderate Stability';
-    desc='Mixed income sources provide some diversification, but additional income streams may be irregular. Monitor income consistency and avoid committing to fixed expenses based solely on variable income.';
+  /* Feasibility */
+  var feaEl = document.getElementById('insGoalFeasibility');
+  if(gf.toLowerCase().includes('achievable')){
+    feaEl.innerHTML = '✅ <strong>Goal is achievable</strong> — ' + gf + '. Your current savings rate is sufficient to meet this target.';
+    feaEl.className = 'ic-body ok';
   } else {
-    tier='stable'; icon='🏢'; title='High Stability';
-    desc='Salaried income provides the highest level of predictability and financial planning confidence. Your income baseline is consistent and reliable.';
+    feaEl.innerHTML = '⚠️ ' + gf;
+    feaEl.className = 'ic-body warn';
   }
 
-  var indEl = document.getElementById('incomeStabilityIndicator');
-  indEl.textContent = icon;
-  indEl.className = 'radial-indicator '+tier;
-  document.getElementById('incomeStabilityTitle').textContent = title;
-  document.getElementById('incomeStabilityDesc').textContent = desc;
-  var badge = document.getElementById('incomeStabilityBadge');
-  badge.textContent = tier.charAt(0).toUpperCase()+tier.slice(1);
-  badge.className = 'stability-badge '+tier;
-}
+  /* Timeline */
+  var tlEl = document.getElementById('insTimeline');
+  var mo = null;
+  var moMatch = gf.match(/([\d.]+)\s*months?/i);
+  if(moMatch){ mo = +moMatch[1]; }
+  if(mo!==null){
+    var yrs = (mo/12).toFixed(1);
+    tlEl.innerHTML = 'Estimated completion: <strong>~'+Math.round(mo)+' months</strong> (approx. <strong>'+yrs+' years</strong>) based on your current monthly savings capacity.';
+  } else {
+    tlEl.innerHTML = 'Set a savings goal to see your completion timeline here.';
+  }
+  tlEl.className = 'ic-body';
 
-/* ══════════════════════════════════
-   STEP 5 — BENCHMARK COMPLIANCE ENGINE
-══════════════════════════════════ */
-function renderBenchmarkCompliance(a){
-  var bd = a.expense_breakdown || {};
-  var inc = +(a.total_income||0)||1;
-  var total = Object.values(bd).reduce(function(s,v){return s+(+v||0);},0)||1;
-  var sr = +(a.savings_rate||0);
+  /* Savings Capacity */
+  var scEl = document.getElementById('insSavingsCapacity');
+  if(nb > 0){
+    scEl.innerHTML = 'You have a monthly surplus of <strong>'+fmt(nb)+'</strong>. This can be directed toward goals, investments, or emergency funds.';
+    scEl.className = 'ic-body ok';
+  } else if(nb===0){
+    scEl.innerHTML = 'Your income and expenses are exactly balanced. There is <strong>no surplus</strong> available for additional goal funding.';
+    scEl.className = 'ic-body warn';
+  } else {
+    scEl.innerHTML = '⚠️ Monthly deficit of <strong>'+fmt(Math.abs(nb))+'</strong>. Immediate expense reduction is required to free up savings capacity.';
+    scEl.className = 'ic-body err';
+  }
 
-  var housing = (+(bd['MONTHLY_RENT']||0)/inc)*100;
-  var entertainment = (+(bd['ENTERTAINMENT']||0)/total)*100;
-  var emergencySav = (+(bd['EMSAVING']||0)/inc)*100;
+  /* Rate Assessment */
+  var raEl = document.getElementById('insRateAssess');
+  if(sr >= 30){
+    raEl.innerHTML = '🚀 Savings rate of <strong>'+pct(sr)+'</strong> is excellent — above the 30% benchmark. You are on track for accelerated goal achievement.';
+    raEl.className = 'ic-body ok';
+  } else if(sr >= 20){
+    raEl.innerHTML = '✅ Savings rate of <strong>'+pct(sr)+'</strong> meets the recommended 20% threshold. Aim for 30%+ to accelerate goal completion.';
+    raEl.className = 'ic-body ok';
+  } else if(sr >= 10){
+    raEl.innerHTML = '⚠️ Current savings rate is <strong>'+pct(sr)+'</strong> — below the recommended 20% threshold for goal acceleration. Review discretionary categories.';
+    raEl.className = 'ic-body warn';
+  } else {
+    raEl.innerHTML = '🔴 Savings rate of <strong>'+pct(sr)+'</strong> is critically low. Immediate action needed — reduce expenses or increase income.';
+    raEl.className = 'ic-body err';
+  }
 
-  var benchmarks = [
-    {name:'Housing < 30% of income', actual:housing.toFixed(1)+'%', pass:housing<30, delta:(housing-30).toFixed(1)+'%', msg: housing>=30?'Housing exceeds recommended 30% threshold':''},
-    {name:'Savings > 20% of income', actual:pct(sr), pass:sr>=20, delta:(sr-20).toFixed(1)+'%', msg: sr<20?'Savings rate below recommended 20% minimum':''},
-    {name:'Entertainment < 10% of expenses', actual:entertainment.toFixed(1)+'%', pass:entertainment<10, delta:(entertainment-10).toFixed(1)+'%', msg: entertainment>=10?'Entertainment spending exceeds recommended threshold':''},
-    {name:'Emergency savings > 5% of income', actual:emergencySav.toFixed(1)+'%', pass:emergencySav>=5, delta:(emergencySav-5).toFixed(1)+'%', msg: emergencySav<5?'Emergency savings below recommended 5% minimum':''}
-  ];
+  /* Recommendation */
+  var recEl = document.getElementById('insRecommendation');
+  var recs = [];
+  if(sr < 20) recs.push('Increase savings rate to at least <strong>20%</strong> by reducing entertainment and fashion spend.');
+  if(nb < 0)  recs.push('Eliminate the monthly deficit of <strong>'+fmt(Math.abs(nb))+'</strong> by auditing your top expense categories.');
+  if(a.overspending) recs.push('Address <strong>overspending</strong> urgently — current expenses exceed income.');
+  if(nb > 0 && sr >= 20) recs.push('Consider allocating the surplus of <strong>'+fmt(nb)+'</strong> into a high-yield savings account or SIP.');
+  if(mo && mo > 24) recs.push('To reach your goal faster, aim to reduce the timeline below <strong>24 months</strong> by increasing your monthly saving target.');
+  if(!recs.length) recs.push('Your finances are in good shape. <strong>Stay consistent</strong> with current savings behaviour and review goals quarterly.');
+  recEl.innerHTML = recs.map(function(r){return '→ '+r;}).join('<br/><br/>');
+  recEl.className = 'ic-body';
 
-  var passCount = benchmarks.filter(function(b){return b.pass;}).length;
-  var compScore = Math.round((passCount/benchmarks.length)*100);
-
-  document.getElementById('benchmarkScore').textContent = compScore;
-
-  document.getElementById('benchmarkItems').innerHTML = benchmarks.map(function(b){
-    var dotColor = b.pass ? 'var(--ok)' : 'var(--err)';
-    var cls = b.pass ? 'bench-pass' : 'bench-fail';
-    var devCls = b.pass ? '' : 'style="color:var(--err)"';
-    return '<div class="benchmark-row">'
-      +'<div class="benchmark-dot" style="background:'+dotColor+'"></div>'
-      +'<div class="benchmark-name">'+b.name+'</div>'
-      +'<div class="benchmark-deviation" '+devCls+'>'+b.actual+'</div>'
-      +'<span class="benchmark-status '+cls+'">'+(b.pass?'✓ Pass':'✗ Fail')+'</span>'
-      +'</div>'
-      +(b.msg?'<div style="font-family:var(--ff-m);font-size:.56rem;color:var(--err);padding:2px 14px 6px;">↳ '+b.msg+'</div>':'');
-  }).join('');
-
-  // Benchmark radar
-  destroyChart('benchmarkRadar');
-  var bCtx = document.getElementById('benchmarkRadar').getContext('2d');
-  chartInstances['benchmarkRadar'] = new Chart(bCtx,{
-    type:'radar',
+  /* Capacity Bar Chart */
+  destroyChart('capacity');
+  var cCtx = document.getElementById('capacityBar').getContext('2d');
+  var savings = Math.max(0, nb);
+  var expenseTotal = +(a.total_expense||0);
+  chartInstances['capacity'] = new Chart(cCtx,{
+    type:'bar',
     data:{
-      labels:['Housing','Savings Rate','Entertainment','Emergency Fund'],
+      labels:['Income Allocation'],
       datasets:[
-        {
-          label:'Your Ratios',
-          data:[100-housing, sr, 100-entertainment, emergencySav*5],
-          backgroundColor:'rgba(124,58,237,.15)',
-          borderColor:'rgba(167,139,250,.7)',
-          borderWidth:2,
-          pointBackgroundColor:'rgba(167,139,250,1)',
-          pointRadius:5,
-          pointHoverRadius:7
-        },
-        {
-          label:'Target',
-          data:[70, 20, 90, 25],
-          backgroundColor:'rgba(134,239,172,.06)',
-          borderColor:'rgba(134,239,172,.35)',
-          borderWidth:1.5,
-          borderDash:[4,4],
-          pointRadius:3,
-          pointBackgroundColor:'rgba(134,239,172,.6)'
-        }
+        {label:'Expenses',data:[expenseTotal],backgroundColor:'rgba(248,113,113,.4)',borderColor:'rgba(248,113,113,.8)',borderWidth:1,borderRadius:4},
+        {label:'Savings / Surplus',data:[savings],backgroundColor:'rgba(134,239,172,.4)',borderColor:'rgba(134,239,172,.8)',borderWidth:1,borderRadius:4}
       ]
     },
     options:{
-      responsive:true,
-      scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:'rgba(120,80,255,.1)'},angleLines:{color:'rgba(120,80,255,.1)'},pointLabels:{color:'rgba(157,142,196,.8)',font:{family:'DM Mono',size:10}}}},
-      plugins:{
-        legend:{labels:{color:'rgba(237,232,255,.65)',font:{family:'DM Mono',size:10},boxWidth:10,padding:12}},
-        tooltip:{...darkTooltip}
+      indexAxis:'y',responsive:true,
+      plugins:{legend:{labels:{color:'rgba(237,232,255,.65)',font:{family:'DM Mono',size:11},boxWidth:12,padding:16}}},
+      scales:{
+        x:{stacked:true,ticks:{color:'rgba(92,80,128,.8)',callback:function(v){return '₹'+Number(v).toLocaleString('en-IN');}},grid:{color:'rgba(120,80,255,.06)'}},
+        y:{stacked:true,ticks:{color:'rgba(92,80,128,.6)',font:{family:'DM Mono',size:10}},grid:{display:false}}
       },
       animation:{duration:1000}
     }
@@ -2300,236 +927,12 @@ function renderBenchmarkCompliance(a){
 }
 
 /* ══════════════════════════════════
-   STEP 6 — GOAL PROBABILITY FORECAST
-══════════════════════════════════ */
-function renderGoalProbabilityForecast(a){
-  var sr = +(a.savings_rate||0);
-  var nb = +(a.net_balance||0);
-  var gf = a.goal_feasible||'';
-  var moMatch = gf.match(/([\d.]+)\s*months?/i);
-  var targetMonths = moMatch ? +moMatch[1] : 24;
-  var currentSavings = Math.max(0, nb);
-
-  // Probability based on savings pace vs required pace
-  var requiredPace = currentSavings * targetMonths > 0 ? currentSavings : 1000; // proxy
-  var actualPace = currentSavings;
-  var ratio = requiredPace > 0 ? (actualPace / requiredPace) : 0;
-  var probability = Math.min(100, Math.round(ratio * 80 + (sr >= 20 ? 15 : 0) + (nb > 0 ? 5 : 0)));
-
-  var confLevel, confCls, desc;
-  if(probability >= 70){
-    confLevel='High Confidence'; confCls='prob-high';
-    desc='At your current savings pace, you have a high probability of meeting your goal within the projected timeline. Maintain consistent saving habits.';
-  } else if(probability >= 45){
-    confLevel='Medium Confidence'; confCls='prob-medium';
-    desc='You have a moderate chance of hitting your goal on time. Consider increasing monthly savings by ₹1,000–₹2,000 to move to high confidence territory.';
-  } else {
-    confLevel='Low Confidence'; confCls='prob-low';
-    desc='Your current pace puts goal completion at risk. Significant savings increase or goal timeline extension is recommended.';
-  }
-
-  document.getElementById('goalProbPct').textContent = probability+'%';
-  document.getElementById('goalProbLabel').style.color =
-    probability>=70?'var(--ok)':probability>=45?'var(--warn)':'var(--err)';
-  document.getElementById('goalProbDesc').textContent = desc;
-
-  var badgeEl = document.getElementById('goalConfBadge');
-  badgeEl.textContent = confLevel;
-  badgeEl.className = 'prob-confidence-badge '+confCls;
-
-  destroyChart('goalProb');
-  var gpCtx = document.getElementById('goalProbGauge').getContext('2d');
-  var gpColor = probability>=70?'rgba(134,239,172,.85)':probability>=45?'rgba(251,191,36,.85)':'rgba(248,113,113,.85)';
-  chartInstances['goalProb'] = new Chart(gpCtx,{
-    type:'doughnut',
-    data:{datasets:[{
-      data:[probability, 100-probability],
-      backgroundColor:[gpColor,'rgba(255,255,255,.03)'],
-      borderWidth:0,
-      borderRadius:[5,0]
-    }]},
-    options:{
-      responsive:true,cutout:'76%',
-      plugins:{
-        legend:{display:false},
-        tooltip:{...darkTooltip,callbacks:{label:function(ctx){
-          if(ctx.dataIndex===0) return ' Goal Probability: '+probability+'% — '+confLevel;
-          return ' Gap: '+(100-probability)+'% to certainty';
-        }}}
-      },
-      animation:{duration:1300,easing:'easeInOutQuart'}
-    }
-  });
-}
-
-/* ══════════════════════════════════
-   STEP 7 — FINANCIAL BEHAVIOR SEGMENTATION
-══════════════════════════════════ */
-function renderBehaviorSegmentation(a){
-  var sr = +(a.savings_rate||0);
-  var inc = +(a.total_income||0)||1;
-  var exp = +(a.total_expense||0);
-  var expRatio = (exp/inc)*100;
-  var bd = a.expense_breakdown||{};
-  var total = Object.values(bd).reduce(function(s,v){return s+(+v||0);},0)||1;
-  var ent = (+(bd['ENTERTAINMENT']||0)/total)*100;
-  var depRatio = Object.values(bd).reduce(function(mx,v){return Math.max(mx,(+v/total)*100);},0);
-
-  var segment, icon, desc;
-  if(sr >= 25 && expRatio <= 65){
-    segment='Saver'; icon='💎';
-    desc='You exhibit disciplined savings behavior with controlled expense ratios. Your financial trajectory is oriented toward wealth accumulation. Continue directing surplus into diversified investment vehicles.';
-  } else if(sr >= 15 && expRatio <= 75 && ent <= 12){
-    segment='Balanced Planner'; icon='⚖️';
-    desc='You maintain a healthy balance between lifestyle spending and savings. Your financial behavior shows maturity and planning awareness. Small optimisations can propel you to the Saver tier.';
-  } else if(sr >= 10 && depRatio <= 40){
-    segment='Growth Builder'; icon='🚀';
-    desc='Your savings are building but expense spread is wide. You have potential to transition to a Balanced Planner with targeted reductions in 1–2 discretionary categories.';
-  } else {
-    segment='Risk Spender'; icon='⚠️';
-    desc='High expense ratios and low savings indicate risk-level spending patterns. Immediate intervention in top expense categories is recommended. Use the Smart Allocation Optimizer to create a concrete reduction plan.';
-  }
-
-  document.getElementById('segmentIcon').textContent = icon;
-  document.getElementById('segmentTitle').textContent = segment;
-  document.getElementById('segmentBadge').textContent = 'Financial Behavior Profile';
-  document.getElementById('segmentDesc').textContent = desc;
-}
-
-/* ══════════════════════════════════
-   STEP 9 — ALLOCATION PROJECTION CHART (replaces capacity bar)
-══════════════════════════════════ */
-function renderAllocationProjectionChart(a){
-  var nb  = +(a.net_balance||0);
-  var exp = +(a.total_expense||0);
-  var inc = +(a.total_income||0);
-  var gf  = a.goal_feasible||'';
-  var moMatch = gf.match(/([\d.]+)\s*months?/i);
-  var goalMonths = moMatch ? Math.min(+moMatch[1], 36) : 24;
-  var monthSav = Math.max(0, nb);
-
-  var labels=[], savingsData=[], expenseData=[], goalLine=[];
-  var goalAmount = monthSav * goalMonths || 50000;
-
-  for(var m=0; m<=Math.min(goalMonths, 36); m++){
-    labels.push('M'+m);
-    savingsData.push(monthSav * m);
-    expenseData.push(exp * m);
-    goalLine.push(goalAmount);
-  }
-
-  destroyChart('allocationProjection');
-  var apCtx = document.getElementById('allocationProjectionChart').getContext('2d');
-  chartInstances['allocationProjection'] = new Chart(apCtx,{
-    type:'line',
-    data:{
-      labels:labels,
-      datasets:[
-        {
-          label:'Cumulative Savings',
-          data:savingsData,
-          borderColor:'rgba(134,239,172,.8)',
-          backgroundColor:'rgba(134,239,172,.06)',
-          fill:true,tension:.4,pointRadius:0,pointHoverRadius:5,borderWidth:2
-        },
-        {
-          label:'Cumulative Expenses',
-          data:expenseData,
-          borderColor:'rgba(248,113,113,.65)',
-          backgroundColor:'rgba(248,113,113,.04)',
-          fill:true,tension:.4,pointRadius:0,pointHoverRadius:5,borderWidth:2
-        },
-        {
-          label:'Goal Target',
-          data:goalLine,
-          borderColor:'rgba(167,139,250,.5)',
-          borderDash:[6,4],
-          borderWidth:1.5,
-          pointRadius:0,
-          fill:false
-        }
-      ]
-    },
-    options:{
-      responsive:true,
-      plugins:{
-        legend:{labels:{color:'rgba(237,232,255,.65)',font:{family:'DM Mono',size:10},boxWidth:10,padding:14}},
-        tooltip:{...darkTooltip,callbacks:{
-          label:function(ctx){return ' '+ctx.dataset.label+': '+fmt(ctx.raw);},
-          afterBody:function(items){
-            var savI = items.find(function(i){return i.dataset.label==='Cumulative Savings';});
-            var goalI = items.find(function(i){return i.dataset.label==='Goal Target';});
-            if(savI && goalI && savI.raw >= goalI.raw){
-              return ['','✅ Goal completion projected at this point'];
-            }
-            return [];
-          }
-        }}
-      },
-      scales:{
-        x:{ticks:{color:'rgba(92,80,128,.7)',font:{family:'DM Mono',size:9},maxTicksLimit:10},grid:{color:'rgba(120,80,255,.05)'}},
-        y:{ticks:{color:'rgba(92,80,128,.8)',callback:function(v){return '₹'+Number(v).toLocaleString('en-IN',{notation:'compact'});}},grid:{color:'rgba(120,80,255,.05)'}}
-      },
-      animation:{duration:1100,easing:'easeInOutQuart'}
-    }
-  });
-}
-
-/* ══════════════════════════════════
-   STEP 10 — FINANCIAL MOMENTUM SCORE
-══════════════════════════════════ */
-function renderMomentumScore(a){
-  var sr  = +(a.savings_rate||0);
-  var nb  = +(a.net_balance||0);
-  var inc = +(a.total_income||0)||1;
-  var ov  = !!a.overspending;
-
-  // Derived momentum score 0–100
-  var momentum = 40; // baseline
-  if(sr >= 30) momentum += 30;
-  else if(sr >= 20) momentum += 20;
-  else if(sr >= 10) momentum += 8;
-  if(nb > 0) momentum += 20;
-  else if(nb < 0) momentum -= 15;
-  if(ov) momentum -= 20;
-  if(sr >= 25 && nb > 0 && !ov) momentum += 10;
-  momentum = Math.max(0, Math.min(100, momentum));
-
-  var tier = momentum >= 65 ? 'improving' : momentum >= 40 ? 'stable' : 'declining';
-  var trajText = momentum >= 65 ? '↑ Improving Trajectory' : momentum >= 40 ? '→ Stable Trajectory' : '↓ Declining Trajectory';
-  var desc;
-  if(tier==='improving') desc = 'Your financial indicators show positive momentum. Savings rate, net balance, and spending control are all trending in the right direction.';
-  else if(tier==='stable') desc = 'Your finances are holding steady. There are no major red flags, but there is room to push into the Improving trajectory with targeted optimisations.';
-  else desc = 'Multiple financial indicators are trending unfavourably. Focus on reducing expenses and eliminating the monthly deficit to reverse this trajectory.';
-
-  var scoreEl = document.getElementById('momentumScoreVal');
-  scoreEl.textContent = momentum;
-  scoreEl.className = 'momentum-score-val '+tier;
-
-  var trajEl = document.getElementById('momentumTrajectory');
-  trajEl.textContent = trajText;
-  trajEl.className = 'momentum-trajectory '+tier;
-
-  document.getElementById('momentumPctLabel').textContent = momentum+' / 100';
-  document.getElementById('momentumDesc').textContent = desc;
-
-  var barEl = document.getElementById('momentumBar');
-  barEl.className = 'momentum-bar-fill '+tier;
-  setTimeout(function(){barEl.style.width = momentum+'%';}, 100);
-}
-
-/* ══════════════════════════════════
-   OVERVIEW RENDER
-══════════════════════════════════ */
-// (already integrated above — renderOverview called from renderAll)
-
-/* ══════════════════════════════════
    INIT
 ══════════════════════════════════ */
-Chart.defaults.color='rgba(157,142,196,.75)';
-Chart.defaults.font.family='DM Sans';
+Chart.defaults.color = 'rgba(157,142,196,.75)';
+Chart.defaults.font.family = 'DM Sans';
 
-document.addEventListener('DOMContentLoaded',function(){
+document.addEventListener('DOMContentLoaded', function(){
   loadAnalytics();
 });
 </script>
@@ -2537,11 +940,11 @@ document.addEventListener('DOMContentLoaded',function(){
 fetch("/api/dashboard")
 .then(r=>r.json())
 .then(d=>{
-  if(d.success){
-    let name=d.dashboard.user.USER_NAME||"User";
-    document.getElementById("sbAvatar").textContent=name[0].toUpperCase();
-    document.querySelector(".sb-name").textContent=name;
-  }
+    if(d.success){
+        let name=d.dashboard.user.USER_NAME || "User";
+        document.getElementById("sbAvatar").textContent=name[0].toUpperCase();
+        document.querySelector(".sb-name").textContent=name;
+    }
 });
 </script>
 </body>

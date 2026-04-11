@@ -349,7 +349,7 @@
     .hist-table tr:hover td{background:rgba(124,58,237,.05);color:var(--t1);}
 
     /* ── OVERVIEW GRID ── */
-    .overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;}
+    .overview-grid{display:grid;grid-template-columns:1fr;;gap:18px;margin-top:24px;}
 
     /* ── PROGRESS RING ── */
     .ring-wrap{position:relative;width:80px;height:80px;flex-shrink:0;}
@@ -385,6 +385,122 @@
     @media(max-width:1100px){.stat-grid{grid-template-columns:repeat(2,1fr);}.expense-grid{grid-template-columns:repeat(2,1fr);}.overview-grid{grid-template-columns:1fr;}.nav-cards{grid-template-columns:repeat(3,1fr);}}
     @media(max-width:860px){:root{--sw:0px;}.sidebar{display:none;}.main{margin-left:0;}.content{padding:20px 16px 60px;}.nav-cards{grid-template-columns:repeat(3,1fr);}}
     @media(max-width:640px){.stat-grid{grid-template-columns:1fr 1fr;}.form-grid{grid-template-columns:1fr;}.expense-grid{grid-template-columns:1fr 1fr;}.goals-list .goal-row{flex-wrap:wrap;}.nav-cards{grid-template-columns:repeat(2,1fr);}}
+  /* ─────────────────────────────────────────────
+   RESPONSIVE PATCH — SAFE VERSION
+   (NO logic change, NO structure change)
+───────────────────────────────────────────── */
+
+/* laptops */
+@media (max-width:1200px){
+
+  .topbar{
+    padding:0 24px;
+  }
+
+  .content{
+    padding:24px;
+  }
+
+}
+
+
+/* tablets */
+@media (max-width:1024px){
+
+  .stat-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .nav-cards{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .expense-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+
+/* tablets portrait */
+@media (max-width:900px){
+
+  :root{
+    --sw:0px;
+  }
+
+  .sidebar{
+    display:none;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .topbar{
+    padding:0 16px;
+  }
+
+  .content{
+    padding:20px 16px 60px;
+  }
+
+  .overview-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+/* phones */
+@media (max-width:640px){
+
+  .stat-grid{
+    grid-template-columns:1fr;
+  }
+
+  .expense-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .nav-cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .goal-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .gr-right{
+    align-items:flex-start;
+  }
+
+}
+
+
+/* small phones */
+@media (max-width:480px){
+
+  .topbar-title{
+    font-size:1.1rem;
+  }
+
+  .refresh-btn{
+    padding:6px 12px;
+    font-size:.55rem;
+  }
+
+  .panel{
+    padding:18px;
+  }
+
+}
+  
   </style>
 </head>
 <body>
@@ -515,13 +631,7 @@
         </div>
 
         <div class="overview-grid">
-          <div class="panel">
-            <div class="panel-header">
-              <div class="panel-title">Goal <em>Snapshots</em></div>
-              <a href="/goals"><button class="panel-action">Manage →</button></a>
-            </div>
-            <div id="overviewGoals"><div class="ai-loading" style="padding:10px 0;"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div><span style="margin-left:6px;">Loading goals…</span></div></div>
-          </div>
+        
           <div class="panel">
             <div class="panel-header">
               <div class="panel-title"><em>AI</em> Insight Today</div>
@@ -924,7 +1034,7 @@ async function loadDashboard(){
 function renderAll(){
   renderUser();
   renderStats();
-  renderOverviewGoals();
+  //renderOverviewGoals();
   renderGoalsList();
   renderIncomeForm();
   renderExpenseForm();
