@@ -500,6 +500,144 @@
   }
 
 }
+/* ─────────────────────────────────────────────
+   UNIVERSAL RESPONSIVE FIX (SAFE)
+   Fix hidden buttons across all devices
+───────────────────────────────────────────── */
+
+
+/* laptops */
+@media (max-width:1280px){
+
+  .content{
+    padding:26px;
+  }
+
+  .topbar{
+    padding:0 24px;
+  }
+
+}
+
+
+/* tablets landscape */
+@media (max-width:1100px){
+
+  .nav-cards{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .stat-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .expense-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+
+/* tablets portrait */
+@media (max-width:900px){
+
+  :root{
+    --sw:0px;
+  }
+
+  .sidebar{
+    display:none;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .topbar{
+    flex-wrap:wrap;
+    height:auto;
+    gap:6px;
+    padding:10px 16px;
+  }
+
+  .topbar-right{
+    width:100%;
+    justify-content:space-between;
+  }
+
+}
+
+
+/* phones */
+@media (max-width:640px){
+
+  .stat-grid{
+    grid-template-columns:1fr;
+  }
+
+  .expense-grid{
+    grid-template-columns:1fr;
+  }
+
+  .nav-cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .panel-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .panel-action{
+    width:100%;
+  }
+
+  .form-row{
+    justify-content:center;
+  }
+
+  .btn-save{
+    width:100%;
+  }
+
+  .goal-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .goal-actions{
+    flex-wrap:wrap;
+    width:100%;
+  }
+
+  .act-btn{
+    flex:1;
+  }
+
+}
+
+
+/* small phones */
+@media (max-width:480px){
+
+  .topbar-title{
+    font-size:1.1rem;
+  }
+
+  .refresh-btn{
+    width:100%;
+  }
+
+  .panel{
+    padding:18px;
+  }
+
+  .modal{
+    padding:22px;
+  }
+
+}
   
   </style>
 </head>
@@ -612,6 +750,11 @@
             <div class="nc-icon">📊</div>
             <div class="nc-label">Analytics</div>
             <div class="nc-arrow">→</div>
+          </a>
+            <a href="#" class="nav-card stagger-child" onclick="showSec('ai')">
+              <div class="nc-icon">✨</div>
+              <div class="nc-label">AI Insights</div>
+              <div class="nc-arrow">→</div>
           </a>
           <a href="/settings" class="nav-card stagger-child">
             <div class="nc-icon">⚙️</div>
@@ -737,6 +880,14 @@
 
       <!-- ═══════════ AI INSIGHTS ═══════════ -->
       <div class="section" id="sec-ai">
+
+        <div style="margin-bottom:12px;">
+          <button class="btn-cancel"
+              onclick="showSec('overview')">
+           ← Dashboard
+          </button>
+        </div>
+
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title">AI <em>Financial Insights</em></div>

@@ -1,3 +1,11 @@
+"""
+FinTrack AI
+
+Designed & Developed by Binaya Kumar Meher
+Portfolio Project – Data Analyst Role Preparation
+
+Implements financial KPI analytics dashboard using Flask + SQLite + Chart.js
+"""
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps

@@ -1,3 +1,20 @@
+<!--
+FinTrack AI
+
+Designed & Developed by Binaya Kumar Meher
+
+Full-Stack Financial Analytics Dashboard
+Built for Data Analyst portfolio demonstration
+
+Implements:
+• Savings rate KPI modeling
+• Expense category distribution analytics
+• Goal feasibility timeline estimation
+• Surplus capacity analysis
+• Interactive Chart.js dashboards
+
+Year: 2026
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -817,6 +834,86 @@
   }
 
 }
+.btn-github{
+  border:1px solid rgba(167,139,250,.35);
+  color:#a78bfa;
+  background:rgba(124,58,237,.08);
+  transition:.3s;
+}
+
+.btn-github:hover{
+  color:white;
+  border-color:#a78bfa;
+  background:rgba(124,58,237,.18);
+}
+/* HERO BUTTON MOBILE FIX */
+
+@media (max-width:640px){
+
+  .hero-cta{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:stretch;
+  }
+
+  .hero-cta a{
+    width:100%;
+    text-align:center;
+  }
+
+}
+@media (max-width:640px){
+
+  .btn-p{
+    order:1;
+  }
+
+  .btn-github{
+    order:2;
+  }
+
+  .btn-s{
+    order:3;
+  }
+
+}
+/* HERO CTA BUTTON LAYOUT FIX */
+
+.hero-cta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  align-items:center;
+}
+
+/* keep buttons aligned nicely */
+.hero-cta a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+}
+
+/* prevent github button breaking into two lines */
+.btn-github{
+  min-width:180px;
+}
+
+/* mobile stacking fix */
+
+@media (max-width:640px){
+
+  .hero-cta{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .hero-cta a{
+    width:100%;
+  }
+
+}
   </style>
 </head>
 <body>
@@ -855,10 +952,23 @@
       <div class="pill"><div class="pdot"></div>Optimize Habits</div>
       <div class="pill"><div class="pdot"></div>Achieve Faster with AI</div>
     </div>
-    <div class="hero-ctas">
-      <a href="/signup" class="btn-p btn-lg">Start Saving Smarter <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      <a href="/login" class="btn-s btn-lg">Login</a>
-    </div>
+   <div class="hero-cta">
+
+  <a href="/signup" class="btn-p btn-lg">
+    Start Saving Smarter
+  </a>
+
+  <a href="/login" class="btn-s btn-lg">
+    Login
+  </a>
+
+  <a href="https://github.com/Kirito263V/FinTrack-AI"
+     target="_blank"
+     class="btn-github btn-lg">
+     💻 GitHub Repo
+  </a>
+
+</div>
   </div>
   <div class="hero-scroll"><div class="scroll-line"></div>SCROLL TO EXPLORE</div>
 </section>
@@ -1042,7 +1152,7 @@
       </div>
     </div>
     <div class="ft-bottom">
-      <span class="ft-copy">© 2026 FinTrack AI. All rights reserved.</span>
+      <span class="ft-copy">© 2026 FinTrack AI — Developed by Binaya Kumar Meher. All rights reserved.</span>
       <div class="ft-line"></div>
     </div>
   </div>

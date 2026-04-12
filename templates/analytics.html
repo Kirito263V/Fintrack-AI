@@ -283,6 +283,188 @@
     @media(max-width:1050px){.analytics-layout{grid-template-columns:1fr;}.tab-nav{position:static;display:flex;flex-wrap:wrap;gap:4px;padding:8px;}.tab-item{flex:0;white-space:nowrap;}.tab-divider{display:none;}.charts-row{grid-template-columns:1fr;}.insight-grid{grid-template-columns:1fr;}}
     @media(max-width:860px){:root{--sw:0px;}.sidebar{display:none;}.main{margin-left:0;}.content{padding:20px 16px 60px;}}
     @media(max-width:580px){.kpi-grid{grid-template-columns:1fr 1fr;}}
+    /* ─────────────────────────────────────────────
+   UNIVERSAL RESPONSIVE PATCH (SAFE)
+   Phones • Tablets • Laptops • Desktops
+   No logic changed
+───────────────────────────────────────────── */
+
+
+/* Large laptops */
+@media (max-width:1400px){
+
+  .content{
+    padding:28px 28px 60px;
+  }
+
+  .topbar{
+    padding:0 28px;
+  }
+
+}
+
+
+/* Tablets landscape */
+@media (max-width:1200px){
+
+  .kpi-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .charts-row{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+/* Tablets portrait */
+@media (max-width:1024px){
+
+  .analytics-layout{
+    grid-template-columns:1fr;
+  }
+
+  .tab-nav{
+    position:relative;
+    top:auto;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+
+  .tab-item{
+    flex:1 1 auto;
+    justify-content:center;
+  }
+
+}
+
+
+/* Medium tablets */
+@media (max-width:860px){
+
+  :root{
+    --sw:0px;
+  }
+
+  .sidebar{
+    display:none;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .content{
+    padding:20px 18px 60px;
+  }
+
+}
+
+
+/* Phones */
+@media (max-width:640px){
+
+  .kpi-grid{
+    grid-template-columns:1fr;
+  }
+
+  .insight-grid{
+    grid-template-columns:1fr;
+  }
+
+  .chart-wrap canvas{
+    max-height:240px;
+  }
+
+  .page-hero-title{
+    font-size:1.7rem;
+  }
+
+}
+
+
+/* Small phones */
+@media (max-width:480px){
+
+  .topbar{
+    height:auto;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+    padding:12px 14px;
+  }
+
+  .topbar-title{
+    font-size:1.1rem;
+  }
+
+  .refresh-btn{
+    font-size:.55rem;
+    padding:6px 12px;
+  }
+
+  .content{
+    padding:16px 14px 50px;
+  }
+
+  .chart-card{
+    padding:16px;
+  }
+
+}
+/* ─────────────────────────────────────────────
+   ANALYTICS BAR CHART RESPONSIVE FIX
+   No JS change • No logic change
+───────────────────────────────────────────── */
+
+/* make chart container flexible */
+.chart-wrap{
+  width:100%;
+  position:relative;
+}
+
+/* make canvas responsive */
+.chart-wrap canvas{
+  width:100% !important;
+  height:auto !important;
+  max-width:100%;
+}
+
+
+/* tablets */
+@media (max-width:1024px){
+
+  .chart-card{
+    padding:20px;
+  }
+
+  .chart-wrap canvas{
+    max-height:320px;
+  }
+
+}
+
+
+/* phones */
+@media (max-width:640px){
+
+  .chart-wrap canvas{
+    max-height:260px;
+  }
+
+}
+
+
+/* small phones */
+@media (max-width:480px){
+
+  .chart-wrap canvas{
+    max-height:220px;
+  }
+
+}
   </style>
 </head>
 <body>
@@ -319,9 +501,7 @@
       <div class="sb-section">Account</div>
       <a href="/settings" class="sb-link"><span class="sb-ico">⚙️</span> Settings</a>
     </nav>
-    <div class="sb-bottom">
-      <a href="/logout" class="logout-btn">⬡ &nbsp;Sign Out</a>
-    </div>
+    
   </aside>
 
   <!-- ══ MAIN ══ -->
