@@ -12,7 +12,7 @@ Portfolio Project — Built for Data Analyst role preparation.
 
 ## Live Application
 
-https://fintrack-ai.onrender.com
+https://fintrack-ai-zrnf.onrender.com
 
 ---
 
