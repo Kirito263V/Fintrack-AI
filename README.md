@@ -2,11 +2,17 @@
 
 FinTrack AI is a personal finance analytics dashboard I built to explore how structured financial data can be transformed into decision-ready insights using KPI modeling, behavioral profiling, and goal feasibility estimation.
 
-Most finance apps just show you numbers. This one explains what those numbers mean about your financial behavior — and tells you whether your goals are actually achievable given your current income and spending patterns.
+This project reflects how I approach data analysis problems:
 
-Designed as an analytics-layer system rather than a visualization-only dashboard project.
+raw inputs → meaningful metrics → interpretable dashboards → decision-support insights
 
-Live Demo → https://fintrack-ai-zrnf.onrender.com
+Portfolio Project — Built for Data Analyst role preparation.
+
+---
+
+## Live Application
+
+https://fintrack-ai.onrender.com
 
 ---
 
