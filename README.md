@@ -1,293 +1,371 @@
-# FinTrack AI
+# FinTrack AI — Personal Finance Analytics Dashboard
 
-FinTrack AI is a personal finance analytics dashboard that I built to explore how structured financial data can be transformed into actionable insights using KPI modeling, visualization dashboards, and goal feasibility estimation.
+FinTrack AI is a personal finance analytics dashboard I built to explore how structured financial data can be transformed into decision-ready insights using KPI modeling, behavioral profiling, and goal feasibility estimation.
 
-This project reflects how I approach data analysis problems:
+Most finance apps just show you numbers. This one explains what those numbers mean about your financial behavior — and tells you whether your goals are actually achievable given your current income and spending patterns.
 
-raw inputs → meaningful metrics → interpretable dashboards → decision-support insights
+Designed as an analytics-layer system rather than a visualization-only dashboard project.
 
-Portfolio Project — Built for Data Analyst role preparation.
-
----
-
-## Live Application
-
-https://fintrack-ai.onrender.com
+Live Demo → https://fintrack-ai-zrnf.onrender.com
 
 ---
 
-## Why I Built This Project
+## What Makes This Different
 
-While preparing for Data Analyst roles, I wanted to build something beyond static charts.
+This isn't a chart-on-top-of-a-spreadsheet project.
 
-My goal was to demonstrate:
+The backend calculates a full set of derived financial indicators from raw income and expense inputs — savings rate, expense volatility, benchmark score, behavior profile, momentum score, survival months, and goal feasibility timelines. These are metrics that real personal finance tools use, implemented from scratch in Python.
 
-• KPI definition  
-• ratio modeling  
-• behavioral interpretation  
-• forecasting logic  
-• dashboard design thinking  
-• insight generation from structured datasets  
+The analytics pipeline looks like this:
 
-FinTrack AI represents that effort.
+income + expense inputs → SQL aggregation → KPI engine → behavioral scoring → decision-ready dashboard
 
 ---
 
-## What This Dashboard Analyzes
+## System Architecture
 
-The system evaluates financial behavior using derived indicators such as:
+The analytics workflow inside FinTrack AI follows a layered decision-support pipeline:
 
-• savings efficiency  
-• surplus generation capacity  
-• expense category dominance  
-• allocation patterns  
-• goal feasibility timelines  
-• recommended savings thresholds  
+User Input Layer  
+→ Flask API Layer  
+→ SQL Aggregation Layer  
+→ KPI Computation Engine  
+→ Behavioral Scoring Engine  
+→ Goal Feasibility Engine  
+→ Dashboard Visualization Layer
 
-Instead of only displaying numbers, the dashboard explains what those numbers mean.
-
----
-
-## Example Metrics Generated
-
-The application automatically calculates:
-
-• Monthly income  
-• Monthly expenses  
-• Net disposable income  
-• Savings rate (%)  
-• Top expense category  
-• Category distribution share  
-• Monthly savings capacity  
-• Goal completion timeline estimate  
-
-These simulate real-world personal finance analytics indicators.
+Each layer transforms raw financial inputs into interpretable behavioral signals that support better personal finance decisions.
 
 ---
 
-## Savings Rate Modeling
+## Screenshots
 
-Savings efficiency is calculated using:
+### Dashboard Overview
 
-Savings Rate = (Monthly Savings / Monthly Income) × 100
+![Dashboard Overview](assets/screenshots/dashboard.png)
 
-Example output:
-
-Savings Rate: 22.3%  
-Status: On Track
-
-This helps evaluate whether saving behavior aligns with recommended benchmarks.
+Shows quick-access navigation panels, KPI summary cards, and AI-generated daily financial insight highlights.
 
 ---
 
-## Income vs Expense Flow Analysis
+### Analytics Overview
 
-FinTrack AI compares income against spending behavior to estimate surplus capacity.
+![Analytics Overview](assets/screenshots/analytics_overview.png)
 
-This helps identify:
-
-• overspending risk  
-• available investment capacity  
-• emergency fund readiness  
-• goal acceleration opportunities  
-
-Displayed using an interactive monthly comparison chart.
+Displays savings rate gauge, income vs expense comparison, and top spending category detection.
 
 ---
 
-## Expense Category Distribution
+### Expense Category Distribution
 
-Instead of listing expenses only, the dashboard evaluates category impact.
+![Expense Breakdown](assets/screenshots/expense_breakdown.png)
 
-Example output:
-
-Monthly Rent → 27.6%  
-Emergency Saving → 23.0%  
-Medical & Fitness → 14.7%  
-Fashion → 11.0%  
-Groceries → 6.4%
-
-This highlights where financial pressure exists.
-
-Displayed using donut-chart analytics visualization.
+Interactive donut chart and ranked category spending comparison using Chart.js visualization.
 
 ---
 
-## Spending Ranking Logic
+### Goal Feasibility Engine
 
-Expense categories are ranked by magnitude.
+![Goal Feasibility](assets/screenshots/goal_feasibility.png)
 
-This helps detect:
-
-• primary cost drivers  
-• discretionary spending zones  
-• optimization opportunities  
-
-Displayed using horizontal ranking visualization.
+Predicts timeline completion using surplus capacity and evaluates whether targets are realistically achievable.
 
 ---
 
-## Goal Feasibility Estimation
+### AI Financial Insights Panel
 
-Instead of only tracking progress, the system estimates whether a goal is realistically achievable.
+![AI Insights](assets/screenshots/ai_insights.png)
 
-Example:
-
-Goal achievable in ~51 months
-
-The estimate considers:
-
-• remaining target amount  
-• current savings level  
-• monthly contribution capacity  
-
-This mirrors logic used in financial planning analytics tools.
+Rule-based personalized recommendations generated from behavioral indicators and KPI thresholds.
 
 ---
 
-## Savings Capacity Indicator
+### Financial Summary Snapshot
 
-The dashboard calculates remaining income available after expenses.
+![Financial Summary](assets/screenshots/financial_summary.png)
 
-Example:
-
-Monthly surplus: ₹31,200
-
-This becomes the basis for:
-
-• goal timeline prediction  
-• recommendation generation  
-• investment allocation suggestions  
+Summarizes income allocation, savings capacity, and disposable balance at a glance.
 
 ---
 
-## Timeline Projection Model
+## What the Dashboard Analyzes
 
-Completion forecast formula:
+Once you enter your income and expense data, the system automatically generates:
 
-Remaining Target Amount / Monthly Contribution Capacity
+**Core Metrics**
 
-Example output:
+- Monthly income (primary + additional sources)
+- Total monthly expenses across 11 categories
+- Net disposable income and savings capacity
+- Savings rate as a percentage of total income
 
-Estimated completion: ~51 months (~4.3 years)
+**Behavioral Indicators**
 
-This introduces forecasting capability into the dashboard.
+- Behavior profile — Saver, Balanced Planner, Growth Builder, or Risk Spender
+- Benchmark score out of 100 based on standard financial health thresholds
+- Momentum score that weighs savings rate against expense ratio
+- Expense volatility — how evenly distributed spending is across categories
+- Income stability classification — stable, moderate, or variable
 
----
+**Goal Intelligence**
 
-## Recommendation Engine
+- Goal feasibility estimation based on current monthly surplus
+- Completion timeline in months
+- Goal probability score (0–1 scale)
+- Active vs completed goal tracking
 
-Based on calculated indicators, the system generates suggestions such as:
+**Risk Indicators**
 
-Savings rate meets recommended 20% threshold  
-Aim for 30%+ to accelerate goal completion  
-Consider allocating surplus toward investment instruments  
-
-These are rule-based insights derived from financial benchmarks.
-
----
-
-## Visual Analytics Included
-
-The dashboard includes:
-
-• savings rate gauge visualization  
-• income vs expense comparison chart  
-• category distribution donut chart  
-• spending ranking chart  
-• goal feasibility indicators  
-• timeline estimation panels  
-
-Charts are implemented using Chart.js.
+- Overspending flag when total expenses exceed income
+- Survival months — how long current savings would last if income stopped
+- Emergency fund readiness assessment
 
 ---
 
-## Technologies Used
+## Analytics Engine Highlights
 
-Frontend:
+The core of this project is the `/api/analytics` endpoint in `app.py`. It does more than aggregate — it interprets.
 
-HTML  
-CSS  
-JavaScript  
-Chart.js  
+**Savings rate calculation:**
 
-Backend:
+Savings Rate = (Net Balance / Total Income) × 100
 
-Python  
-Flask  
+**Benchmark scoring — 25 points each for:**
 
-Database:
+- Savings rate ≥ 20%
+- Rent-to-income ratio ≤ 30%
+- Entertainment spending ≤ 10% of income
+- Emergency allocation ≥ 5% of income
 
-SQLite  
+**Behavior profiling based on savings rate thresholds:**
 
-Deployment:
+- ≥ 30% → Saver
+- ≥ 20% → Balanced Planner
+- ≥ 10% → Growth Builder
+- Below 10% → Risk Spender
 
-Render
+**Goal feasibility:**
+
+Months to goal = Remaining Target / Monthly Net Balance
+
+Goal probability = Monthly Surplus / Required Monthly Contribution
+
+**Expense volatility**
+
+Uses standard deviation of category spending normalized by average — higher volatility means uneven, harder-to-predict spending behavior.
 
 ---
 
-## How to Run Locally
+## Features
 
-Clone repository
+**Onboarding Flow**
 
-git clone https://github.com/Kirito263V/Fintrack-AI.git
+- OTP-based email verification via Brevo API
+- Income profile setup — primary and additional income sources, dependant count
+- 11-category expense profile entry
 
-Move into project folder
+**Dashboard**
 
+- Live KPI cards with behavioral interpretation
+- Income vs expense comparison
+- Savings rate gauge
+- Top expense category detection
+- Goal snapshot (last 3 active goals)
+
+**Analytics Page**
+
+- Savings rate gauge visualization
+- Income vs expense trend chart
+- Expense category donut chart
+- Spending ranking by category
+- Goal feasibility and timeline panels
+- Behavior profile and benchmark score display
+
+**Goals Tracker**
+
+- Create savings goals with target amounts and monthly contributions
+- Active / completed goal filtering
+- Feasibility estimation against current financial profile
+
+**Settings**
+
+- Update display name and gender
+- Export all data as Excel (.xlsx) — user profile, income, expenses, goals as separate sheets
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|------|------------|
+| Backend | Python 3, Flask |
+| Database | SQLite |
+| Frontend | HTML, CSS, JavaScript |
+| Charts | Chart.js |
+| Email / OTP | Brevo Transactional Email API |
+| Data Export | pandas + openpyxl |
+| Auth | Session-based with OTP verification |
+| Deployment | Render |
+
+---
+
+## Project Structure
+
+Fintrack-AI/
+
+├── app.py  
+├── recommendation.py  
+├── requirements.txt  
+├── LICENSE  
+├── SECURITY.md  
+
+templates/
+
+├── index.html  
+├── about.html  
+├── features.html  
+├── contact.html  
+├── privacy.html  
+├── signup.html  
+├── login.html  
+├── dashboard.html  
+├── analytics.html  
+├── income.html  
+├── expense.html  
+├── goals.html  
+├── settings.html  
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+Python 3.10+
+
+A Brevo account (free tier works) for OTP emails
+
+Get API key → https://brevo.com
+
+---
+
+### Local Setup
+
+Clone repo
+
+git clone https://github.com/Kirito263V/Fintrack-AI.git  
 cd Fintrack-AI
+
+Create virtual environment
+
+python -m venv venv
+
+Activate environment
+
+Linux / macOS
+
+source venv/bin/activate
+
+Windows
+
+venv\Scripts\activate
 
 Install dependencies
 
-pip install flask
+pip install flask werkzeug pandas openpyxl requests
 
-Run application
+Set Brevo API key
+
+export BREVO_API_KEY=your_brevo_api_key_here
+
+Run app
 
 python app.py
 
-Open browser
+Visit:
 
 http://127.0.0.1:5000
 
 ---
 
-## What This Project Demonstrates (From a Data Analyst Perspective)
+## Deploying to Render
 
-Through this project I practiced:
+Create Web Service on render.com
 
-• designing financial KPIs  
-• transforming raw inputs into interpretable indicators  
-• building interactive dashboards  
-• modeling behavioral financial ratios  
-• estimating completion timelines  
-• generating decision-support insights  
-• structuring analytics workflows inside an application environment  
+Start command
+
+gunicorn app:app
+
+Environment variable
+
+BREVO_API_KEY = your_brevo_api_key
+
+Deploy
+
+SQLite database is created automatically on first run.
 
 ---
 
-## Future Improvements
+## API Endpoints
 
-Planned enhancements include:
+| Method | Endpoint | Description |
+|-------|----------|-------------|
+| GET | /api/dashboard | Full dashboard data |
+| GET | /api/analytics | Complete analytics payload |
+| GET | /api/goals | Goal list |
+| POST | /api/goals | Create goal |
+| PATCH | /api/goals/<id> | Update goal |
+| DELETE | /api/goals/<id> | Delete goal |
+| POST | /api/income | Save income |
+| POST | /expense | Save expense |
+| GET | /api/me | Current user profile |
+| PATCH | /api/me | Update profile |
+| GET | /api/export-excel | Download Excel export |
+| POST | /send-otp | Send OTP |
+| POST | /verify-otp | Verify OTP |
+| POST | /login | Authenticate |
+| POST | /logout | Clear session |
 
-• time-series spending trend tracking  
-• predictive savings forecasting  
-• exportable analytics reports  
-• cloud database integration  
-• multi-user benchmarking analytics  
+---
+
+## Why I Built This
+
+I wanted to build something that goes past basic aggregation.
+
+Every personal finance app shows you a pie chart of your spending.
+
+Very few tell you what that pattern means or whether your financial goals are actually on track.
+
+The behavioral profiling and benchmark scoring logic in this project were inspired by real financial advisor classification frameworks translated into interpretable analytics rules.
+
+The goal feasibility engine ensures savings targets align realistically with income-expense gaps automatically.
+
+---
+
+## Planned Improvements
+
+- Time-series spending trend tracking across multiple months
+- Predictive savings forecasting using regression modeling
+- PDF report export with full analytics summary
+- PostgreSQL migration for multi-user production deployment
+- Spending anomaly detection
 
 ---
 
 ## Author
 
-FinTrack AI was designed and developed independently by
+Binaya Kumar Meher
 
-**Binaya Kumar Meher**
+I build analytics dashboards that go beyond displaying data — the goal is always to derive indicators that support real decisions.
 
-Portfolio Project — 2026
+GitHub  
+https://github.com/Kirito263V
 
-Built as part of my preparation for Data Analyst roles and dashboard-based analytics work.
+LinkedIn  
+www.linkedin.com/in/binaya-kumar-da
 
 ---
 
 ## License
 
-This project is licensed under the MIT License.
+MIT License
